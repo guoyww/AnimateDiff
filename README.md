@@ -16,7 +16,7 @@ Bo Dai
 
 [Paper]() | [Project](https://animatediff.github.io/)
 
-Code will be release soon, stay tuned!
+<p style="color: red; font-weight: bold">Code will be release soon, stay tuned!</p>
 
 <!-- ## Setup
 Install the required packages:
