@@ -5,14 +5,14 @@ This repository is the official implementation of [AnimateDiff]().
 **[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning]()**
 </br>
 Yuwei Guo,
-Ceyuan Yang,
+Ceyuan Yang*,
 Anyi Rao,
 Yaohui Wang,
 Yu Qiao,
 Dahua Lin,
-Bo Dai 
-<!-- [Humphrey Shi](https://www.humphreyshi.com) -->
-<!-- </br> -->
+Bo Dai
+
+<p style="font-size: 0.8em; margin-top: -1em">*Coresponding Author</p>
 
 [Paper]() | [Project](https://animatediff.github.io/)
 
