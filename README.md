@@ -100,7 +100,7 @@ python -m scripts.animate --prompt configs/prompts/lora.yaml
 ``` -->
 
 ## Gallery
-Here we demonstrate several best results we get in our early experiments.
+Here we demonstrate several best results we got in previous experiments.
 
 <table class="center">
     <tr>
