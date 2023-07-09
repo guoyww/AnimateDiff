@@ -1,7 +1,9 @@
 Lyriel:
-  base:           ""
-  path:           "models/DreamBooth_LoRA/lyriel_v16.safetensors"
-  motion_module:  "models/Motion_Module/mm_sd_v14.ckpt"
+  base: ""
+  path: "models/DreamBooth_LoRA/lyriel_v16.safetensors"
+  motion_module:
+    - "models/Motion_Module/mm_sd_v14.ckpt"
+    - "models/Motion_Module/mm_sd_v15.ckpt"
 
   seed:           [10917152860782582783, 6399018107401806238, 15875751942533906793, 6653196880059936551]
   steps:          25

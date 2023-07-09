@@ -1,7 +1,9 @@
 FilmVelvia:
-  base:           "models/DreamBooth_LoRA/majicmixRealistic_v4.safetensors"
-  path:           "models/DreamBooth_LoRA/FilmVelvia2.safetensors"
-  motion_module:  "models/Motion_Module/mm_sd_v14.ckpt"
+  base: "models/DreamBooth_LoRA/majicmixRealistic_v4.safetensors"
+  path: "models/DreamBooth_LoRA/FilmVelvia2.safetensors"
+  motion_module:
+    - "models/Motion_Module/mm_sd_v14.ckpt"
+    - "models/Motion_Module/mm_sd_v15.ckpt"
 
   seed:           [358675358833372813, 3519455280971923743, 11684545350557985081, 8696855302100399877]
   steps:          25

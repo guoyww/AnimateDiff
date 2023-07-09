@@ -1,7 +1,9 @@
 MajicMix:
-  base:           ""
-  path:           "models/DreamBooth_LoRA/majicmixRealistic_v5Preview.safetensors"
-  motion_module:  "models/Motion_Module/mm_sd_v14.ckpt"
+  base: ""
+  path: "models/DreamBooth_LoRA/majicmixRealistic_v5Preview.safetensors"
+  motion_module:
+    - "models/Motion_Module/mm_sd_v14.ckpt"
+    - "models/Motion_Module/mm_sd_v15.ckpt"
 
   seed:           [1572448948722921032, 1099474677988590681, 6488833139725635347, 18339859844376517918]
   steps:          25
