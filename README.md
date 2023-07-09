@@ -150,7 +150,7 @@ Here we demonstrate several best results we got in previous experiments.
     <td><img src="__assets__/animations/model_05/04.gif"></td>
     </tr>
 </table>
-<p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/66347/rcnz-cartoon-3d">RCNZ Cartoon</a>></p>
+<p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/66347/rcnz-cartoon-3d">RCNZ Cartoon</a></p>
 
 <table>
     <tr>
