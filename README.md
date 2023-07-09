@@ -12,7 +12,7 @@ Yu Qiao,
 Dahua Lin,
 Bo Dai
 
-<p style="font-size: 0.8em; margin-top: -1em">*Coresponding Author</p>
+<p style="font-size: 0.8em; margin-top: -1em">*Corresponding Author</p>
 
 [Arxiv Report]() | [Project Page](https://animatediff.github.io/)
 
