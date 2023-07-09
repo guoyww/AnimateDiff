@@ -1,0 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cu113
+torch==1.12.1+cu113
+torchvision==0.13.1+cu113
+diffusers[torch]==0.11.1
+transformers==4.25.1
+einops
+omegaconf
+safetensors
+imageio==2.27.0
