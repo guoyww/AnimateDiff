@@ -17,7 +17,7 @@ Bo Dai
 [Arxiv Report]() | [Project Page](https://animatediff.github.io/)
 
 ## Todo
-- [√] Code Release
+- [x] Code Release
 - [ ] Arxiv Report
 - [ ] GPU Memory Optimization
 - [ ] Gradio Interface
