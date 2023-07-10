@@ -16,6 +16,11 @@ Bo Dai
 
 [Arxiv Report]() | [Project Page](https://animatediff.github.io/)
 
+**Contact:**
+Yuwei Guo ([guoyuwei@pjlab.org.cn](mailto:guoyuwei@pjlab.org.cn));
+Ceyuan Yang ([yangceyuan@pjlab.org.cn](mailto:yangceyuan@pjlab.org.cn));
+Bo Dai ([daibo@pjlab.org.cn](mailto:daibo@pjlab.org.cn)).
+
 ## Todo
 - [x] Code Release
 - [ ] Arxiv Report
@@ -162,7 +167,7 @@ Here we demonstrate several best results we got in previous experiments.
 </table>
 <p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/33208/filmgirl-film-grain-lora-and-loha">FilmVelvia</a></p>
 
-## Citation
+## BibTeX
 Coming soon.
 
 ## Acknowledgements
