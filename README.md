@@ -16,11 +16,6 @@ Bo Dai
 
 [Arxiv Report]() | [Project Page](https://animatediff.github.io/)
 
-**Contact:**
-Yuwei Guo ([guoyuwei@pjlab.org.cn](mailto:guoyuwei@pjlab.org.cn));
-Ceyuan Yang ([yangceyuan@pjlab.org.cn](mailto:yangceyuan@pjlab.org.cn));
-Bo Dai ([daibo@pjlab.org.cn](mailto:daibo@pjlab.org.cn)).
-
 ## Todo
 - [x] Code Release
 - [ ] Arxiv Report
@@ -169,6 +164,11 @@ Here we demonstrate several best results we got in previous experiments.
 
 ## BibTeX
 Coming soon.
+
+## Contact Us
+**Yuwei Guo**: [guoyuwei@pjlab.org.cn](mailto:guoyuwei@pjlab.org.cn)  
+**Ceyuan Yang**: [yangceyuan@pjlab.org.cn](mailto:yangceyuan@pjlab.org.cn)  
+**Bo Dai**: [daibo@pjlab.org.cn](mailto:daibo@pjlab.org.cn)
 
 ## Acknowledgements
 Codebase built upon [Tune-a-Video](https://github.com/showlab/Tune-A-Video).
