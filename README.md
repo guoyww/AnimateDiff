@@ -36,7 +36,7 @@ cd animatediff
 conda create -n animatediff python=3.8
 conda activate animatediff
 
-pip install -r requirments.txt
+pip install -r requirements.txt
 ```
 
 ### Download Base T2I & Motion Module Checkpoints
