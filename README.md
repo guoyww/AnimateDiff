@@ -1,8 +1,8 @@
 # AnimateDiff
 
-This repository is the official implementation of [AnimateDiff]().
+This repository is the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
 
-**[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning]()**
+**[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)**
 </br>
 Yuwei Guo,
 Ceyuan Yang*,
@@ -14,11 +14,11 @@ Bo Dai
 
 <p style="font-size: 0.8em; margin-top: -1em">*Corresponding Author</p>
 
-[Arxiv Report]() | [Project Page](https://animatediff.github.io/)
+[Arxiv Report](https://arxiv.org/abs/2307.04725) | [Project Page](https://animatediff.github.io/)
 
 ## Todo
 - [x] Code Release
-- [ ] Arxiv Report
+- [x] Arxiv Report
 - [ ] GPU Memory Optimization
 - [ ] Gradio Interface
 <!-- - [ ] Online Demo -->
@@ -163,7 +163,16 @@ Here we demonstrate several best results we got in previous experiments.
 <p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/33208/filmgirl-film-grain-lora-and-loha">FilmVelvia</a></p>
 
 ## BibTeX
-Coming soon.
+```
+@misc{guo2023animatediff,
+      title={AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning}, 
+      author={Yuwei Guo, Ceyuan Yang, Anyi Rao, Yaohui Wang, Yu Qiao, Dahua Lin, Bo Dai},
+      year={2023},
+      eprint={2307.04725},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
 
 ## Contact Us
 **Yuwei Guo**: [guoyuwei@pjlab.org.cn](mailto:guoyuwei@pjlab.org.cn)  
