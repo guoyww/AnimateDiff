@@ -33,7 +33,6 @@ from transformers import (
 
 from diffusers.models import (
     AutoencoderKL,
-    # ControlNetModel,
     PriorTransformer,
     UNet2DConditionModel,
 )
