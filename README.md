@@ -27,7 +27,7 @@ Bo Dai
 ### Prepare Environment
 ~~Our approach takes around 60 GB GPU memory to inference. NVIDIA A100 is recommanded.~~
 
-***We updated our inference code with xformers and a sequential decoding trick. Now AnimateDiff takes only ~12GB VRAM to inference, and can be run on a single RTX3090 !!***
+***We updated our inference code with xformers and a sequential decoding trick. Now AnimateDiff takes only ~12GB VRAM to inference, and run on a single RTX3090 !!***
 
 ```
 git clone https://github.com/guoyww/AnimateDiff.git
