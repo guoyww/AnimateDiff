@@ -1,5 +1,5 @@
 GhibliBackground:
-  base: "models/DreamBooth_LoRA/CounterfeitV30_25.safetensors"
+  base: "models/DreamBooth_LoRA/AnythingV5_v5PrtRE.safetensors"
   path: "models/DreamBooth_LoRA/lora_Ghibli_n3.safetensors"
   motion_module:
     - "models/Motion_Module/mm_sd_v14.ckpt"
