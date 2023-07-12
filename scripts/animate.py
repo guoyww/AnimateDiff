@@ -99,7 +99,7 @@ def main(args):
                         pipeline = convert_lora(pipeline, state_dict, alpha=model_config.lora_alpha)
                     
                     # additional networks
-                    if model_config.additional_networks and len(model_config.additional_networks) > 0:
+                    if hasattr(model_config, 'additional_networks') and len(model_config.additional_networks) > 0:
                         for lora_weights in model_config.additional_networks:
                             add_state_dict = {}
                             (lora_path, lora_alpha) = lora_weights.split(':')
