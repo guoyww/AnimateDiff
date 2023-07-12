@@ -27,10 +27,12 @@ Bo Dai
 ## Setup for Inference
 
 ### Prepare Environment
-Our approach takes around 60 GB GPU memory to inference. NVIDIA A100 is recommanded.
+~~Our approach takes around 60 GB GPU memory to inference. NVIDIA A100 is recommanded.~~
+
+***We updated our inference code with xformers and a sequential decoding trick. Now AnimateDiff takes only ~12GB VRAM to inference, and can be run on a single RTX3090 !!***
 
 ```
-git clone https://github.com/guoyww/animatediff.git
+git clone https://github.com/guoyww/AnimateDiff.git
 cd AnimateDiff
 
 conda env create -f environment.yaml
@@ -107,7 +109,7 @@ Here we demonstrate several best results we found in our experiments or generate
     <td><img src="__assets__/animations/model_07/04.gif"></td>
     </tr>
 </table>
-<p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/107295?modelVersionId=115371">holding_sign</a> (samples are contributed by CivitAI artists)</p>
+<p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/107295?modelVersionId=115371">holding_sign</a>, etc. (samples are contributed by CivitAI artists)</p>
 
 <table class="center">
     <tr>
