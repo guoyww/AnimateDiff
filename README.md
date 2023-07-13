@@ -152,7 +152,7 @@ Here are some samples contributed by the community artists. Create a Pull Reques
 </table>
 <p style="margin-left: 2em; margin-top: -1em">
 Character Model：<a href="https://civitai.com/models/13237/genshen-impact-yoimiya">Yoimiya</a> 
-(with an initial reference image, see <a herf="https://github.com/talesofai/AnimateDiff">WIP fork</a> for the extended implementation.)
+(with an initial reference image, see <a href="https://github.com/talesofai/AnimateDiff">WIP fork</a> for the extended implementation.)
 
 
 <table>
