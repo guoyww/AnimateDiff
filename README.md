@@ -140,6 +140,36 @@ Here we demonstrate several best results we found in our experiments or generate
 </table>
 <p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/33208/filmgirl-film-grain-lora-and-loha">FilmVelvia</a></p>
 
+#### Community Cases 
+See [WIP fork](https://github.com/talesofai/AnimateDiff) for some extended implementation.
+
+<table>
+    <tr>
+    <td><img src="__assets__/animations/model_07/01.gif"></td>
+    <td><img src="__assets__/animations/model_07/02.gif"></td>
+    <td><img src="__assets__/animations/model_07/03.gif"></td>
+    <td><img src="__assets__/animations/model_07/04.gif"></td>
+    </tr>
+</table>
+<p style="margin-left: 2em; margin-top: -1em">
+Character Model：<a href="https://civitai.com/models/13237/genshen-impact-yoimiya">Yoimiya</a> 
+<br />
+Along with an initial reference image 
+<br />
+<img src="__assets__/animations/model_07/init.jpg" width="128px" height="128px"></p>
+
+<table>
+    <tr>
+    <td><img src="__assets__/animations/model_08/01.gif"></td>
+    <td><img src="__assets__/animations/model_08/02.gif"></td>
+    <td><img src="__assets__/animations/model_08/03.gif"></td>
+    <td><img src="__assets__/animations/model_08/04.gif"></td>
+    </tr>
+</table>
+<p style="margin-left: 2em; margin-top: -1em">
+Character Model：<a href="https://civitai.com/models/9850/paimon-genshin-impact">Paimon</a> 
+along with Pose Model：<a href="https://civitai.com/models/107295/or-holdingsign">Hold Sign</a></p>
+
 ## BibTeX
 ```
 @misc{guo2023animatediff,
