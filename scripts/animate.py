@@ -165,7 +165,7 @@ if __name__ == "__main__":
     parser.add_argument("--disable_inversions", action="store_true",
                         help="do not scan for downloaded textual inversions")
 
-    parser.add_argument("--context_length", type=int, default=16,
+    parser.add_argument("--context_length", type=int, default=0,
                         help="temporal transformer context length (0 for same as -L)")
     parser.add_argument("--context_stride", type=int, default=0,
                         help="max stride of motion is 2^context_stride")
