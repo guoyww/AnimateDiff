@@ -1,11 +1,13 @@
 # Adapted from https://github.com/showlab/Tune-A-Video/blob/main/tuneavideo/pipelines/pipeline_tuneavideo.py
 
 import inspect
+import os
 from typing import Callable, List, Optional, Union
 from dataclasses import dataclass
 
 import numpy as np
 import torch
+from torch import nn
 from tqdm import tqdm
 
 from diffusers.utils import is_accelerate_available
@@ -29,6 +31,7 @@ from einops import rearrange
 
 from ..models.unet import UNet3DConditionModel
 
+from ..utils.path import get_absolute_path
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
@@ -55,6 +58,7 @@ class AnimationPipeline(DiffusionPipeline):
             EulerAncestralDiscreteScheduler,
             DPMSolverMultistepScheduler,
         ],
+        scan_inversions: bool = True,
     ):
         super().__init__()
 
@@ -114,6 +118,36 @@ class AnimationPipeline(DiffusionPipeline):
             scheduler=scheduler,
         )
         self.vae_scale_factor = 2 ** (len(self.vae.config.block_out_channels) - 1)
+        self.embeddings_dir = get_absolute_path('models', 'embeddings')
+        self.embeddings_dict = {}
+        self.default_tokens = len(self.tokenizer)
+        self.scan_inversions = scan_inversions
+
+    def update_embeddings(self):
+        if not self.scan_inversions:
+            return
+        names = [p for p in os.listdir(self.embeddings_dir) if p.endswith('.pt')]
+        weight = self.text_encoder.text_model.embeddings.token_embedding.weight
+        added_embeddings = []
+        for name in names:
+            embedding_path = os.path.join(self.embeddings_dir, name)
+            embedding = torch.load(embedding_path)
+            key = os.path.splitext(name)[0]
+            if key in self.tokenizer.encoder:
+                idx = self.tokenizer.encoder[key]
+            else:
+                idx = len(self.tokenizer)
+                self.tokenizer.add_tokens([key])
+            embedding = embedding['string_to_param']['*']
+            if idx not in self.embeddings_dict:
+                added_embeddings.append(name)
+                self.embeddings_dict[idx] = torch.arange(weight.shape[0], weight.shape[0] + embedding.shape[0])
+                weight = torch.cat([weight, embedding.to(weight.device, weight.dtype)], dim=0)
+                self.tokenizer.add_tokens([key])
+        if added_embeddings:
+            self.text_encoder.text_model.embeddings.token_embedding = nn.Embedding(
+                weight.shape[0], weight.shape[1], _weight=weight)
+            logger.info(f'Added {len(added_embeddings)} embeddings: {added_embeddings}')
 
     def enable_vae_slicing(self):
         self.vae.enable_slicing()
@@ -147,9 +181,32 @@ class AnimationPipeline(DiffusionPipeline):
                 return torch.device(module._hf_hook.execution_device)
         return self.device
 
+    def insert_inversions(self, ids, attention_mask):
+        larger = ids >= self.default_tokens
+        for idx in reversed(torch.where(larger)[1]):
+            ids = torch.cat([
+                ids[:, :idx],
+                self.embeddings_dict[ids[:, idx].item()].unsqueeze(0),
+                ids[:, idx + 1:],
+            ], 1)
+            if attention_mask is not None:
+                attention_mask = torch.cat([
+                    attention_mask[:, :idx],
+                    torch.ones(1, 1, dtype=attention_mask.dtype, device=attention_mask.device),
+                    attention_mask[:, idx + 1:],
+                ], 1)
+        if ids.shape[1] > self.tokenizer.model_max_length:
+            logger.warning(f"After inserting inversions, the sequence length is larger than the max length. Cutting off"
+                           f" {ids.shape[1] - self.tokenizer.model_max_length} tokens.")
+            ids = torch.cat([ids[:, :self.tokenizer.model_max_length - 1], ids[:, -1:]], 1)
+            if attention_mask is not None:
+                attention_mask = attention_mask[:, :self.tokenizer.model_max_length]
+        return ids, attention_mask
+
     def _encode_prompt(self, prompt, device, num_videos_per_prompt, do_classifier_free_guidance, negative_prompt):
         batch_size = len(prompt) if isinstance(prompt, list) else 1
 
+        self.update_embeddings()
         text_inputs = self.tokenizer(
             prompt,
             padding="max_length",
@@ -172,6 +229,7 @@ class AnimationPipeline(DiffusionPipeline):
         else:
             attention_mask = None
 
+        text_input_ids, attention_mask = self.insert_inversions(text_input_ids, attention_mask)
         text_embeddings = self.text_encoder(
             text_input_ids.to(device),
             attention_mask=attention_mask,
@@ -218,8 +276,10 @@ class AnimationPipeline(DiffusionPipeline):
             else:
                 attention_mask = None
 
+            uncond_input_ids = uncond_input.input_ids
+            uncond_input_ids, attention_mask = self.insert_inversions(uncond_input_ids, attention_mask)
             uncond_embeddings = self.text_encoder(
-                uncond_input.input_ids.to(device),
+                uncond_input_ids.to(device),
                 attention_mask=attention_mask,
             )
             uncond_embeddings = uncond_embeddings[0]
