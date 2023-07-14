@@ -30,7 +30,12 @@ from pathlib import Path
 def main(args):
     *_, func_args = inspect.getargvalues(inspect.currentframe())
     func_args = dict(func_args)
-    
+
+    if args.context_length == 0:
+        args.context_length = args.L
+    if args.context_overlap == -1:
+        args.context_overlap = args.context_length // 2
+
     time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     savedir = f"samples/{Path(args.config).stem}-{time_str}"
     os.makedirs(savedir)
@@ -58,6 +63,7 @@ def main(args):
             pipeline = AnimationPipeline(
                 vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, unet=unet,
                 scheduler=DDIMScheduler(**OmegaConf.to_container(inference_config.noise_scheduler_kwargs)),
+                scan_inversions=not args.disable_inversions,
             ).to("cuda")
 
             # 1. unet ckpt
@@ -130,6 +136,10 @@ def main(args):
                     width               = args.W,
                     height              = args.H,
                     video_length        = args.L,
+                    temporal_context    = args.context_length,
+                    strides             = args.context_stride + 1,
+                    overlap             = args.context_overlap,
+                    fp16                = not args.fp32,
                 ).videos
                 samples.append(sample)
 
@@ -150,7 +160,18 @@ if __name__ == "__main__":
     parser.add_argument("--pretrained_model_path", type=str, default="models/StableDiffusion/stable-diffusion-v1-5",)
     parser.add_argument("--inference_config",      type=str, default="configs/inference/inference.yaml")    
     parser.add_argument("--config",                type=str, required=True)
-    
+
+    parser.add_argument("--fp32", action="store_true")
+    parser.add_argument("--disable_inversions", action="store_true",
+                        help="do not scan for downloaded textual inversions")
+
+    parser.add_argument("--context_length", type=int, default=16,
+                        help="temporal transformer context length (0 for same as -L)")
+    parser.add_argument("--context_stride", type=int, default=0,
+                        help="max stride of motion is 2^context_stride")
+    parser.add_argument("--context_overlap", type=int, default=-1,
+                        help="overlap between chunks of context (-1 for half of context length)")
+
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
