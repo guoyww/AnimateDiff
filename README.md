@@ -46,7 +46,7 @@ git clone https://huggingface.co/runwayml/stable-diffusion-v1-5 models/StableDif
 
 bash download_bashscripts/0-MotionModule.sh
 ```
-You may also directly download the motion module checkpoints from [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing), then put them in `models/Motion_Module/` folder.
+You may also directly download the motion module checkpoints from [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) or [CivitAI](https://civitai.com/models/108836), then put them in `models/Motion_Module/` folder.
 
 ### Prepare Personalize T2I
 Here we provide inference configs for 6 demo T2I on CivitAI.
