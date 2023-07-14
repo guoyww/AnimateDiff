@@ -162,6 +162,43 @@ Here we demonstrate several best results we found in our experiments.
 </table>
 <p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/33208/filmgirl-film-grain-lora-and-loha">FilmVelvia</a></p>
 
+### Longer generations
+You can also generate longer animations by using overlapping sliding windows.
+```
+python -m scripts.animate --config configs/prompts/{your_config}.yaml --L 64 --context_length 16 
+```
+##### Sliding window related parameters:
+
+```L``` - the length of the generated animation.
+
+```context_length``` - the length of the sliding window (limited by motion modules capacity), default to ```L```.
+
+```context_overlap``` - how much neighbouring contexts overlap. By default ```context_length``` / 2
+
+```context_stride``` - (2^```context_stride```) is a max stride between 2 neighbour frames. By default 0
+
+##### Extended this way gallery examples
+
+<table class="center">
+    <tr>
+    <td><img src="__assets__/animations/model_01_4x/01.gif"></td>
+    <td><img src="__assets__/animations/model_01_4x/02.gif"></td>
+    <td><img src="__assets__/animations/model_01_4x/03.gif"></td>
+    <td><img src="__assets__/animations/model_01_4x/04.gif"></td>
+    </tr>
+</table>
+<p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/30240/toonyou">ToonYou</a></p>
+
+<table>
+    <tr>
+    <td><img src="__assets__/animations/model_03_4x/01.gif"></td>
+    <td><img src="__assets__/animations/model_03_4x/02.gif"></td>
+    <td><img src="__assets__/animations/model_03_4x/03.gif"></td>
+    <td><img src="__assets__/animations/model_03_4x/04.gif"></td>
+    </tr>
+</table>
+<p style="margin-left: 2em; margin-top: -1em">Model：<a href="https://civitai.com/models/4201/realistic-vision-v20">Realistic Vision V2.0</a></p>
+
 #### Community Cases
 Here are some samples contributed by the community artists. Create a Pull Request if you would like to show your results here😚.
 
