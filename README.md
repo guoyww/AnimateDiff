@@ -75,6 +75,30 @@ python -m scripts.animate --config configs/prompts/7-FilmVelvia.yaml
 python -m scripts.animate --config configs/prompts/8-GhibliBackground.yaml
 ```
 
+To generate animations with a new DreamBooth/LoRA model, you may create a new config `.yaml` file in the following format:
+```
+NewModel:
+  path: "[path to your DreamBooth/LoRA model .safetensors file]"
+  base: "[path to LoRA base model .safetensors file, leave it empty string if not needed]"
+
+  motion_module:
+    - "models/Motion_Module/mm_sd_v14.ckpt"
+    - "models/Motion_Module/mm_sd_v15.ckpt"
+    
+  steps:          25
+  guidance_scale: 7.5
+
+  prompt:
+    - "[positive prompt]"
+
+  n_prompt:
+    - "[negative prompt]"
+```
+Then run the following commands:
+```
+python -m scripts.animate --config [path to the config file]
+```
+
 ## Gallery
 Here we demonstrate several best results we found in our experiments.
 
