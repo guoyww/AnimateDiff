@@ -33,6 +33,7 @@ def main(args):
     
     time_str = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     savedir = f"samples/{Path(args.config).stem}-{time_str}"
+    extension = args.format
     os.makedirs(savedir)
     inference_config = OmegaConf.load(args.inference_config)
 
@@ -134,13 +135,13 @@ def main(args):
                 samples.append(sample)
 
                 prompt = "-".join((prompt.replace("/", "").split(" ")[:10]))
-                save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{prompt}.gif")
-                print(f"save to {savedir}/sample/{prompt}.gif")
+                save_videos_grid(sample, f"{savedir}/sample/{sample_idx}-{prompt}.{extension}")
+                print(f"save to {savedir}/sample/{prompt}.{extension}")
                 
                 sample_idx += 1
 
     samples = torch.concat(samples)
-    save_videos_grid(samples, f"{savedir}/sample.gif", n_rows=4)
+    save_videos_grid(samples, f"{savedir}/sample.{extension}", n_rows=4)
 
     OmegaConf.save(config, f"{savedir}/config.yaml")
 
@@ -150,6 +151,7 @@ if __name__ == "__main__":
     parser.add_argument("--pretrained_model_path", type=str, default="models/StableDiffusion/stable-diffusion-v1-5",)
     parser.add_argument("--inference_config",      type=str, default="configs/inference/inference.yaml")    
     parser.add_argument("--config",                type=str, required=True)
+    parser.add_argument("--format",                type=str, default="gif")
     
     parser.add_argument("--L", type=int, default=16 )
     parser.add_argument("--W", type=int, default=512)
