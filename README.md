@@ -22,6 +22,31 @@ Bo Dai
 - [x] GPU Memory Optimization
 - [ ] Gradio Interface
 
+
+
+## Common Issues
+<details>
+<summary>Installation</summary>
+Please ensure the installation of [xformer](https://github.com/facebookresearch/xformers) that is applied to reduce the inference memory.
+</details>
+
+<details>
+<summary>Various resolution or number of frames</summary>
+Currently, we recommend users to generate animation with 16 frames and 512 resolution that are aligned with our training settings. Notably, various resolution/frames may affect the quality more or less. 
+</details>
+
+<details>
+<summary>Animating a given image</summary>
+We totally agree that animating a given image is an appealing feature, which we would try to support officially in future. For now, you may enjoy other efforts from the [talesofai](https://github.com/talesofai/AnimateDiff).  
+</details>
+
+<details>
+<summary>Contributions from community</summary>
+Contributions are always welcome!! We will create another branch which community could contribute to. As for the main branch, we would like to align it with the original technical report:)
+</details>
+
+
+
 ## Setup for Inference
 
 ### Prepare Environment
@@ -193,13 +218,11 @@ Pose Model：<a href="https://civitai.com/models/107295/or-holdingsign">Hold Sig
 
 ## BibTeX
 ```
-@misc{guo2023animatediff,
-      title={AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning}, 
-      author={Yuwei Guo, Ceyuan Yang, Anyi Rao, Yaohui Wang, Yu Qiao, Dahua Lin, Bo Dai},
-      year={2023},
-      eprint={2307.04725},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{guo2023animatediff,
+  title={AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning},
+  author={Guo, Yuwei and Yang, Ceyuan and Rao, Anyi and Wang, Yaohui and Qiao, Yu and Lin, Dahua and Dai, Bo},
+  journal={arXiv preprint arXiv:2307.04725},
+  year={2023}
 }
 ```
 
