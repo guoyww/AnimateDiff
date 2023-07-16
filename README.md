@@ -27,7 +27,7 @@ Bo Dai
 ## Common Issues
 <details>
 <summary>Installation</summary>
-Please ensure the installation of [xformer](https://github.com/facebookresearch/xformers) that is applied to reduce the inference memory.
+Please ensure the installation of <a href="https://github.com/facebookresearch/xformers">xformer</a> that is applied to reduce the inference memory.
 </details>
 
 <details>
@@ -37,7 +37,7 @@ Currently, we recommend users to generate animation with 16 frames and 512 resol
 
 <details>
 <summary>Animating a given image</summary>
-We totally agree that animating a given image is an appealing feature, which we would try to support officially in future. For now, you may enjoy other efforts from the [talesofai](https://github.com/talesofai/AnimateDiff).  
+We totally agree that animating a given image is an appealing feature, which we would try to support officially in future. For now, you may enjoy other efforts from the <a href="https://github.com/talesofai/AnimateDiff">talesofai</a>.  
 </details>
 
 <details>
