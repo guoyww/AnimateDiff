@@ -104,6 +104,8 @@ python -m scripts.animate --config configs/prompts/8-GhibliBackground.yaml
 Configure yaml options, model settings & generate animations as desired.
 ```
 python webui.py
+python webui.py --server_port 7860 --share
+python webui.py --server_port 7860 --share --username NAME --password PASS
 ```
 
 <table class="center">
