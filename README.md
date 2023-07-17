@@ -100,6 +100,19 @@ python -m scripts.animate --config configs/prompts/7-FilmVelvia.yaml
 python -m scripts.animate --config configs/prompts/8-GhibliBackground.yaml
 ```
 
+### Optionally Run with WebUI
+Configure yaml options, model settings & generate animations as desired.
+```
+python webui.py
+```
+
+<table class="center">
+    <tr>
+    <td><img src="__assets__/ui/first-tab.png"></td>
+    <td><img src="__assets__/ui/second-tab.png"></td>
+    </tr>
+</table>
+
 To generate animations with a new DreamBooth/LoRA model, you may create a new config `.yaml` file in the following format:
 ```
 NewModel:
