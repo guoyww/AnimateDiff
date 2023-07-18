@@ -1,22 +1,18 @@
-import gradio as gr
-import os
-from glob import glob
-import random
-import pdb
-from transformers import CLIPTextModel, CLIPTokenizer
-from animatediff.models.unet import UNet3DConditionModel
-from animatediff.pipelines.pipeline_animation import AnimationPipeline
 
-from diffusers import AutoencoderKL
-from datetime import datetime
 import os
-from omegaconf import OmegaConf
 import json
 import torch
+import random
+
+import gradio as gr
+from glob import glob
+from omegaconf import OmegaConf
+from datetime import datetime
+from safetensors import safe_open
 
 from diffusers import AutoencoderKL
 from diffusers import DDIMScheduler, EulerDiscreteScheduler, PNDMScheduler
-
+from diffusers.utils.import_utils import is_xformers_available
 from transformers import CLIPTextModel, CLIPTokenizer
 
 from animatediff.models.unet import UNet3DConditionModel
@@ -24,13 +20,9 @@ from animatediff.pipelines.pipeline_animation import AnimationPipeline
 from animatediff.utils.util import save_videos_grid
 from animatediff.utils.convert_from_ckpt import convert_ldm_unet_checkpoint, convert_ldm_clip_checkpoint, convert_ldm_vae_checkpoint
 from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora
-from diffusers.utils.import_utils import is_xformers_available
-
-from safetensors import safe_open
 
 
 sample_idx     = 0
-
 scheduler_dict = {
     "Euler": EulerDiscreteScheduler,
     "PNDM": PNDMScheduler,
@@ -45,7 +37,6 @@ css = """
     height: 2.5em;
 }
 """
-
 
 class AnimateController:
     def __init__(self):
