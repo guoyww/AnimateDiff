@@ -124,6 +124,15 @@ Then run the following commands:
 python -m scripts.animate --config [path to the config file]
 ```
 
+## Gradio Demo
+We develop a Gradio demo to support a easier usage. To launch it, run the following commands:
+```
+conda activate animatediff
+python app.py
+```
+By default, the demo will be run at `localhost:7860`.
+<br><img src="__assets__/figs/gradio.jpg" style="width: 50em; margin-top: 1em">
+
 ## Gallery
 Here we demonstrate several best results we found in our experiments.
 
