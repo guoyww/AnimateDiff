@@ -20,8 +20,8 @@ Bo Dai
 - [x] Code Release
 - [x] Arxiv Report
 - [x] GPU Memory Optimization
-- [ ] Gradio Interface
-
+- [x] Gradio Interface
+- [x] A1111 WebUI Extension (contributed by [@continue-revolution](https://github.com/continue-revolution), see [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff))
 
 
 ## Common Issues
