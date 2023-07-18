@@ -100,21 +100,6 @@ python -m scripts.animate --config configs/prompts/7-FilmVelvia.yaml
 python -m scripts.animate --config configs/prompts/8-GhibliBackground.yaml
 ```
 
-### Optionally Run with WebUI
-Configure yaml options, model settings & generate animations as desired.
-```
-python webui.py
-python webui.py --server_port 7860 --share
-python webui.py --server_port 7860 --share --username NAME --password PASS
-```
-
-<table class="center">
-    <tr>
-    <td><img src="__assets__/ui/first-tab.png"></td>
-    <td><img src="__assets__/ui/second-tab.png"></td>
-    </tr>
-</table>
-
 To generate animations with a new DreamBooth/LoRA model, you may create a new config `.yaml` file in the following format:
 ```
 NewModel:
@@ -138,6 +123,15 @@ Then run the following commands:
 ```
 python -m scripts.animate --config [path to the config file]
 ```
+
+## Gradio Demo
+We have created a Gradio demo to make AnimateDiff easier to use. To launch the demo, please run the following commands:
+```
+conda activate animatediff
+python app.py
+```
+By default, the demo will run at `localhost:7860`.
+<br><img src="__assets__/figs/gradio.jpg" style="width: 50em; margin-top: 1em">
 
 ## Gallery
 Here we demonstrate several best results we found in our experiments.

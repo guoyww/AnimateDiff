@@ -18,5 +18,5 @@ dependencies:
     - einops
     - omegaconf
     - safetensors
+    - gradio
     - pyyaml
-    - gradio=3.36.1
