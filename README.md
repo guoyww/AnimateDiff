@@ -125,12 +125,12 @@ python -m scripts.animate --config [path to the config file]
 ```
 
 ## Gradio Demo
-We develop a Gradio demo to support a easier usage. To launch it, run the following commands:
+We have created a Gradio demo to make AnimateDiff easier to use. To launch the demo, please run the following commands:
 ```
 conda activate animatediff
 python app.py
 ```
-By default, the demo will be run at `localhost:7860`.
+By default, the demo will run at `localhost:7860`.
 <br><img src="__assets__/figs/gradio.jpg" style="width: 50em; margin-top: 1em">
 
 ## Gallery
