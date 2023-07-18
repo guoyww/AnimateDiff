@@ -2,10 +2,6 @@ import gradio as gr
 import os
 from glob import glob
 import random
-import pdb
-from transformers import CLIPTextModel, CLIPTokenizer
-from animatediff.models.unet import UNet3DConditionModel
-from animatediff.pipelines.pipeline_animation import AnimationPipeline
 
 from diffusers import AutoencoderKL
 from datetime import datetime
