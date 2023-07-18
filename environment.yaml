@@ -18,3 +18,4 @@ dependencies:
     - einops
     - omegaconf
     - safetensors
+    - gradio
