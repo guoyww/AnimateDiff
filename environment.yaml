@@ -1,18 +1,18 @@
 name: animatediff
 channels:
   - pytorch
-  - xformers
+  - nvidia
 dependencies:
   - python=3.10
-  - pytorch==1.12.1
-  - torchvision==0.13.1
-  - torchaudio==0.12.1
-  - cudatoolkit=11.3
-  - xformers
+  - pytorch=1.13.1
+  - torchvision=0.14.1
+  - torchaudio=0.13.1
+  - pytorch-cuda=11.7
   - pip
   - pip:
-    - diffusers[torch]==0.11.1
+    - diffusers==0.11.1
     - transformers==4.25.1
+    - xformers==0.0.16
     - imageio==2.27.0
     - gdown
     - einops
