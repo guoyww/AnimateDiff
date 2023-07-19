@@ -42,9 +42,8 @@ We totally agree that animating a given image is an appealing feature, which we 
 
 <details>
 <summary>Contributions from community</summary>
-Contributions are always welcome!! We will create another branch which community could contribute to. As for the main branch, we would like to align it with the original technical report:)
+Contributions are always welcome!! The <code>dev</code> branch is for community contributions. As for the main branch, we would like to align it with the original technical report :)
 </details>
-
 
 
 ## Setup for Inference
