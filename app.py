@@ -74,20 +74,27 @@ examples = [
 ]
 
 # clean unrelated ckpts
-ckpts = [
-    "realisticVisionV20_v20.safetensors",
-    "majicmixRealistic_v5Preview.safetensors",
-    "rcnzCartoon3d_v10.safetensors",
-    "lyriel_v16.safetensors",
-    "toonyou_beta3.safetensors"
-]
+# ckpts = [
+#     "realisticVisionV20_v20.safetensors",
+#     "majicmixRealistic_v5Preview.safetensors",
+#     "rcnzCartoon3d_v10.safetensors",
+#     "lyriel_v16.safetensors",
+#     "toonyou_beta3.safetensors"
+# ]
 
-for path in glob(os.path.join("models", "DreamBooth_LoRA", "*.safetensors")):
-    for ckpt in ckpts:
-        if path.endswith(ckpt): break
-    else:
-        print(f"### Cleaning {path} ...")
-        os.system(f"rm -rf {path}")
+# for path in glob(os.path.join("models", "DreamBooth_LoRA", "*.safetensors")):
+#     for ckpt in ckpts:
+#         if path.endswith(ckpt): break
+#     else:
+#         print(f"### Cleaning {path} ...")
+#         os.system(f"rm -rf {path}")
+os.system(f"rm -rf {os.path.join('models', 'DreamBooth_LoRA', '*.safetensors')}")
+
+os.system(f"bash download_bashscripts/1-ToonYou.sh")
+os.system(f"bash download_bashscripts/2-Lyriel.sh")
+os.system(f"bash download_bashscripts/3-RcnzCartoon.sh")
+os.system(f"bash download_bashscripts/4-MajicMix.sh")
+os.system(f"bash download_bashscripts/5-RealisticVision.sh")
 
 # clean Grdio cache
 print(f"### Cleaning cached examples ...")
