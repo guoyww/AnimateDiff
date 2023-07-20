@@ -16,27 +16,41 @@ Bo Dai
 
 [Arxiv Report](https://arxiv.org/abs/2307.04725) | [Project Page](https://animatediff.github.io/)
 
-## Todo
-- [x] Code Release
-- [x] Arxiv Report
-- [x] GPU Memory Optimization
-- [x] Gradio Interface
-- [x] A1111 WebUI Extension (contributed by [@continue-revolution](https://github.com/continue-revolution), see [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff))
+## Features
+- GPU Memory Optimization, ~12GB VRAM to inference
+- User Interface: [Gradio](#gradio-demo), A1111 WebUI Extension [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff) ([@continue-revolution](https://github.com/continue-revolution))
 
 
 ## Common Issues
 <details>
 <summary>Installation</summary>
+
 Please ensure the installation of [xformer](https://github.com/facebookresearch/xformers) that is applied to reduce the inference memory.
 </details>
+
 
 <details>
 <summary>Various resolution or number of frames</summary>
 Currently, we recommend users to generate animation with 16 frames and 512 resolution that are aligned with our training settings. Notably, various resolution/frames may affect the quality more or less. 
 </details>
 
+
+<details>
+<summary>How to use it without any coding</summary>
+
+1) Get lora models: train lora model with [A1111](https://github.com/continue-revolution/sd-webui-animatediff) based on a collection of your own favorite images (e.g., tutorials [English](https://www.youtube.com/watch?v=mfaqqL5yOO4), [Japanese](https://www.youtube.com/watch?v=N1tXVR9lplM), [Chinese](https://www.bilibili.com/video/BV1fs4y1x7p2/)) 
+or download Lora models from [Civitai](https://civitai.com/).
+
+2) Animate lora models: using gradio interface or A1111 
+(e.g., tutorials [English](https://github.com/continue-revolution/sd-webui-animatediff), [Japanese](https://www.youtube.com/watch?v=zss3xbtvOWw), [Chinese](https://941ai.com/sd-animatediff-webui-1203.html)) 
+
+3) Be creative togther with other techniques, such as, super resolution, frame interpolation, music generation, etc.
+</details>
+
+
 <details>
 <summary>Animating a given image</summary>
+
 We totally agree that animating a given image is an appealing feature, which we would try to support officially in future. For now, you may enjoy other efforts from the [talesofai](https://github.com/talesofai/AnimateDiff).  
 </details>
 
@@ -49,7 +63,6 @@ Contributions are always welcome!! The <code>dev</code> branch is for community 
 ## Setup for Inference
 
 ### Prepare Environment
-~~Our approach takes around 60 GB GPU memory to inference. NVIDIA A100 is recommanded.~~
 
 ***We updated our inference code with xformers and a sequential decoding trick. Now AnimateDiff takes only ~12GB VRAM to inference, and run on a single RTX3090 !!***
 
