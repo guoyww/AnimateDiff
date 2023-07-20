@@ -10,3 +10,6 @@ einops
 omegaconf
 safetensors
 gradio
+imageio[ffmpeg]
+imageio[pyav]
+accelerate
