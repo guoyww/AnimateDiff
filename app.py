@@ -1,4 +1,3 @@
-
 import os
 import torch
 import random
@@ -73,6 +72,27 @@ examples = [
         512, 512, "1490157606650685400"
     ]
 ]
+
+# clean unrelated ckpts
+ckpts = [
+    "realisticVisionV20_v20.safetensors",
+    "majicmixRealistic_v5Preview.safetensors",
+    "rcnzCartoon3d_v10.safetensors",
+    "lyriel_v16.safetensors",
+    "toonyou_beta3.safetensors"
+]
+
+for path in glob(os.path.join("models", "DreamBooth_LoRA", "*.safetensors")):
+    for ckpt in ckpts:
+        if path.endswith(ckpt): break
+    else:
+        print(f"### Cleaning {path} ...")
+        os.system(f"rm -rf {path}")
+
+# clean Grdio cache
+print(f"### Cleaning cached examples ...")
+os.system(f"rm -rf gradio_cached_examples/")
+
 
 class AnimateController:
     def __init__(self):
