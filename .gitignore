@@ -1,9 +1,0 @@
-
-__pycache__
-*.safetensors
-*.pt
-*.bin
-*.ckpt
-configs/custom_prompts
-samples
-models/StableDiffusion

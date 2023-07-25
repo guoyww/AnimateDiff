@@ -100,7 +100,6 @@ bash download_bashscripts/5-RealisticVision.sh
 bash download_bashscripts/6-Tusun.sh
 bash download_bashscripts/7-FilmVelvia.sh
 bash download_bashscripts/8-GhibliBackground.sh
-bash download_bashscripts/9-AdditionalNetworks.sh
 ```
 
 ### Inference
@@ -114,7 +113,6 @@ python -m scripts.animate --config configs/prompts/5-RealisticVision.yaml
 python -m scripts.animate --config configs/prompts/6-Tusun.yaml
 python -m scripts.animate --config configs/prompts/7-FilmVelvia.yaml
 python -m scripts.animate --config configs/prompts/8-GhibliBackground.yaml
-python -m scripts.animate --config configs/prompts/9-AdditionalNetworks.yml
 ```
 
 To generate animations with a new DreamBooth/LoRA model, you may create a new config `.yaml` file in the following format:
