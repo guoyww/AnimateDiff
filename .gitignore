@@ -1,0 +1,13 @@
+samples/
+__pycache__/
+models/StableDiffusion/stable-diffusion-v1-5
+scripts/animate_inter.py
+scripts/gradio_app.py
+models/*
+models/DreamBooth_LoRA/Put*personalized*T2I*checkpoints*here.txt
+*.ipynb
+*.safetensors
+*.ckpt
+.ossutil_checkpoint/
+ossutil_output/
+debugs/
