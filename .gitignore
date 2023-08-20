@@ -1,4 +1,6 @@
 samples/
+wandb/
+outputs/
 __pycache__/
 models/StableDiffusion/stable-diffusion-v1-5
 scripts/animate_inter.py

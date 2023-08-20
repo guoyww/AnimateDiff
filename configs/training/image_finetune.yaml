@@ -1,0 +1,48 @@
+image_finetune: true
+
+output_dir: "outputs"
+pretrained_model_path: "models/StableDiffusion/stable-diffusion-v1-5"
+
+noise_scheduler_kwargs:
+  num_train_timesteps: 1000
+  beta_start:          0.00085
+  beta_end:            0.012
+  beta_schedule:       "scaled_linear"
+  steps_offset:        1
+  clip_sample:         false
+
+train_data:
+  csv_path:     "/mnt/petrelfs/guoyuwei/projects/datasets/webvid/results_2M_val.csv"
+  video_folder: "/mnt/petrelfs/guoyuwei/projects/datasets/webvid/2M_val"
+  sample_size:  256
+
+validation_data:
+  prompts:
+    - "Snow rocky mountains peaks canyon. Snow blanketed rocky mountains surround and shadow deep canyons."
+    - "A drone view of celebration with Christma tree and fireworks, starry sky - background."
+    - "Robot dancing in times square."
+    - "Pacific coast, carmel by the sea ocean and waves."
+  num_inference_steps: 25
+  guidance_scale: 8.
+
+trainable_modules:
+  - "."
+
+unet_checkpoint_path: ""
+
+learning_rate:    1.e-5
+train_batch_size: 50
+
+max_train_epoch:      -1
+max_train_steps:      100
+checkpointing_epochs: -1
+checkpointing_steps:  60
+
+validation_steps:       5000
+validation_steps_tuple: [2, 50]
+
+global_seed: 42
+mixed_precision_training: true
+enable_xformers_memory_efficient_attention: True
+
+is_debug: False
