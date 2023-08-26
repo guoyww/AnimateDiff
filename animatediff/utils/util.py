@@ -5,9 +5,14 @@ from typing import Union
 
 import torch
 import torchvision
+import torch.distributed as dist
 
 from tqdm import tqdm
 from einops import rearrange
+
+
+def zero_rank_print(s):
+    if (not dist.is_initialized()) and (dist.is_initialized() and dist.get_rank() == 0): print("### " + s)
 
 
 def save_videos_grid(videos: torch.Tensor, path: str, rescale=False, n_rows=6, fps=8):
