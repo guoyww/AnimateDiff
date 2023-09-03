@@ -19,9 +19,7 @@ Bo Dai
 [![Open in OpenXLab](https://cdn-static.openxlab.org.cn/app-center/openxlab_app.svg)](https://openxlab.org.cn/apps/detail/Masbfca/AnimateDiff)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/guoyww/AnimateDiff)
 
-```
-WARNING! This version is not compatible with the official implementation due to the difference in library versions.
-```
+***WARNING! This version is not compatible with the official implementation due to the difference in library versions.***
 
 <table width="1200" class="center">
     <tr>
