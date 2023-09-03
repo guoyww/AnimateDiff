@@ -102,8 +102,6 @@ Contributions are always welcome!! The <code>dev</code> branch is for community 
 
 ### Prepare Environment
 
-***We updated our inference code with xformers and a sequential decoding trick. Now AnimateDiff takes only ~12GB VRAM to inference, and run on a single RTX3090 !!***
-
 ```
 git clone https://github.com/guoyww/AnimateDiff.git
 cd AnimateDiff
