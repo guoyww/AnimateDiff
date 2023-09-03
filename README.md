@@ -19,7 +19,7 @@ Bo Dai
 [![Open in OpenXLab](https://cdn-static.openxlab.org.cn/app-center/openxlab_app.svg)](https://openxlab.org.cn/apps/detail/Masbfca/AnimateDiff)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/guoyww/AnimateDiff)
 
-***WARNING! This version is not compatible with the official implementation due to the difference in library versions.***
+***WARNING! This version works as well as official but not compatible with the official implementation due to the difference of library versions.***
 
 <table width="1200" class="center">
     <tr>
@@ -54,11 +54,11 @@ Test video sources: <a href="https://stable-diffusion-art.com/video-to-video/">d
 ## Todo
 - [x] Add Controlnet in the pipeline
 - [x] Add Controlnet in Gradio Demo
-- [ ] Optimize code for xmem
+- [X] Optimize code for xformer
 
 ## Features
 - Added Controlnet for Video to Video control.
-- GPU Memory, ~14GB VRAM to inference w/o Controlnet and ~17GB VRAM with Controlnet.
+- GPU Memory, ~12-14GB VRAM to inference w/o Controlnet and ~16-17GB VRAM with Controlnet.
 - User Interface: [Gradio](#gradio-demo), A1111 WebUI Extension [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff) (by [@continue-revolution](https://github.com/continue-revolution))
 - Google Colab: [Colab](https://colab.research.google.com/github/camenduru/AnimateDiff-colab/blob/main/AnimateDiff_colab.ipynb) (by [@camenduru](https://github.com/camenduru))
 

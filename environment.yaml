@@ -4,13 +4,15 @@ channels:
   - nvidia
 dependencies:
   - python=3.10
-  - pytorch=2.0.1
-  - torchvision=0.15.2
+  - pytorch=1.13.1
+  - torchvision=0.14.1
+  - torchaudio=0.13.1
+  - pytorch-cuda=11.7
   - pip
   - pip:
     - diffusers==0.20.2
     - transformers==4.32.1
-    - xformers==0.0.21
+    - xformers==0.0.16
     - controlnet-aux==0.0.6
     - imageio==2.27.0
     - decord==0.6.0
