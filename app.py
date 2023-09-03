@@ -327,8 +327,8 @@ def ui():
                 ### 2.* Controlnet for AnimateDiff (Optional).
                 """
             )
-
-            with gr.Column():
+            
+            with gr.Column(visible=False) as controlnet_column:
                 with gr.Row().style(equal_height=True):
                     videos_path_dropdown = gr.Dropdown(
                         label="Select video for applying controlnet (optional)",
@@ -365,7 +365,9 @@ def ui():
                     controlnet_guess_mode_checkbox          = gr.Checkbox(value=True, label="Controlnet Guess mode")
                     get_each_slider                         = gr.Slider(label="Get Each Frame",     value=2,   minimum=1,   maximum=4,   step=1)
                     controlnet_conditioning_scale_slider    = gr.Slider(label="Controlnet strenth", value=0.5, minimum=0.1, maximum=1.0, step=0.1)
-                
+
+            change_visibility = gr.Button(value="SHOW CONTROLNET SETTINGS (OPTIONAL)")
+            change_visibility.click(lambda :gr.update(visible=True), None, controlnet_column)
 
             with gr.Row().style(equal_height=False):
                 with gr.Column():
