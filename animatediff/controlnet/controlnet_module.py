@@ -27,6 +27,7 @@ class ControlnetModule:
         self.do_cfg = self.config['guidance_scale'] > 1.0
         self.num_inference_steps = config['steps']
         self.guess_mode = config['guess_mode']
+        self.conditioning_scale = config['conditioning_scale']
         self.device = config['device']
 
         controlnet_info = CONTROLNET_PROCESSORS[self.config['controlnet_processor']]
@@ -142,7 +143,7 @@ class ControlnetModule:
                     t,
                     encoder_hidden_states=controlnet_prompt_embeds.to(self.device),
                     controlnet_cond=image,
-                    conditioning_scale=1.0,
+                    conditioning_scale=self.conditioning_scale,
                     guess_mode=self.guess_mode,
                     return_dict=False,
                 )

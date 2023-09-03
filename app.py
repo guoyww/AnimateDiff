@@ -17,6 +17,7 @@ from transformers import CLIPTextModel, CLIPTokenizer
 
 from animatediff.models.unet import UNet3DConditionModel
 from animatediff.pipelines.pipeline_animation import AnimationPipeline
+from animatediff.controlnet.controlnet_module import ControlnetModule
 from animatediff.utils.util import save_videos_grid
 from animatediff.utils.convert_from_ckpt import convert_ldm_unet_checkpoint, convert_ldm_clip_checkpoint, convert_ldm_vae_checkpoint
 from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora
@@ -46,6 +47,8 @@ class AnimateController:
         self.stable_diffusion_dir   = os.path.join(self.basedir, "models", "StableDiffusion")
         self.motion_module_dir      = os.path.join(self.basedir, "models", "Motion_Module")
         self.personalized_model_dir = os.path.join(self.basedir, "models", "DreamBooth_LoRA")
+        self.controlnet_dir         = os.path.join(self.basedir, "models", "Controlnet")
+        self.videos_dir         = os.path.join(self.basedir, "videos")
         self.savedir                = os.path.join(self.basedir, "samples", datetime.now().strftime("Gradio-%Y-%m-%dT%H-%M-%S"))
         self.savedir_sample         = os.path.join(self.savedir, "sample")
         os.makedirs(self.savedir, exist_ok=True)
@@ -53,17 +56,21 @@ class AnimateController:
         self.stable_diffusion_list   = []
         self.motion_module_list      = []
         self.personalized_model_list = []
+        self.controlnet_list         = []
+        self.videos_list             = []
         
         self.refresh_stable_diffusion()
         self.refresh_motion_module()
         self.refresh_personalized_model()
-        
+        self.refresh_controlnet()
+        self.refresh_videos()
         # config models
         self.tokenizer             = None
         self.text_encoder          = None
         self.vae                   = None
         self.unet                  = None
         self.pipeline              = None
+        self.controlnet            = None
         self.lora_model_state_dict = {}
         
         self.inference_config      = OmegaConf.load("configs/inference/inference.yaml")
@@ -78,6 +85,12 @@ class AnimateController:
     def refresh_personalized_model(self):
         personalized_model_list = glob(os.path.join(self.personalized_model_dir, "*.safetensors"))
         self.personalized_model_list = [os.path.basename(p) for p in personalized_model_list]
+
+    def refresh_controlnet(self):
+        self.controlnet_list = glob(os.path.join(self.controlnet_dir, "*/"))
+    
+    def refresh_videos(self):
+        self.videos_list = glob(os.path.join(self.videos_dir, "*.mp4"))
 
     def update_stable_diffusion(self, stable_diffusion_dropdown):
         self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dropdown, subfolder="tokenizer")
@@ -141,7 +154,13 @@ class AnimateController:
         length_slider, 
         height_slider, 
         cfg_scale_slider, 
-        seed_textbox
+        seed_textbox,
+        videos_path_dropdown,
+        get_each_slider,
+        controlnet_processor_name_dropdown,
+        controlnet_processor_path_dropdown,
+        controlnet_guess_mode_checkbox,
+        controlnet_conditioning_scale_slider,
     ):    
         if self.unet is None:
             raise gr.Error(f"Please select a pretrained model path.")
@@ -165,7 +184,28 @@ class AnimateController:
         if seed_textbox != -1 and seed_textbox != "": torch.manual_seed(int(seed_textbox))
         else: torch.seed()
         seed = torch.initial_seed()
-        
+
+        down_features, mid_features = None, None
+        controlnet = None
+        if videos_path_dropdown and videos_path_dropdown != "none":
+            controlnet_config = {
+                        'video_length': length_slider,
+                        'img_h': height_slider,
+                        'img_w': width_slider,
+                        'guidance_scale': cfg_scale_slider,
+                        'steps': sample_step_slider,
+                        'get_each': get_each_slider,
+                        'conditioning_scale': controlnet_conditioning_scale_slider,
+                        'controlnet_processor': controlnet_processor_name_dropdown,
+                        'controlnet_pipeline': stable_diffusion_dropdown,
+                        'controlnet_processor_path': controlnet_processor_path_dropdown,
+                        'guess_mode': controlnet_guess_mode_checkbox,
+                        'device': 'cuda',
+                    }
+            controlnet = ControlnetModule(controlnet_config)
+            down_features, mid_features = controlnet(
+                videos_path_dropdown, prompt_textbox, negative_prompt_textbox, seed)
+
         sample = pipeline(
             prompt_textbox,
             negative_prompt     = negative_prompt_textbox,
@@ -174,6 +214,8 @@ class AnimateController:
             width               = width_slider,
             height              = height_slider,
             video_length        = length_slider,
+            down_block_control  = down_features, 
+            mid_block_control   = mid_features,
         ).videos
 
         save_sample_path = os.path.join(self.savedir_sample, f"{sample_idx}.mp4")
@@ -279,7 +321,52 @@ def ui():
             
             prompt_textbox = gr.Textbox(label="Prompt", lines=2)
             negative_prompt_textbox = gr.Textbox(label="Negative prompt", lines=2)
+
+            gr.Markdown(
+                """
+                ### 2.* Controlnet for AnimateDiff (Optional).
+                """
+            )
+
+            with gr.Column():
+                with gr.Row().style(equal_height=True):
+                    videos_path_dropdown = gr.Dropdown(
+                        label="Select video for applying controlnet (optional)",
+                        choices=["none"] + controller.videos_list,
+                        value="none",
+                        interactive=True,
+                    )
+                    videos_refresh_button = gr.Button(value="\U0001F503", elem_classes="toolbutton")
+                    def update_videos():
+                        controller.refresh_videos()
+                        return gr.Dropdown.update(choices=controller.videos_list)
+                    videos_refresh_button.click(fn=update_videos, inputs=[], outputs=[videos_path_dropdown])
+
+                    controlnet_processor_name_dropdown = gr.Dropdown(
+                        label="Select controlnet processor (if video selected)",
+                        choices=["canny", "depth", "softedge", "pose", "norm"],
+                        value="none",
+                        interactive=True,
+                    )
+
+                    controlnet_processor_path_dropdown = gr.Dropdown(
+                        label="Set controlnet processor path (if video selected)",
+                        choices=["none"] + controller.controlnet_list,
+                        value="none",
+                        interactive=True,
+                    )
+                    controlnet_processor_path_refresh_button = gr.Button(value="\U0001F503", elem_classes="toolbutton")
+                    def update_videos():
+                        controller.refresh_videos()
+                        return gr.Dropdown.update(choices=controller.controlnet_list)
+                    controlnet_processor_path_refresh_button.click(fn=update_videos, inputs=[], outputs=[controlnet_processor_path_dropdown])
+
+                with gr.Row().style(equal_height=True):
+                    controlnet_guess_mode_checkbox          = gr.Checkbox(value=True, label="Controlnet Guess mode")
+                    get_each_slider                         = gr.Slider(label="Get Each Frame",     value=2,   minimum=1,   maximum=4,   step=1)
+                    controlnet_conditioning_scale_slider    = gr.Slider(label="Controlnet strenth", value=0.5, minimum=0.1, maximum=1.0, step=0.1)
                 
+
             with gr.Row().style(equal_height=False):
                 with gr.Column():
                     with gr.Row():
@@ -316,6 +403,12 @@ def ui():
                     height_slider, 
                     cfg_scale_slider, 
                     seed_textbox,
+                    videos_path_dropdown,
+                    get_each_slider,
+                    controlnet_processor_name_dropdown,
+                    controlnet_processor_path_dropdown,
+                    controlnet_guess_mode_checkbox,
+                    controlnet_conditioning_scale_slider,
                 ],
                 outputs=[result_video]
             )

@@ -30,6 +30,8 @@ Bo Dai
     <td><img src="__assets__/animations/control/depth/smiling_medival.gif"></td>
     </tr>
 </table>  
+<details>
+<summary>More controlnet examples</summary>
 <table width="1200" class="center">
     <tr>
     <td><img src="__assets__/animations/control/original/smiling_original_16_2.gif"></td>
@@ -38,8 +40,6 @@ Bo Dai
     <td><img src="__assets__/animations/control/canny/smiling_medival_portrait.gif"></td>
     </tr>
 </table>  
-<details>
-<summary>More controlnet examples</summary>
 <table width="1200" class="center">
     <tr>
     <td><img src="__assets__/animations/control/original/dance_original_16_2.gif"></td>
@@ -50,6 +50,11 @@ Bo Dai
 </table>  
 </details>
 Test video sources: <a href="https://stable-diffusion-art.com/video-to-video/">dance</a> and <a href="https://mixkit.co/free-stock-video/girl-smiling-portrait-in-the-library-4756/">smiling</a>.  
+
+## Todo
+- [x] Add Controlnet in the pipeline
+- [x] Add Controlnet in Gradio Demo
+- [ ] Optimize code for xmem
 
 ## Features
 - Added Controlnet for Video to Video control.
@@ -230,6 +235,8 @@ conda activate animatediff
 python app.py
 ```
 By default, the demo will run at `localhost:7860`.
+Be sure that imageio with backend is installed. (pip install imageio[ffmpeg])
+
 <br><img src="__assets__/figs/gradio.jpg" style="width: 50em; margin-top: 1em">
 
 ## Gallery

@@ -6,8 +6,6 @@ dependencies:
   - python=3.10
   - pytorch=2.0.1
   - torchvision=0.15.2
-  # - torchaudio=0.13.1
-  # - pytorch-cuda=11.7
   - pip
   - pip:
     - diffusers==0.20.2
