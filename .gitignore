@@ -2,11 +2,14 @@ samples/
 wandb/
 outputs/
 __pycache__/
-models/StableDiffusion/stable-diffusion-v1-5
+
 scripts/animate_inter.py
 scripts/gradio_app.py
-models/*
+models/Controlnet/*
+models/DreamBooth_LoRA/*
 models/DreamBooth_LoRA/Put*personalized*T2I*checkpoints*here.txt
+models/Motion_Module/*
+models/*
 *.ipynb
 *.safetensors
 *.ckpt

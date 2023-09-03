@@ -295,9 +295,13 @@ class VersatileAttention(Attention):
                 except Exception as e:
                     raise e
 
-            processor = XFormersAttnProcessor(
-                attention_op=attention_op,
-            )
+            # XFormersAttnProcessor corrupts video generation and work with Pytorch 1.13.
+            # Pytorch 2.0.1 AttnProcessor works the same as XFormersAttnProcessor in Pytorch 1.13.
+            # You don't need XFormersAttnProcessor here.
+            # processor = XFormersAttnProcessor(
+            #     attention_op=attention_op,
+            # )
+            processor = AttnProcessor()
         else:
             processor = AttnProcessor()
 

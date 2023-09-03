@@ -52,13 +52,13 @@ Bo Dai
 Test video sources: <a href="https://stable-diffusion-art.com/video-to-video/">dance</a> and <a href="https://mixkit.co/free-stock-video/girl-smiling-portrait-in-the-library-4756/">smiling</a>.  
 
 ## Todo
-- [x] Add Controlnet in the pipeline
-- [x] Add Controlnet in Gradio Demo
-- [X] Optimize code for xformer
+- [x] Add Controlnet in the pipeline.
+- [x] Add Controlnet in Gradio Demo.
+- [X] Optimize code in attention processor style. 
 
 ## Features
 - Added Controlnet for Video to Video control.
-- GPU Memory, ~12-14GB VRAM to inference w/o Controlnet and ~16-17GB VRAM with Controlnet.
+- GPU Memory, ~12-14GB VRAM to inference w/o Controlnet and ~15-17GB VRAM with Controlnet.
 - User Interface: [Gradio](#gradio-demo), A1111 WebUI Extension [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff) (by [@continue-revolution](https://github.com/continue-revolution))
 - Google Colab: [Colab](https://colab.research.google.com/github/camenduru/AnimateDiff-colab/blob/main/AnimateDiff_colab.ipynb) (by [@camenduru](https://github.com/camenduru))
 
