@@ -23,6 +23,14 @@ Bo Dai
 
 <table width="1200" class="center">
     <tr>
+    <td><img src="__assets__/animations/control/original/dance_original_16_2.gif"></td>
+    <td><img src="__assets__/animations/control/softedge/dance_1girl.gif"></td>
+    <td><img src="__assets__/animations/control/canny/dance_1girl.gif"></td>
+    <td><img src="__assets__/animations/control/canny/dance_medival_portrait.gif"></td>
+    </tr>
+</table>  
+<table width="1200" class="center">
+    <tr>
     <td><img src="__assets__/animations/control/depth/smiling_depth_16_2.gif"></td>
     <td><img src="__assets__/animations/control/depth/smiling_1girl.gif"></td>
     <td><img src="__assets__/animations/control/depth/smiling_forbidden_castle.gif"></td>
@@ -38,14 +46,6 @@ Bo Dai
     <td><img src="__assets__/animations/control/softedge/smiling_1girl.gif"></td>
     <td><img src="__assets__/animations/control/softedge/smiling_forbidden_castle.gif"></td>
     <td><img src="__assets__/animations/control/canny/smiling_medival_portrait.gif"></td>
-    </tr>
-</table>  
-<table width="1200" class="center">
-    <tr>
-    <td><img src="__assets__/animations/control/original/dance_original_16_2.gif"></td>
-    <td><img src="__assets__/animations/control/softedge/dance_1girl.gif"></td>
-    <td><img src="__assets__/animations/control/canny/dance_1girl.gif"></td>
-    <td><img src="__assets__/animations/control/canny/dance_medival_portrait.gif"></td>
     </tr>
 </table>  
 </details>
