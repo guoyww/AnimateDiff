@@ -1,6 +1,6 @@
 # Controled AnimateDiff
 
-This repository is an <b>extension</b> of the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
+This repository is an <b>Controlnet Extension</b> of the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
 
 **[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)**
 </br>
