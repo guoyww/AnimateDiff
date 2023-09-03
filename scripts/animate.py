@@ -17,6 +17,7 @@ from animatediff.pipelines.pipeline_animation import AnimationPipeline
 from animatediff.utils.util import save_videos_grid
 from animatediff.utils.convert_from_ckpt import convert_ldm_unet_checkpoint, convert_ldm_clip_checkpoint, convert_ldm_vae_checkpoint
 from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora
+from animatediff.controlnet.controlnet_module import ControlnetModule
 from diffusers.utils.import_utils import is_xformers_available
 
 from einops import rearrange, repeat
@@ -105,6 +106,20 @@ def main(args):
             pipeline.to("cuda")
             ### <<< create validation pipeline <<< ###
 
+            down_features, mid_features = None, None
+            controlnet = None
+            if 'control' in model_config:
+                controlnet_config = {
+                    'video_length': args.L,
+                    'img_h': args.H,
+                    'img_w': args.W,
+                    'guidance_scale': model_config.guidance_scale,
+                    'steps': model_config.steps,
+                    'device': 'cuda',
+                    **model_config.control
+                }
+                controlnet = ControlnetModule(controlnet_config)
+
             prompts      = model_config.prompt
             n_prompts    = list(model_config.n_prompt) * len(prompts) if len(model_config.n_prompt) == 1 else model_config.n_prompt
             
@@ -119,7 +134,10 @@ def main(args):
                 if random_seed != -1: torch.manual_seed(random_seed)
                 else: torch.seed()
                 config[config_key].random_seed.append(torch.initial_seed())
-                
+
+                if controlnet is not None:
+                    down_features, mid_features = controlnet(model_config.control.video_path, prompt, n_prompt, random_seed)
+
                 print(f"current seed: {torch.initial_seed()}")
                 print(f"sampling {prompt} ...")
                 sample = pipeline(
@@ -130,6 +148,8 @@ def main(args):
                     width               = args.W,
                     height              = args.H,
                     video_length        = args.L,
+                    down_block_control  = down_features, 
+                    mid_block_control   = mid_features,
                 ).videos
                 samples.append(sample)
 

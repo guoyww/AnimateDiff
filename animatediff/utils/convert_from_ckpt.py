@@ -660,7 +660,17 @@ def convert_ldm_vae_checkpoint(checkpoint, config):
     meta_path = {"old": "mid.attn_1", "new": "mid_block.attentions.0"}
     assign_to_checkpoint(paths, new_checkpoint, vae_state_dict, additional_replacements=[meta_path], config=config)
     conv_attn_to_linear(new_checkpoint)
-    return new_checkpoint
+
+    renamed_vae_checkpoint = {}
+    for name, tensor in new_checkpoint.items():
+        if 'encoder.mid_block.attentions.0.' in name or 'decoder.mid_block.attentions.0.' in name:
+            renamed = name.replace('key', 'to_k').replace('query', 'to_q').replace('value', 'to_v')
+            renamed = renamed.replace('proj_attn', 'to_out.0')
+            renamed_vae_checkpoint[renamed] = tensor
+        else:
+            renamed_vae_checkpoint[name] = tensor
+
+    return renamed_vae_checkpoint
 
 
 def convert_ldm_bert_checkpoint(checkpoint, config):
@@ -723,7 +733,7 @@ def convert_ldm_clip_checkpoint(checkpoint):
         if key.startswith("cond_stage_model.transformer"):
             text_model_dict[key[len("cond_stage_model.transformer.") :]] = checkpoint[key]
 
-    text_model.load_state_dict(text_model_dict)
+    text_model.load_state_dict(text_model_dict, strict=False)
 
     return text_model
 

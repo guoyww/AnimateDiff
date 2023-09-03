@@ -1,6 +1,6 @@
-# AnimateDiff
+# Controled AnimateDiff
 
-This repository is the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
+This repository is an <b>extension</b> of the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
 
 **[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)**
 </br>
@@ -19,8 +19,42 @@ Bo Dai
 [![Open in OpenXLab](https://cdn-static.openxlab.org.cn/app-center/openxlab_app.svg)](https://openxlab.org.cn/apps/detail/Masbfca/AnimateDiff)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/guoyww/AnimateDiff)
 
+```
+WARNING! This version is not compatible with the official implementation due to the difference in library versions.
+```
+
+<table width="1200" class="center">
+    <tr>
+    <td><img src="__assets__/animations/control/depth/smiling_depth_16_2.gif"></td>
+    <td><img src="__assets__/animations/control/depth/smiling_1girl.gif"></td>
+    <td><img src="__assets__/animations/control/depth/smiling_forbidden_castle.gif"></td>
+    <td><img src="__assets__/animations/control/depth/smiling_halo.gif"></td>
+    <td><img src="__assets__/animations/control/depth/smiling_medival.gif"></td>
+    </tr>
+</table>  
+<table width="1200" class="center">
+    <tr>
+    <td><img src="__assets__/animations/control/original/smiling_original_16_2.gif"></td>
+    <td><img src="__assets__/animations/control/softedge/smiling_1girl.gif"></td>
+    <td><img src="__assets__/animations/control/softedge/smiling_forbidden_castle.gif"></td>
+    <td><img src="__assets__/animations/control/canny/smiling_medival_portrait.gif"></td>
+    </tr>
+</table>  
+<details>
+<summary>More controlnet examples</summary>
+<table width="1200" class="center">
+    <tr>
+    <td><img src="__assets__/animations/control/original/dance_original_16_2.gif"></td>
+    <td><img src="__assets__/animations/control/softedge/dance_1girl.gif"></td>
+    <td><img src="__assets__/animations/control/canny/dance_1girl.gif"></td>
+    <td><img src="__assets__/animations/control/canny/dance_medival_portrait.gif"></td>
+    </tr>
+</table>  
+</details>
+
 ## Features
-- GPU Memory Optimization, ~12GB VRAM to inference
+- Added Controlnet for Video to Video control.
+- GPU Memory, ~14GB VRAM to inference w/o Controlnet and ~17GB VRAM with Controlnet.
 - User Interface: [Gradio](#gradio-demo), A1111 WebUI Extension [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff) (by [@continue-revolution](https://github.com/continue-revolution))
 - Google Colab: [Colab](https://colab.research.google.com/github/camenduru/AnimateDiff-colab/blob/main/AnimateDiff_colab.ipynb) (by [@camenduru](https://github.com/camenduru))
 
@@ -137,6 +171,20 @@ NewModel:
 Then run the following commands:
 ```
 python -m scripts.animate --config [path to the config file]
+```
+## Inference with Controlnet
+Controlnet appoach is using video as source of content. It takes first `L` (usualy 16) frames from video. 
+
+Download controlnet models using script:
+```bash
+bash download_bashscripts/9-Controlnets.sh
+```  
+
+Run examples:
+```bash
+python -m scripts.animate --config configs/prompts/1-ToonYou-Controlnet.yaml
+python -m scripts.animate --config configs/prompts/2-Lyriel-Controlnet.yaml
+python -m scripts.animate --config configs/prompts/3-RcnzCartoon-Controlnet.yaml
 ```
 
 

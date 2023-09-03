@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.utils.checkpoint
 
 from diffusers.configuration_utils import ConfigMixin, register_to_config
-from diffusers.modeling_utils import ModelMixin
+from diffusers.models.modeling_utils import ModelMixin
 from diffusers.utils import BaseOutput, logging
 from diffusers.models.embeddings import TimestepEmbedding, Timesteps
 from .unet_blocks import (
@@ -317,6 +317,8 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
         class_labels: Optional[torch.Tensor] = None,
         attention_mask: Optional[torch.Tensor] = None,
         return_dict: bool = True,
+        down_block_additional_residuals: Optional[List[torch.Tensor]] = None,
+        mid_block_additional_residual: Optional[torch.Tensor] = None,
     ) -> Union[UNet3DConditionOutput, Tuple]:
         r"""
         Args:
@@ -406,11 +408,23 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
 
             down_block_res_samples += res_samples
 
+        if down_block_additional_residuals is not None:
+            new_down_block_res_samples = ()
+
+            for down_block_res_sample, down_block_additional_residual in zip(
+                down_block_res_samples, down_block_additional_residuals
+            ):
+                down_block_res_sample = down_block_res_sample + down_block_additional_residual.to(dtype=down_block_res_sample.dtype)
+                new_down_block_res_samples += (down_block_res_sample,)
+
+            down_block_res_samples = new_down_block_res_samples
+
         # mid
         sample = self.mid_block(
             sample, emb, encoder_hidden_states=encoder_hidden_states, attention_mask=attention_mask
         )
-
+        if mid_block_additional_residual is not None:
+            sample = sample + mid_block_additional_residual.to(dtype=sample.dtype)
         # up
         for i, upsample_block in enumerate(self.up_blocks):
             is_final_block = i == len(self.up_blocks) - 1
