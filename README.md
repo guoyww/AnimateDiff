@@ -51,6 +51,7 @@ WARNING! This version is not compatible with the official implementation due to 
     </tr>
 </table>  
 </details>
+Test video sources: <a href="https://stable-diffusion-art.com/video-to-video/">dance</a> and <a href="https://mixkit.co/free-stock-video/girl-smiling-portrait-in-the-library-4756/">smiling</a>.  
 
 ## Features
 - Added Controlnet for Video to Video control.
@@ -187,6 +188,16 @@ python -m scripts.animate --config configs/prompts/2-Lyriel-Controlnet.yaml
 python -m scripts.animate --config configs/prompts/3-RcnzCartoon-Controlnet.yaml
 ```
 
+Add controlnet to other config (see example in 1-ToonYou-Controlnet.yaml):
+```yaml
+control:
+  video_path: "./videos/smiling.mp4"
+  get_each: 2 # get each frame from video
+  controlnet_processor: "softedge" # softedge, canny, depth
+  controlnet_pipeline: "models/StableDiffusion/stable-diffusion-v1-5"
+  controlnet_processor_path: "models/Controlnet/control_v11p_sd15_softedge" # control_v11p_sd15_softedge, control_v11f1p_sd15_depth, control_v11p_sd15_canny
+  guess_mode: True
+```
 
 ## Steps for Training
 
