@@ -22,6 +22,7 @@ import torch.distributed as dist
 from torch.optim.swa_utils import AveragedModel
 from torch.utils.data.distributed import DistributedSampler
 from torch.nn.parallel import DistributedDataParallel as DDP
+from collections import OrderedDict
 
 import diffusers
 from diffusers import AutoencoderKL, DDIMScheduler
@@ -384,20 +385,26 @@ def main(
             # Backpropagate
             if mixed_precision_training:
                 scaler.scale(loss).backward()
-                """ >>> gradient clipping >>> """
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
-                """ <<< gradient clipping <<< """
-                scaler.step(optimizer)
-                scaler.update()
             else:
                 loss.backward()
+            
+            # Only perform the update step every `gradient_accumulation_steps` iterations
+            if (global_step + 1) % gradient_accumulation_steps == 0:
                 """ >>> gradient clipping >>> """
-                torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
-                """ <<< gradient clipping <<< """
-                optimizer.step()
-
-            lr_scheduler.step()
+                if mixed_precision_training:
+                    scaler.unscale_(optimizer)
+                    torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
+                    scaler.step(optimizer)
+                    scaler.update()
+                else:
+                    torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
+                    optimizer.step()
+                    
+                # Zero out the gradients after the optimizer step
+                optimizer.zero_grad()
+            
+                lr_scheduler.step()
+                
             progress_bar.update(1)
             global_step += 1
             
@@ -408,18 +415,13 @@ def main(
                 wandb.log({"train_loss": loss.item()}, step=global_step)
                 
             # Save checkpoint
-            if is_main_process and (global_step % checkpointing_steps == 0 or step == len(train_dataloader) - 1):
+            if is_main_process and (global_step % checkpointing_steps == 0):
                 save_path = os.path.join(output_dir, f"checkpoints")
-                state_dict = {
-                    "epoch": epoch,
-                    "global_step": global_step,
-                    "state_dict": unet.state_dict(),
-                }
-                if step == len(train_dataloader) - 1:
-                    torch.save(state_dict, os.path.join(save_path, f"checkpoint-epoch-{epoch+1}.ckpt"))
-                else:
-                    torch.save(state_dict, os.path.join(save_path, f"checkpoint.ckpt"))
+                save_path = os.path.join(save_path, f"checkpoint-epoch-{step}.ckpt")
+                save_checkpoint(unet,save_path)
+
                 logging.info(f"Saved state to {save_path} (global_step: {global_step})")
+                
                 
             # Periodically validation
             if is_main_process and (global_step % validation_steps == 0 or global_step in validation_steps_tuple):
@@ -478,7 +480,16 @@ def main(
             
     dist.destroy_process_group()
 
+def save_checkpoint(unet, mm_path):
+    mm_state_dict = OrderedDict()
+    state_dict = unet.state_dict()
+    for key in state_dict:
+        if "motion_module" in key:
+            # Remove the "module" part from the key
+            new_key = key.replace("module.", "")
+            mm_state_dict[new_key] = state_dict[key]
 
+    torch.save(mm_state_dict, mm_path)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

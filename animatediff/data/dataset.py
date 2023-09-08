@@ -14,7 +14,7 @@ class WebVid10M(Dataset):
     def __init__(
             self,
             csv_path, video_folder,
-            sample_size=512, sample_stride=4, sample_n_frames=16,
+            sample_size=256, sample_stride=4, sample_n_frames=16,
             is_image=False,
         ):
         zero_rank_print(f"loading annotations from {csv_path} ...")
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     dataset = WebVid10M(
         csv_path="/mnt/petrelfs/guoyuwei/projects/datasets/webvid/results_2M_val.csv",
         video_folder="/mnt/petrelfs/guoyuwei/projects/datasets/webvid/2M_val",
-        sample_size=512,
+        sample_size=256,
         sample_stride=4, sample_n_frames=16,
         is_image=True,
     )
