@@ -20,6 +20,23 @@ Bo Dai
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/guoyww/AnimateDiff)
 
 ## Features
+- **[2023/09/10]** New Motion Module release ! `mm_sd_v15_v2.ckpt` was trained on larger resolution & batch size, and gains noticabe quality improvements.Check it out at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) and use it with `configs/inference/inference-v2.yaml`. Example:
+  ```
+  python -m scripts.animate --config configs/prompts/v2/5-RealisticVision.yaml
+  ```
+  Here is a qualitative comparison between `mm_sd_v15.ckpt` (left) and `mm_sd_v15_v2.ckpt` (right):
+  <table class="center">
+      <tr>
+      <td><img src="__assets__/animations/compare/old_0.gif"></td>
+      <td><img src="__assets__/animations/compare/new_0.gif"></td>
+      <td><img src="__assets__/animations/compare/old_1.gif"></td>
+      <td><img src="__assets__/animations/compare/new_1.gif"></td>
+      <td><img src="__assets__/animations/compare/old_2.gif"></td>
+      <td><img src="__assets__/animations/compare/new_2.gif"></td>
+      <td><img src="__assets__/animations/compare/old_3.gif"></td>
+      <td><img src="__assets__/animations/compare/new_3.gif"></td>
+      </tr>
+  </table>
 - GPU Memory Optimization, ~12GB VRAM to inference
 - User Interface: [Gradio](#gradio-demo), A1111 WebUI Extension [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff) (by [@continue-revolution](https://github.com/continue-revolution))
 - Google Colab: [Colab](https://colab.research.google.com/github/camenduru/AnimateDiff-colab/blob/main/AnimateDiff_colab.ipynb) (by [@camenduru](https://github.com/camenduru))
