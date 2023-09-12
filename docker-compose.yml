@@ -1,0 +1,21 @@
+version: "3"
+services:
+   anim:
+      build:
+        context: .
+        dockerfile: dockerfile
+      environment:
+        - HTTPS_PROXY=http://10.13.4.17:7777
+        - NVIDIA_VISIBLE_DEVICES=all
+      runtime: nvidia
+      volumes:
+        - .:/app
+      command: bash -c "conda run -n animatediff python app.py"
+      network_mode: host
+      restart: unless-stopped
+      deploy:
+        resources:
+          reservations:
+            devices:
+            - driver: nvidia
+              capabilities: [gpu]
