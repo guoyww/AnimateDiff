@@ -31,7 +31,7 @@ Bo Dai
 </table>  
 <table width="1200" class="center">
     <tr>
-    <td><img src="__assets__/animations/control/depth/smiling_depth_16_2.gif"></td>
+    <td><img src="__assets__/animations/control/original/smiling_original_16_2.gif"></td>
     <td><img src="__assets__/animations/control/depth/smiling_realistic_0.gif"></td>
     <td><img src="__assets__/animations/control/depth/smiling_realistic_1.gif"></td>
     <td><img src="__assets__/animations/control/depth/smiling_realistic_2.gif"></td>
@@ -41,18 +41,6 @@ Bo Dai
     <td><img src="__assets__/animations/control/depth/smiling_medival.gif"></td>
     </tr>
 </table>  
-<details>
-<summary>More controlnet examples</summary>
-<table width="1200" class="center">
-    <tr>
-    <td><img src="__assets__/animations/control/original/smiling_original_16_2.gif"></td>
-    <td><img src="__assets__/animations/control/softedge/smiling_realistic_0.gif"></td>
-    <td><img src="__assets__/animations/control/softedge/smiling_1girl.gif"></td>
-    <td><img src="__assets__/animations/control/softedge/smiling_forbidden_castle.gif"></td>
-    <td><img src="__assets__/animations/control/canny/smiling_medival_portrait.gif"></td>
-    </tr>
-</table>  
-</details>
 Test video sources: <a href="https://stable-diffusion-art.com/video-to-video/">dance</a> and <a href="https://mixkit.co/free-stock-video/girl-smiling-portrait-in-the-library-4756/">smiling</a>.  
 
 ## Todo
