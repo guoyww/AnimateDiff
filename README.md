@@ -31,14 +31,16 @@ Bo Dai
 </table>  
 <table width="1200" class="center">
     <tr>
-    <td><img src="__assets__/animations/control/original/smiling_original_16_2.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_realistic_0.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_realistic_1.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_realistic_2.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_1girl.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_forbidden_castle.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_halo.gif"></td>
-    <td><img src="__assets__/animations/control/depth/smiling_medival.gif"></td>
+      <td><img src="__assets__/animations/control/original/smiling_original_16_2.gif"></td>
+      <td><img src="__assets__/animations/control/depth/smiling_realistic_0.gif"></td>
+      <td><img src="__assets__/animations/control/depth/smiling_realistic_1.gif"></td>
+      <td><img src="__assets__/animations/control/depth/smiling_realistic_2.gif"></td>
+    </tr>
+    <tr>
+      <td><img src="__assets__/animations/control/depth/smiling_1girl.gif"></td>
+      <td><img src="__assets__/animations/control/depth/smiling_forbidden_castle.gif"></td>
+      <td><img src="__assets__/animations/control/depth/smiling_halo.gif"></td>
+      <td><img src="__assets__/animations/control/depth/smiling_medival.gif"></td>
     </tr>
 </table>  
 Test video sources: <a href="https://stable-diffusion-art.com/video-to-video/">dance</a> and <a href="https://mixkit.co/free-stock-video/girl-smiling-portrait-in-the-library-4756/">smiling</a>.  
