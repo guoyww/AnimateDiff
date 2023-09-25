@@ -1,9 +1,10 @@
 RcnzCartoon:
-  base: ""
-  path: "models/DreamBooth_LoRA/rcnzCartoon3d_v10.safetensors"
   motion_module:
     - "models/Motion_Module/mm_sd_v14.ckpt"
     - "models/Motion_Module/mm_sd_v15.ckpt"
+
+  dreambooth_path: "models/DreamBooth_LoRA/rcnzCartoon3d_v10.safetensors"
+  lora_model_path: ""
 
   seed:           [16931037867122267877, 2094308009433392066, 4292543217695451092, 15572665120852309890]
   steps:          25

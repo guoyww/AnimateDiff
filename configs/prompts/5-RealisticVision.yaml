@@ -1,9 +1,10 @@
 RealisticVision:
-  base: ""
-  path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
   motion_module:
     - "models/Motion_Module/mm_sd_v14.ckpt"
     - "models/Motion_Module/mm_sd_v15.ckpt"
+
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  lora_model_path: ""
 
   seed:           [5658137986800322009, 12099779162349365895, 10499524853910852697, 16768009035333711932]
   steps:          25
