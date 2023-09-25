@@ -19,8 +19,48 @@ Bo Dai
 [![Open in OpenXLab](https://cdn-static.openxlab.org.cn/app-center/openxlab_app.svg)](https://openxlab.org.cn/apps/detail/Masbfca/AnimateDiff)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/guoyww/AnimateDiff)
 
+
 ## Features
-- **[2023/09/10]** New Motion Module release ! `mm_sd_v15_v2.ckpt` was trained on larger resolution & batch size, and gains noticabe quality improvements.Check it out at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) and use it with `configs/inference/inference-v2.yaml`. Example:
+- **[2023/09/25]** Release **MotionLoRA** and its model zoo, **enabling camera movement controls**! Please download the MotionLoRA models (**74 MB per model**, available at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) ) and save them to the `models/MotionLoRA` folder. Example:
+  ```
+  python -m scripts.animate --config configs/prompts/v2/5-RealisticVision-MotionLoRA.yaml
+  ```
+    <table class="center">
+      <tr style="line-height: 0">
+      <td colspan="2" style="border: none; text-align: center">Zoom In</td>
+      <td colspan="2" style="border: none; text-align: center">Zoom Out</td>
+      <td colspan="2" style="border: none; text-align: center">Zoom Pan Left</td>
+      <td colspan="2" style="border: none; text-align: center">Zoom Pan Right</td>
+      </tr>
+      <tr>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/01.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/02.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/02.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/01.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/03.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/04.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/04.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/03.gif"></td>
+      </tr>
+      <tr style="line-height: 0">
+      <td colspan="2" style="border: none; text-align: center">Pan Up</td>
+      <td colspan="2" style="border: none; text-align: center">Pan Down</td>
+      <td colspan="2" style="border: none; text-align: center">Rolling Anti-Clockwise</td>
+      <td colspan="2" style="border: none; text-align: center">Rolling Clockwise</td>
+      </tr>
+      <tr>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/05.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/05.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/06.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/06.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/07.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/07.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_01/08.gif"></td>
+      <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/08.gif"></td>
+      </tr>
+  </table>
+
+- **[2023/09/10]** New Motion Module release! `mm_sd_v15_v2.ckpt` was trained on larger resolution & batch size, and gains noticeable quality improvements. Check it out at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) and use it with `configs/inference/inference-v2.yaml`. Example:
   ```
   python -m scripts.animate --config configs/prompts/v2/5-RealisticVision.yaml
   ```
@@ -40,6 +80,35 @@ Bo Dai
 - GPU Memory Optimization, ~12GB VRAM to inference
 - User Interface: [Gradio](#gradio-demo), A1111 WebUI Extension [sd-webui-animatediff](https://github.com/continue-revolution/sd-webui-animatediff) (by [@continue-revolution](https://github.com/continue-revolution))
 - Google Colab: [Colab](https://colab.research.google.com/github/camenduru/AnimateDiff-colab/blob/main/AnimateDiff_colab.ipynb) (by [@camenduru](https://github.com/camenduru))
+
+
+## Model Zoo
+<details open>
+<summary>Motion Modules</summary>
+
+  | Name                 | Parameter | Storage Space |
+  |----------------------|-----------|---------------|
+  | mm_sd_v14.ckpt       | 417 M     | 1.6 GB        |
+  | mm_sd_v15.ckpt       | 417 M     | 1.6 GB        |
+  | mm_sd_v15_v2.ckpt    | 453 M     | 1.7 GB        |
+
+</details>
+
+<details open>
+<summary>MotionLoRAs</summary>
+
+  | Name                                 | Parameter | Storage Space |
+  |--------------------------------------|-----------|---------------|
+  | v2_lora_ZoomIn.ckpt                  | 19 M      | 74 MB         |
+  | v2_lora_ZoomOut.ckpt                 | 19 M      | 74 MB         |
+  | v2_lora_PanLeft.ckpt                 | 19 M      | 74 MB         |
+  | v2_lora_PanRight.ckpt                | 19 M      | 74 MB         |
+  | v2_lora_PanUp.ckpt                   | 19 M      | 74 MB         |
+  | v2_lora_PanDown.ckpt                 | 19 M      | 74 MB         |
+  | v2_lora_RollingClockwise.ckpt        | 19 M      | 74 MB         |
+  | v2_lora_RollingAnticlockwise.ckpt    | 19 M      | 74 MB         |
+
+</details>
 
 ## Common Issues
 <details>
@@ -103,7 +172,7 @@ git clone https://huggingface.co/runwayml/stable-diffusion-v1-5 models/StableDif
 
 bash download_bashscripts/0-MotionModule.sh
 ```
-You may also directly download the motion module checkpoints from [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836), then put them in `models/Motion_Module/` folder.
+You may also directly download the motion module checkpoints from [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules), then put them in `models/Motion_Module/` folder.
 
 ### Prepare Personalize T2I
 Here we provide inference configs for 6 demo T2I on CivitAI.
