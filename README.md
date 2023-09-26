@@ -43,8 +43,8 @@ Bo Dai
       <td style="border: none"><img src="__assets__/animations/motion_lora/model_02/03.gif"></td>
       </tr>
       <tr style="line-height: 0">
-      <td colspan="2" style="border: none; text-align: center">Pan Up</td>
-      <td colspan="2" style="border: none; text-align: center">Pan Down</td>
+      <td colspan="2" style="border: none; text-align: center">Tilt Up</td>
+      <td colspan="2" style="border: none; text-align: center">Tilt Down</td>
       <td colspan="2" style="border: none; text-align: center">Rolling Anti-Clockwise</td>
       <td colspan="2" style="border: none; text-align: center">Rolling Clockwise</td>
       </tr>
