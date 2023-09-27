@@ -16,23 +16,27 @@
 """ Conversion script for the LoRA's safetensors checkpoints. """
 
 import argparse
-
-import torch
-from safetensors.torch import load_file
-
-from diffusers import StableDiffusionPipeline
 import pdb
 
+import torch
+from diffusers import StableDiffusionPipeline
+from safetensors.torch import load_file
 
 
 def convert_motion_lora_ckpt_to_diffusers(pipeline, state_dict, alpha=1.0):
     # directly update weight in diffusers model
     for key in state_dict:
         # only process lora down key
-        if "up." in key: continue
+        if "up." in key:
+            continue
 
-        up_key    = key.replace(".down.", ".up.")
-        model_key = key.replace("processor.", "").replace("_lora", "").replace("down.", "").replace("up.", "")
+        up_key = key.replace(".down.", ".up.")
+        model_key = (
+            key.replace("processor.", "")
+            .replace("_lora", "")
+            .replace("down.", "")
+            .replace("up.", "")
+        )
         model_key = model_key.replace("to_out.", "to_out.0.")
         layer_infos = model_key.split(".")[:-1]
 
@@ -42,14 +46,21 @@ def convert_motion_lora_ckpt_to_diffusers(pipeline, state_dict, alpha=1.0):
             curr_layer = curr_layer.__getattr__(temp_name)
 
         weight_down = state_dict[key]
-        weight_up   = state_dict[up_key]
-        curr_layer.weight.data += alpha * torch.mm(weight_up, weight_down).to(curr_layer.weight.data.device)
+        weight_up = state_dict[up_key]
+        curr_layer.weight.data += alpha * torch.mm(weight_up, weight_down).to(
+            curr_layer.weight.data.device
+        )
 
     return pipeline
 
 
-
-def convert_lora(pipeline, state_dict, LORA_PREFIX_UNET="lora_unet", LORA_PREFIX_TEXT_ENCODER="lora_te", alpha=0.6):
+def convert_lora(
+    pipeline,
+    state_dict,
+    LORA_PREFIX_UNET="lora_unet",
+    LORA_PREFIX_TEXT_ENCODER="lora_te",
+    alpha=0.6,
+):
     # load base model
     # pipeline = StableDiffusionPipeline.from_pretrained(base_model_path, torch_dtype=torch.float32)
 
@@ -68,7 +79,9 @@ def convert_lora(pipeline, state_dict, LORA_PREFIX_UNET="lora_unet", LORA_PREFIX
             continue
 
         if "text" in key:
-            layer_infos = key.split(".")[0].split(LORA_PREFIX_TEXT_ENCODER + "_")[-1].split("_")
+            layer_infos = (
+                key.split(".")[0].split(LORA_PREFIX_TEXT_ENCODER + "_")[-1].split("_")
+            )
             curr_layer = pipeline.text_encoder
         else:
             layer_infos = key.split(".")[0].split(LORA_PREFIX_UNET + "_")[-1].split("_")
@@ -100,12 +113,18 @@ def convert_lora(pipeline, state_dict, LORA_PREFIX_UNET="lora_unet", LORA_PREFIX
         # update weight
         if len(state_dict[pair_keys[0]].shape) == 4:
             weight_up = state_dict[pair_keys[0]].squeeze(3).squeeze(2).to(torch.float32)
-            weight_down = state_dict[pair_keys[1]].squeeze(3).squeeze(2).to(torch.float32)
-            curr_layer.weight.data += alpha * torch.mm(weight_up, weight_down).unsqueeze(2).unsqueeze(3).to(curr_layer.weight.data.device)
+            weight_down = (
+                state_dict[pair_keys[1]].squeeze(3).squeeze(2).to(torch.float32)
+            )
+            curr_layer.weight.data += alpha * torch.mm(
+                weight_up, weight_down
+            ).unsqueeze(2).unsqueeze(3).to(curr_layer.weight.data.device)
         else:
             weight_up = state_dict[pair_keys[0]].to(torch.float32)
             weight_down = state_dict[pair_keys[1]].to(torch.float32)
-            curr_layer.weight.data += alpha * torch.mm(weight_up, weight_down).to(curr_layer.weight.data.device)
+            curr_layer.weight.data += alpha * torch.mm(weight_up, weight_down).to(
+                curr_layer.weight.data.device
+            )
 
         # update visited list
         for item in pair_keys:
@@ -118,14 +137,31 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--base_model_path", default=None, type=str, required=True, help="Path to the base model in diffusers format."
+        "--base_model_path",
+        default=None,
+        type=str,
+        required=True,
+        help="Path to the base model in diffusers format.",
     )
     parser.add_argument(
-        "--checkpoint_path", default=None, type=str, required=True, help="Path to the checkpoint to convert."
+        "--checkpoint_path",
+        default=None,
+        type=str,
+        required=True,
+        help="Path to the checkpoint to convert.",
     )
-    parser.add_argument("--dump_path", default=None, type=str, required=True, help="Path to the output model.")
     parser.add_argument(
-        "--lora_prefix_unet", default="lora_unet", type=str, help="The prefix of UNet weight in safetensors"
+        "--dump_path",
+        default=None,
+        type=str,
+        required=True,
+        help="Path to the output model.",
+    )
+    parser.add_argument(
+        "--lora_prefix_unet",
+        default="lora_unet",
+        type=str,
+        help="The prefix of UNet weight in safetensors",
     )
     parser.add_argument(
         "--lora_prefix_text_encoder",
@@ -133,11 +169,20 @@ if __name__ == "__main__":
         type=str,
         help="The prefix of text encoder weight in safetensors",
     )
-    parser.add_argument("--alpha", default=0.75, type=float, help="The merging ratio in W = W0 + alpha * deltaW")
     parser.add_argument(
-        "--to_safetensors", action="store_true", help="Whether to store pipeline in safetensors format or not."
+        "--alpha",
+        default=0.75,
+        type=float,
+        help="The merging ratio in W = W0 + alpha * deltaW",
     )
-    parser.add_argument("--device", type=str, help="Device to use (e.g. cpu, cuda:0, cuda:1, etc.)")
+    parser.add_argument(
+        "--to_safetensors",
+        action="store_true",
+        help="Whether to store pipeline in safetensors format or not.",
+    )
+    parser.add_argument(
+        "--device", type=str, help="Device to use (e.g. cpu, cuda:0, cuda:1, etc.)"
+    )
 
     args = parser.parse_args()
 
@@ -148,7 +193,13 @@ if __name__ == "__main__":
     lora_prefix_text_encoder = args.lora_prefix_text_encoder
     alpha = args.alpha
 
-    pipe = convert(base_model_path, checkpoint_path, lora_prefix_unet, lora_prefix_text_encoder, alpha)
+    pipe = convert(
+        base_model_path,
+        checkpoint_path,
+        lora_prefix_unet,
+        lora_prefix_text_encoder,
+        alpha,
+    )
 
     pipe = pipe.to(args.device)
     pipe.save_pretrained(args.dump_path, safe_serialization=args.to_safetensors)

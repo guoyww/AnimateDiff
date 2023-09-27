@@ -1,21 +1,29 @@
 import os
-import imageio
-import numpy as np
 from typing import Union
 
+import imageio
+import numpy as np
 import torch
-import torchvision
 import torch.distributed as dist
-
+import torchvision
+from einops import rearrange
 from safetensors import safe_open
 from tqdm import tqdm
-from einops import rearrange
-from animatediff.utils.convert_from_ckpt import convert_ldm_unet_checkpoint, convert_ldm_clip_checkpoint, convert_ldm_vae_checkpoint
-from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora, convert_motion_lora_ckpt_to_diffusers
+
+from animatediff.utils.convert_from_ckpt import (
+    convert_ldm_clip_checkpoint,
+    convert_ldm_unet_checkpoint,
+    convert_ldm_vae_checkpoint,
+)
+from animatediff.utils.convert_lora_safetensor_to_diffusers import (
+    convert_lora,
+    convert_motion_lora_ckpt_to_diffusers,
+)
 
 
 def zero_rank_print(s):
-    if (not dist.is_initialized()) and (dist.is_initialized() and dist.get_rank() == 0): print("### " + s)
+    if (not dist.is_initialized()) and (dist.is_initialized() and dist.get_rank() == 0):
+        print("### " + s)
 
 
 def save_videos_grid(videos: torch.Tensor, path: str, rescale=False, n_rows=6, fps=8):
@@ -37,10 +45,14 @@ def save_videos_grid(videos: torch.Tensor, path: str, rescale=False, n_rows=6, f
 @torch.no_grad()
 def init_prompt(prompt, pipeline):
     uncond_input = pipeline.tokenizer(
-        [""], padding="max_length", max_length=pipeline.tokenizer.model_max_length,
-        return_tensors="pt"
+        [""],
+        padding="max_length",
+        max_length=pipeline.tokenizer.model_max_length,
+        return_tensors="pt",
     )
-    uncond_embeddings = pipeline.text_encoder(uncond_input.input_ids.to(pipeline.device))[0]
+    uncond_embeddings = pipeline.text_encoder(
+        uncond_input.input_ids.to(pipeline.device)
+    )[0]
     text_input = pipeline.tokenizer(
         [prompt],
         padding="max_length",
@@ -54,16 +66,35 @@ def init_prompt(prompt, pipeline):
     return context
 
 
-def next_step(model_output: Union[torch.FloatTensor, np.ndarray], timestep: int,
-              sample: Union[torch.FloatTensor, np.ndarray], ddim_scheduler):
-    timestep, next_timestep = min(
-        timestep - ddim_scheduler.config.num_train_timesteps // ddim_scheduler.num_inference_steps, 999), timestep
-    alpha_prod_t = ddim_scheduler.alphas_cumprod[timestep] if timestep >= 0 else ddim_scheduler.final_alpha_cumprod
+def next_step(
+    model_output: Union[torch.FloatTensor, np.ndarray],
+    timestep: int,
+    sample: Union[torch.FloatTensor, np.ndarray],
+    ddim_scheduler,
+):
+    timestep, next_timestep = (
+        min(
+            timestep
+            - ddim_scheduler.config.num_train_timesteps
+            // ddim_scheduler.num_inference_steps,
+            999,
+        ),
+        timestep,
+    )
+    alpha_prod_t = (
+        ddim_scheduler.alphas_cumprod[timestep]
+        if timestep >= 0
+        else ddim_scheduler.final_alpha_cumprod
+    )
     alpha_prod_t_next = ddim_scheduler.alphas_cumprod[next_timestep]
     beta_prod_t = 1 - alpha_prod_t
-    next_original_sample = (sample - beta_prod_t ** 0.5 * model_output) / alpha_prod_t ** 0.5
+    next_original_sample = (
+        sample - beta_prod_t**0.5 * model_output
+    ) / alpha_prod_t**0.5
     next_sample_direction = (1 - alpha_prod_t_next) ** 0.5 * model_output
-    next_sample = alpha_prod_t_next ** 0.5 * next_original_sample + next_sample_direction
+    next_sample = (
+        alpha_prod_t_next**0.5 * next_original_sample + next_sample_direction
+    )
     return next_sample
 
 
@@ -88,28 +119,43 @@ def ddim_loop(pipeline, ddim_scheduler, latent, num_inv_steps, prompt):
 
 @torch.no_grad()
 def ddim_inversion(pipeline, ddim_scheduler, video_latent, num_inv_steps, prompt=""):
-    ddim_latents = ddim_loop(pipeline, ddim_scheduler, video_latent, num_inv_steps, prompt)
+    ddim_latents = ddim_loop(
+        pipeline, ddim_scheduler, video_latent, num_inv_steps, prompt
+    )
     return ddim_latents
+
 
 def load_weights(
     animation_pipeline,
     # motion module
-    motion_module_path         = "",
-    motion_module_lora_configs = [],
+    motion_module_path="",
+    motion_module_lora_configs=[],
     # image layers
-    dreambooth_model_path = "",
-    lora_model_path       = "",
-    lora_alpha            = 0.8,
+    dreambooth_model_path="",
+    lora_model_path="",
+    lora_alpha=0.8,
 ):
     # 1.1 motion module
     unet_state_dict = {}
     if motion_module_path != "":
         print(f"load motion module from {motion_module_path}")
         motion_module_state_dict = torch.load(motion_module_path, map_location="cpu")
-        motion_module_state_dict = motion_module_state_dict["state_dict"] if "state_dict" in motion_module_state_dict else motion_module_state_dict
-        unet_state_dict.update({name: param for name, param in motion_module_state_dict.items() if "motion_modules." in name})
-    
-    missing, unexpected = animation_pipeline.unet.load_state_dict(unet_state_dict, strict=False)
+        motion_module_state_dict = (
+            motion_module_state_dict["state_dict"]
+            if "state_dict" in motion_module_state_dict
+            else motion_module_state_dict
+        )
+        unet_state_dict.update(
+            {
+                name: param
+                for name, param in motion_module_state_dict.items()
+                if "motion_modules." in name
+            }
+        )
+
+    missing, unexpected = animation_pipeline.unet.load_state_dict(
+        unet_state_dict, strict=False
+    )
     assert len(unexpected) == 0
     del unet_state_dict
 
@@ -121,18 +167,26 @@ def load_weights(
                 for key in f.keys():
                     dreambooth_state_dict[key] = f.get_tensor(key)
         elif dreambooth_model_path.endswith(".ckpt"):
-            dreambooth_state_dict = torch.load(dreambooth_model_path, map_location="cpu")
-            
+            dreambooth_state_dict = torch.load(
+                dreambooth_model_path, map_location="cpu"
+            )
+
         # 1. vae
-        converted_vae_checkpoint = convert_ldm_vae_checkpoint(dreambooth_state_dict, animation_pipeline.vae.config)
+        converted_vae_checkpoint = convert_ldm_vae_checkpoint(
+            dreambooth_state_dict, animation_pipeline.vae.config
+        )
         animation_pipeline.vae.load_state_dict(converted_vae_checkpoint)
         # 2. unet
-        converted_unet_checkpoint = convert_ldm_unet_checkpoint(dreambooth_state_dict, animation_pipeline.unet.config)
+        converted_unet_checkpoint = convert_ldm_unet_checkpoint(
+            dreambooth_state_dict, animation_pipeline.unet.config
+        )
         animation_pipeline.unet.load_state_dict(converted_unet_checkpoint, strict=False)
         # 3. text_model
-        animation_pipeline.text_encoder = convert_ldm_clip_checkpoint(dreambooth_state_dict)
+        animation_pipeline.text_encoder = convert_ldm_clip_checkpoint(
+            dreambooth_state_dict
+        )
         del dreambooth_state_dict
-        
+
     if lora_model_path != "":
         print(f"load lora model from {lora_model_path}")
         assert lora_model_path.endswith(".safetensors")
@@ -140,18 +194,28 @@ def load_weights(
         with safe_open(lora_model_path, framework="pt", device="cpu") as f:
             for key in f.keys():
                 lora_state_dict[key] = f.get_tensor(key)
-                
-        animation_pipeline = convert_lora(animation_pipeline, lora_state_dict, alpha=lora_alpha)
+
+        animation_pipeline = convert_lora(
+            animation_pipeline, lora_state_dict, alpha=lora_alpha
+        )
         del lora_state_dict
 
-
     for motion_module_lora_config in motion_module_lora_configs:
-        path, alpha = motion_module_lora_config["path"], motion_module_lora_config["alpha"]
+        path, alpha = (
+            motion_module_lora_config["path"],
+            motion_module_lora_config["alpha"],
+        )
         print(f"load motion LoRA from {path}")
 
         motion_lora_state_dict = torch.load(path, map_location="cpu")
-        motion_lora_state_dict = motion_lora_state_dict["state_dict"] if "state_dict" in motion_lora_state_dict else motion_lora_state_dict
+        motion_lora_state_dict = (
+            motion_lora_state_dict["state_dict"]
+            if "state_dict" in motion_lora_state_dict
+            else motion_lora_state_dict
+        )
 
-        animation_pipeline = convert_motion_lora_ckpt_to_diffusers(animation_pipeline, motion_lora_state_dict, alpha)
+        animation_pipeline = convert_motion_lora_ckpt_to_diffusers(
+            animation_pipeline, motion_lora_state_dict, alpha
+        )
 
     return animation_pipeline
