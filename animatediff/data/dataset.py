@@ -1,6 +1,4 @@
 import csv
-import io
-import math
 import os
 import random
 
@@ -8,7 +6,6 @@ import numpy as np
 import torch
 import torchvision.transforms as transforms
 from decord import VideoReader
-from einops import rearrange
 from torch.utils.data.dataset import Dataset
 
 from animatediff.utils.util import zero_rank_print
@@ -105,7 +102,6 @@ class WebVid10M(Dataset):
 
 
 if __name__ == "__main__":
-    from animatediff.utils.util import save_videos_grid
 
     dataset = WebVid10M(
         csv_path="/mnt/petrelfs/guoyuwei/projects/datasets/webvid/results_2M_val.csv",

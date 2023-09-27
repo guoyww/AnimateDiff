@@ -16,11 +16,8 @@
 """ Conversion script for the LoRA's safetensors checkpoints. """
 
 import argparse
-import pdb
 
 import torch
-from diffusers import StableDiffusionPipeline
-from safetensors.torch import load_file
 
 
 def convert_motion_lora_ckpt_to_diffusers(pipeline, state_dict, alpha=1.0):

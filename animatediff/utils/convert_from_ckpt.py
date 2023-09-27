@@ -15,33 +15,17 @@
 """ Conversion script for the Stable Diffusion checkpoints."""
 
 import re
-from io import BytesIO
 from typing import Optional
-
-import requests
 import torch
-from diffusers.models import AutoencoderKL, PriorTransformer, UNet2DConditionModel
 from diffusers.schedulers import (
     DDIMScheduler,
-    DDPMScheduler,
-    DPMSolverMultistepScheduler,
-    EulerAncestralDiscreteScheduler,
-    EulerDiscreteScheduler,
-    HeunDiscreteScheduler,
-    LMSDiscreteScheduler,
-    PNDMScheduler,
-    UnCLIPScheduler,
+    DDPMScheduler
 )
-from diffusers.utils.import_utils import BACKENDS_MAPPING
 from transformers import (
-    AutoFeatureExtractor,
-    BertTokenizerFast,
     CLIPImageProcessor,
     CLIPTextModel,
-    CLIPTextModelWithProjection,
-    CLIPTokenizer,
     CLIPVisionConfig,
-    CLIPVisionModelWithProjection,
+    CLIPVisionModelWithProjection
 )
 
 

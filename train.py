@@ -7,14 +7,11 @@ import os
 import random
 import subprocess
 from pathlib import Path
-from typing import Dict, Optional, Tuple
-
-import diffusers
+from typing import Dict, Tuple
 import torch
 import torch.distributed as dist
 import torch.nn.functional as F
 import torchvision
-import transformers
 import wandb
 from diffusers import AutoencoderKL, DDIMScheduler
 from diffusers.models import UNet2DConditionModel
@@ -24,9 +21,7 @@ from diffusers.utils import check_min_version
 from diffusers.utils.import_utils import is_xformers_available
 from einops import rearrange
 from omegaconf import OmegaConf
-from safetensors import safe_open
 from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.optim.swa_utils import AveragedModel
 from torch.utils.data.distributed import DistributedSampler
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer

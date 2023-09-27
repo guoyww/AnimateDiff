@@ -2,13 +2,11 @@
 
 import json
 import os
-import pdb
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Union
 
 import torch
 import torch.nn as nn
-import torch.utils.checkpoint
 from diffusers.configuration_utils import ConfigMixin, register_to_config
 from diffusers.modeling_utils import ModelMixin
 from diffusers.models.embeddings import TimestepEmbedding, Timesteps

@@ -1,11 +1,9 @@
 # Adapted from https://github.com/huggingface/diffusers/blob/main/src/diffusers/models/attention.py
 
-import pdb
 from dataclasses import dataclass
 from typing import Optional
 
 import torch
-import torch.nn.functional as F
 from diffusers.configuration_utils import ConfigMixin, register_to_config
 from diffusers.modeling_utils import ModelMixin
 from diffusers.models.attention import AdaLayerNorm, CrossAttention, FeedForward
