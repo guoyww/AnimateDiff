@@ -2,7 +2,7 @@ import math
 from dataclasses import dataclass
 import torch
 import torch.nn.functional as F
-from diffusers.models.attention import CrossAttention, FeedForward
+from diffusers.models.attention import Attention, FeedForward
 from diffusers.utils import BaseOutput
 from diffusers.utils.import_utils import is_xformers_available
 from einops import rearrange, repeat
@@ -273,7 +273,7 @@ class PositionalEncoding(nn.Module):
         return self.dropout(x)
 
 
-class VersatileAttention(CrossAttention):
+class VersatileAttention(Attention):
     def __init__(
         self,
         attention_mode=None,

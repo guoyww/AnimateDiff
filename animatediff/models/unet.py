@@ -8,7 +8,7 @@ from typing import List, Optional, Tuple, Union
 import torch
 import torch.nn as nn
 from diffusers.configuration_utils import ConfigMixin, register_to_config
-from diffusers.modeling_utils import ModelMixin
+from diffusers.models import ModelMixin
 from diffusers.models.embeddings import TimestepEmbedding, Timesteps
 from diffusers.utils import BaseOutput, logging
 

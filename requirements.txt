@@ -1,0 +1,12 @@
+torch==2.0.1
+torchvision==0.15.2
+torchaudio==2.0.2
+"diffusers[torch]==0.20.1"
+transformers==4.25.1
+einops==0.6.1
+omegaconf==2.3.0
+safetensors==0.3.1
+"imageio[pyav,ffmpeg]==2.27.0"
+triton==2.0.0
+xformers==0.0.21
+decord==0.6.0
