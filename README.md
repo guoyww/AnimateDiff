@@ -103,8 +103,8 @@ Bo Dai
   | v2_lora_ZoomOut.ckpt                 | 19 M      | 74 MB         |
   | v2_lora_PanLeft.ckpt                 | 19 M      | 74 MB         |
   | v2_lora_PanRight.ckpt                | 19 M      | 74 MB         |
-  | v2_lora_PanUp.ckpt                   | 19 M      | 74 MB         |
-  | v2_lora_PanDown.ckpt                 | 19 M      | 74 MB         |
+  | v2_lora_TiltUp.ckpt                   | 19 M      | 74 MB         |
+  | v2_lora_TiltDown.ckpt                 | 19 M      | 74 MB         |
   | v2_lora_RollingClockwise.ckpt        | 19 M      | 74 MB         |
   | v2_lora_RollingAnticlockwise.ckpt    | 19 M      | 74 MB         |
 
