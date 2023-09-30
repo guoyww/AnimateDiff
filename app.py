@@ -50,11 +50,11 @@ class AnimateController:
         self.savedir_sample         = os.path.join(self.savedir, "sample")
         os.makedirs(self.savedir, exist_ok=True)
 
-        self.stable_diffusion_list   = []
+        self.stable_diffusion_list   = ["stabilityai/stable-diffusion-2-1-base", "runwayml/stable-diffusion-v1-5"]
         self.motion_module_list      = []
         self.personalized_model_list = []
         
-        self.refresh_stable_diffusion()
+        # self.refresh_stable_diffusion()
         self.refresh_motion_module()
         self.refresh_personalized_model()
         
@@ -66,10 +66,10 @@ class AnimateController:
         self.pipeline              = None
         self.lora_model_state_dict = {}
         
-        self.inference_config      = OmegaConf.load("configs/inference/inference.yaml")
+        self.inference_config      = OmegaConf.load("configs/inference/inference-v1-app.yaml")
 
-    def refresh_stable_diffusion(self):
-        self.stable_diffusion_list = glob(os.path.join(self.stable_diffusion_dir, "*/"))
+    # def refresh_stable_diffusion(self):
+    #     self.stable_diffusion_list = glob(f"{self.stable_diffusion_dir}/*.ckpt")
 
     def refresh_motion_module(self):
         motion_module_list = glob(os.path.join(self.motion_module_dir, "*.ckpt"))
@@ -80,6 +80,27 @@ class AnimateController:
         self.personalized_model_list = [os.path.basename(p) for p in personalized_model_list]
 
     def update_stable_diffusion(self, stable_diffusion_dropdown):
+        # stable_diffusion_dropdown = "runwayml/stable-diffusion-v1-5"
+        print(f"model --> {stable_diffusion_dropdown}")
+        # if stable_diffusion_dropdown is None:
+        #     # Handle the error appropriately. You might want to log an error message, return, raise a custom error, etc.
+        #     raise ValueError("stable_diffusion_dropdown cannot be None.")
+
+        # tokenizer_path = os.path.join(self.stable_diffusion_dir, "tokenizer")
+        # if not os.path.exists(tokenizer_path):
+        #     raise ValueError(f"Tokenizer directory {tokenizer_path} does not exist.")
+        
+        # if not os.path.exists(os.path.join(self.stable_diffusion_dir, "text_encoder")):
+        #     raise ValueError(f"text_encoder directory  does not exist.")
+
+        # if not os.path.exists(os.path.join(self.stable_diffusion_dir, "unet")):
+        #     raise ValueError(f"unet directory  does not exist.")
+
+        # if not os.path.exists(os.path.join(self.stable_diffusion_dir, "vae")):
+        #     raise ValueError(f"vae directory  does not exist.")
+                 
+        # print(f"{stable_diffusion_dropdown}")
+        
         self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dropdown, subfolder="tokenizer")
         self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dropdown, subfolder="text_encoder").cuda()
         self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dropdown, subfolder="vae").cuda()
@@ -217,16 +238,22 @@ def ui():
                 """
             )
             with gr.Row():
+                # stable_diffusion_dropdown = gr.Dropdown(
+                #     label="Pretrained Model Path",
+                #     choices=controller.stable_diffusion_list,
+                #     interactive=True,
+                # )
                 stable_diffusion_dropdown = gr.Dropdown(
                     label="Pretrained Model Path",
                     choices=controller.stable_diffusion_list,
+                    value=controller.stable_diffusion_list[0] if controller.stable_diffusion_list else None,
                     interactive=True,
                 )
                 stable_diffusion_dropdown.change(fn=controller.update_stable_diffusion, inputs=[stable_diffusion_dropdown], outputs=[stable_diffusion_dropdown])
                 
                 stable_diffusion_refresh_button = gr.Button(value="\U0001F503", elem_classes="toolbutton")
                 def update_stable_diffusion():
-                    controller.refresh_stable_diffusion()
+                    # controller.refresh_stable_diffusion()
                     return gr.Dropdown.update(choices=controller.stable_diffusion_list)
                 stable_diffusion_refresh_button.click(fn=update_stable_diffusion, inputs=[], outputs=[stable_diffusion_dropdown])
 
@@ -234,6 +261,7 @@ def ui():
                 motion_module_dropdown = gr.Dropdown(
                     label="Select motion module",
                     choices=controller.motion_module_list,
+                    value=controller.motion_module_list[0] if controller.motion_module_list else None,
                     interactive=True,
                 )
                 motion_module_dropdown.change(fn=controller.update_motion_module, inputs=[motion_module_dropdown], outputs=[motion_module_dropdown])
@@ -325,4 +353,4 @@ def ui():
 
 if __name__ == "__main__":
     demo = ui()
-    demo.launch(share=True)
+    demo.launch(share=False)
