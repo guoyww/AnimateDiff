@@ -94,13 +94,13 @@ ZoomIn:
 
 
 
-# PanUp:
+# TiltUp:
 #   inference_config: "configs/inference/inference-v2.yaml"
 #   motion_module:
 #     - "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
 #   motion_module_lora_configs:
-#     - path:  "models/MotionLoRA/v2_lora_PanUp.ckpt"
+#     - path:  "models/MotionLoRA/v2_lora_TiltUp.ckpt"
 #       alpha: 1.0
 
 #   dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
@@ -118,13 +118,13 @@ ZoomIn:
 
 
 
-PanDown:
+TiltDown:
   inference_config: "configs/inference/inference-v2.yaml"
   motion_module:
     - "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
-    - path:  "models/MotionLoRA/v2_lora_PanDown.ckpt"
+    - path:  "models/MotionLoRA/v2_lora_TiltDown.ckpt"
       alpha: 1.0
 
   dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
