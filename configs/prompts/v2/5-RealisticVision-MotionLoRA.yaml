@@ -22,27 +22,27 @@ ZoomIn:
 
 
 
-# ZoomOut:
-#   inference_config: "configs/inference/inference-v2.yaml"
-#   motion_module:
-#     - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+ZoomOut:
+  inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:
+    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
-#   motion_module_lora_configs:
-#     - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
-#       alpha: 1.0
+  motion_module_lora_configs:
+    - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
+      alpha: 1.0
 
-#   dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
-#   lora_model_path: ""
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  lora_model_path: ""
 
-#   seed:           45987230
-#   steps:          25
-#   guidance_scale: 7.5
+  seed:           45987230
+  steps:          25
+  guidance_scale: 7.5
 
-#   prompt:
-#     - "photo of coastline, rocks, storm weather, wind, waves, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+  prompt:
+    - "photo of coastline, rocks, storm weather, wind, waves, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
 
-#   n_prompt:
-#     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
+  n_prompt:
+    - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
 

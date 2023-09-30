@@ -46,15 +46,15 @@ class AnimateController:
         self.stable_diffusion_dir   = os.path.join(self.basedir, "models", "StableDiffusion")
         self.motion_module_dir      = os.path.join(self.basedir, "models", "Motion_Module")
         self.personalized_model_dir = os.path.join(self.basedir, "models", "DreamBooth_LoRA")
-        self.savedir                = os.path.join(self.basedir, "samples", datetime.now().strftime("Gradio-%Y-%m-%dT%H-%M-%S"))
+        self.savedir                = os.path.join(self.basedir, "samples", datetime.now().strftime("animate-%Y-%m-%dT%H-%M-%S"))
         self.savedir_sample         = os.path.join(self.savedir, "sample")
         os.makedirs(self.savedir, exist_ok=True)
 
-        self.stable_diffusion_list   = ["stabilityai/stable-diffusion-2-1-base", "runwayml/stable-diffusion-v1-5"]
+        self.stable_diffusion_list   = []
         self.motion_module_list      = []
         self.personalized_model_list = []
         
-        # self.refresh_stable_diffusion()
+        self.refresh_stable_diffusion()
         self.refresh_motion_module()
         self.refresh_personalized_model()
         
@@ -68,8 +68,8 @@ class AnimateController:
         
         self.inference_config      = OmegaConf.load("configs/inference/inference-v1-app.yaml")
 
-    # def refresh_stable_diffusion(self):
-    #     self.stable_diffusion_list = glob(f"{self.stable_diffusion_dir}/*.ckpt")
+    def refresh_stable_diffusion(self):
+        self.stable_diffusion_list = glob(f"{self.stable_diffusion_dir}/*.ckpt")
 
     def refresh_motion_module(self):
         motion_module_list = glob(os.path.join(self.motion_module_dir, "*.ckpt"))
@@ -100,11 +100,12 @@ class AnimateController:
         #     raise ValueError(f"vae directory  does not exist.")
                  
         # print(f"{stable_diffusion_dropdown}")
+        stable_diffusion_dir = os.path.dirname(stable_diffusion_dropdown)
         
-        self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dropdown, subfolder="tokenizer")
-        self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dropdown, subfolder="text_encoder").cuda()
-        self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dropdown, subfolder="vae").cuda()
-        self.unet = UNet3DConditionModel.from_pretrained_2d(stable_diffusion_dropdown, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(self.inference_config.unet_additional_kwargs)).cuda()
+        self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dir, subfolder="tokenizer")
+        self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dir, subfolder="text_encoder").cuda()
+        self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dir, subfolder="vae").cuda()
+        self.unet = UNet3DConditionModel.from_pretrained_2d(stable_diffusion_dir, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(self.inference_config.unet_additional_kwargs)).cuda()
         return gr.Dropdown.update()
 
     def update_motion_module(self, motion_module_dropdown):
@@ -123,6 +124,7 @@ class AnimateController:
             gr.Info(f"Please select a pretrained model path.")
             return gr.Dropdown.update(value=None)
         else:
+            print(f"{self.personalized_model_dir}, {base_model_dropdown}")
             base_model_dropdown = os.path.join(self.personalized_model_dir, base_model_dropdown)
             base_model_state_dict = {}
             with safe_open(base_model_dropdown, framework="pt", device="cpu") as f:
@@ -187,6 +189,7 @@ class AnimateController:
         else: torch.seed()
         seed = torch.initial_seed()
         
+        print(f"prompt: {prompt_textbox}")
         sample = pipeline(
             prompt_textbox,
             negative_prompt     = negative_prompt_textbox,
@@ -196,6 +199,9 @@ class AnimateController:
             height              = height_slider,
             video_length        = length_slider,
         ).videos
+
+        # samples = torch.concat(samples)
+        # save_videos_grid(samples, f"{savedir}/sample.gif", n_rows=4)
 
         save_sample_path = os.path.join(self.savedir_sample, f"{sample_idx}.mp4")
         save_videos_grid(sample, save_sample_path)
@@ -253,7 +259,7 @@ def ui():
                 
                 stable_diffusion_refresh_button = gr.Button(value="\U0001F503", elem_classes="toolbutton")
                 def update_stable_diffusion():
-                    # controller.refresh_stable_diffusion()
+                    controller.refresh_stable_diffusion()
                     return gr.Dropdown.update(choices=controller.stable_diffusion_list)
                 stable_diffusion_refresh_button.click(fn=update_stable_diffusion, inputs=[], outputs=[stable_diffusion_dropdown])
 
