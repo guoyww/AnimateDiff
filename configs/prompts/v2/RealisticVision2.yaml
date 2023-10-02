@@ -3,9 +3,9 @@ PanRight:
   motion_module:
     - "models/Motion_Module/animatediffMotion_v15V2.ckpt"
 
-  motion_module_lora_configs:
-    - path:  "models/MotionLoRA/v2_lora_PanLeft.ckpt"
-      alpha: 1.0
+  # motion_module_lora_configs:
+  #   - path:  "models/MotionLoRA/v2_lora_PanLeft.ckpt"
+  #     alpha: 1.0
 
   # dreambooth_path: "/content/drive/MyDrive/AI/sd/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
   # lora_model_path: ""

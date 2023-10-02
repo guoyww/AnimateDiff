@@ -140,7 +140,7 @@ if __name__ == "__main__":
         default="models/StableDiffusion",
     )
     parser.add_argument(
-        "--inference_config", type=str, default="configs/inference/inference-v1.yaml"
+        "--inference_config", type=str, default="configs/inference/inference-v2.yaml"
     )
     parser.add_argument("--config", type=str, required=True)
 
