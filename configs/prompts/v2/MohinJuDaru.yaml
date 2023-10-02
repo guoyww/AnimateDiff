@@ -5,10 +5,10 @@ PanRight:
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
-      alpha: 0.4
+      alpha: 1.0
 
-  # dreambooth_path: "/content/drive/MyDrive/AI/sd/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
-  # lora_model_path: ""
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  lora_model_path: ""
 
   seed:           45987230
   steps:          25
