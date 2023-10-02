@@ -6,7 +6,7 @@ from omegaconf import OmegaConf
 
 import torch
 
-import diffusers
+from tokenizers import Tokenizer
 from diffusers import AutoencoderKL, DDIMScheduler
 
 from tqdm.auto import tqdm
@@ -100,7 +100,7 @@ def main_single(args):
             ).to("cuda")
 
             # pipeline.enable_xformers_memory_efficient_attention()
-            # pipeline.enable_sequential_cpu_offload()
+            # pipeline.enable_cpu_offload()
 
             pipeline = load_weights(
                 pipeline,
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--config", type=str, required=True)
 
-    parser.add_argument("--L", type=int, default=8)
+    parser.add_argument("--L", type=int, default=16)
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
 
