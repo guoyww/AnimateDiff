@@ -3,14 +3,14 @@ PanRight:
   motion_module:
     - "models/Motion_Module/animatediffMotion_v15V2.ckpt"
 
-  motion_module_lora_configs:
-    - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
-      alpha: 1.0
+  # motion_module_lora_configs:
+  #   - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
+  #     alpha: 1.0
 
   dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
 
-  seed:           45987230
+  seed:           2139261157
   steps:          25
   guidance_scale: 7.5
 
