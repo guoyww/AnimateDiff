@@ -48,7 +48,7 @@ MarkupSafe==2.1.2
 matplotlib==3.8.0
 mpmath==1.3.0
 networkx==3.0
-numpy==1.24.1
+numpy
 omegaconf==2.3.0
 orjson==3.9.7
 packaging==23.1
@@ -82,9 +82,9 @@ starlette==0.27.0
 sympy==1.12
 tokenizers==0.13.3
 toolz==0.12.0
-torch==2.0.1+cu117
-torchaudio==2.0.2+cu117
-torchvision==0.15.2+cu117
+torch
+torchaudio
+torchvision
 tqdm==4.66.1
 transformers==4.25.1
 # triton @ https://huggingface.co/r4ziel/xformers_pre_built/resolve/main/triton-2.0.0-cp310-cp310-win_amd64.whl#sha256=91a6ec395022743269c942df7af01b210f642fb633d146a811be05a455adbae2
