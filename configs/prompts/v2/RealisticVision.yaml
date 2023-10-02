@@ -7,7 +7,7 @@ PanRight:
     - path:  "models/MotionLoRA/v2_lora_PanRight.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "/content/drive/MyDrive/AI/sd/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
   lora_model_path: ""
 
   seed:           45987230
