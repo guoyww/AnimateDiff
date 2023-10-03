@@ -1,4 +1,4 @@
-PanRight:
+RealisticVision:
   inference_config: "configs/inference/inference-v2.yaml"
   motion_module:
     - "models/Motion_Module/temporaldiffMotion_v10.ckpt"
