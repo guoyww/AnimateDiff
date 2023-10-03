@@ -8,4 +8,4 @@
 
 ### How to 
 - use .env 
-- 
+- check https://education.civitai.com/beginners-guide-to-animatediff/
