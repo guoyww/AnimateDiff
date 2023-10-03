@@ -7,7 +7,7 @@ ZoomIn:
     - path:  "models/MotionLoRA/v2_lora_ZoomIn.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -31,7 +31,7 @@ ZoomOut:
     - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -127,7 +127,7 @@ TiltDown:
     - path:  "models/MotionLoRA/v2_lora_TiltDown.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -151,7 +151,7 @@ RollingAnticlockwise:
     - path:  "models/MotionLoRA/v2_lora_RollingAnticlockwise.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -175,7 +175,7 @@ RollingClockwise:
     - path:  "models/MotionLoRA/v2_lora_RollingClockwise.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
 
   seed:           45987230
