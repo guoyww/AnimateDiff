@@ -32,8 +32,7 @@ def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,g
         guidance_scale=model_config.guidance_scale,
         width=args.W,
         height=args.H,
-        video_length=args.L,
-        
+        video_length=args.L        
     ).videos
     samples.append(sample)
     save_videos_grid(sample, f"{savedir}/sample/{gif_name}.gif")
@@ -116,6 +115,7 @@ def main_single(args):
             
 
             process_samples(
+                    init_image=None,
                     samples=samples,
                     pipeline=pipeline,
                     n_prompt=n_prompt,
