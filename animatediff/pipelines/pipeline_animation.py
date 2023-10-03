@@ -3,6 +3,7 @@
 import inspect
 from typing import Callable, List, Optional, Union
 from dataclasses import dataclass
+import PIL
 
 import numpy as np
 import torch
@@ -28,6 +29,8 @@ from diffusers.utils import deprecate, logging, BaseOutput
 from einops import rearrange
 
 from ..models.unet import UNet3DConditionModel
+
+from ..utils.util import preprocess_image
 
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
@@ -283,13 +286,32 @@ class AnimationPipeline(DiffusionPipeline):
                 f" {type(callback_steps)}."
             )
 
-    def prepare_latents(self, batch_size, num_channels_latents, video_length, height, width, dtype, device, generator, latents=None):
+    def prepare_latents(self,init_image, batch_size, num_channels_latents, video_length, height, width, dtype, device, generator, latents=None):
         shape = (batch_size, num_channels_latents, video_length, height // self.vae_scale_factor, width // self.vae_scale_factor)
         if isinstance(generator, list) and len(generator) != batch_size:
             raise ValueError(
                 f"You have passed a list of generators of length {len(generator)}, but requested an effective batch"
                 f" size of {batch_size}. Make sure the batch size matches the length of the generators."
             )
+            
+        if init_image is not None:
+            image = PIL.Image.open(init_image)
+            image = preprocess_image(image)
+            if not isinstance(image, (torch.Tensor, PIL.Image.Image, list)):
+                raise ValueError(
+                    f"`image` has to be of type `torch.Tensor`, `PIL.Image.Image` or list but is {type(image)}"
+                )
+            image = image.to(device=device, dtype=dtype)
+            if isinstance(generator, list):
+                init_latents = [
+                    self.vae.encode(image[i : i + 1]).latent_dist.sample(generator[i]) for i in range(batch_size)
+                ]
+                init_latents = torch.cat(init_latents, dim=0)
+            else:
+                init_latents = self.vae.encode(image).latent_dist.sample(generator)
+        else:
+            init_latents = None
+            
         if latents is None:
             rand_device = "cpu" if device.type == "mps" else device
 

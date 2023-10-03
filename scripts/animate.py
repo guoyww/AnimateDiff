@@ -22,7 +22,7 @@ import math
 from pathlib import Path
 
 
-def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,gif_name):
+def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,gif_name, init_image):
     print(f"current seed: {torch.initial_seed()}")
     print(f"sampling {prompt} ...")
     sample = pipeline(
@@ -33,6 +33,7 @@ def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,g
         width=args.W,
         height=args.H,
         video_length=args.L,
+        
     ).videos
     samples.append(sample)
     save_videos_grid(sample, f"{savedir}/sample/{gif_name}.gif")
@@ -53,7 +54,7 @@ def main_single(args):
         print(f"config key {config_key}")
         prompt = model_config.get("prompt",  args.inference_config)[0]
         n_prompt = model_config.get("n_prompt",  args.inference_config)[0]
-        
+        init_image   = model_config.init_image if hasattr(model_config, 'init_image') else None
         motion_modules = model_config.motion_module
         motion_modules = (
             [motion_modules]
@@ -89,7 +90,7 @@ def main_single(args):
             else:
                 assert False
 
-            pipeline = AnimationPipeline(
+            animated_pipeline = AnimationPipeline(
                 vae=vae,
                 text_encoder=text_encoder,
                 tokenizer=tokenizer,
@@ -101,7 +102,7 @@ def main_single(args):
             # pipeline.enable_cpu_offload()
 
             pipeline = load_weights(
-                pipeline,
+                animated_pipeline,
                 # motion module
                 motion_module_path=motion_module,
                 motion_module_lora_configs=model_config.get(
