@@ -1,7 +1,7 @@
 RealisticVision:
   inference_config: "configs/inference/inference-v1.yaml"
   motion_module:
-    - "models/Motion_Module/temporaldiffMotion_v10.ckpt"
+    - "models/Motion_Module/animatediffMotion_v15V2.ckpt"
 
   # motion_module_lora_configs:
   #   - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
