@@ -1,5 +1,5 @@
 RealisticVision:
-  inference_config: "configs/inference/inference-v2.yaml"
+  inference_config: "configs/inference/inference-v1.yaml"
   motion_module:
     - "models/Motion_Module/mm_sd_v15.ckpt"
 
