@@ -3,9 +3,9 @@ RollingAnticlockwise:
   motion_module:
     - "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
-  # motion_module_lora_configs:
-  #   - path:  "models/MotionLoRA/v2_lora_RollingAnticlockwise.ckpt"
-  #     alpha: 1.0
+  motion_module_lora_configs:
+    - path:  "models/MotionLoRA/v2_lora_PanRight.ckpt"
+      alpha: 1.0
 
   dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
   lora_model_path: ""
