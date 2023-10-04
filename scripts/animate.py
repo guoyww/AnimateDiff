@@ -7,7 +7,7 @@ from omegaconf import OmegaConf
 import torch
 
 from tokenizers import Tokenizer
-from diffusers import AutoencoderKL, HeunDiscreteScheduler
+from diffusers import AutoencoderKL, EulerDiscreteScheduler
 
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
@@ -104,7 +104,7 @@ def main_single(args):
                 text_encoder=text_encoder,
                 tokenizer=tokenizer,
                 unet=unet,
-                scheduler=HeunDiscreteScheduler()
+                scheduler=EulerDiscreteScheduler()
             ).to("cuda")
 
             # pipeline.enable_xformers_memory_efficient_attention()
