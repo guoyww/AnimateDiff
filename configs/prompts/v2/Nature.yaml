@@ -1,4 +1,4 @@
-RollingAnticlockwise:
+Nature:
   inference_config: "configs/inference/inference-v2.yaml"
   motion_module:
     - "models/Motion_Module/mm_sd_v15_v2.ckpt"

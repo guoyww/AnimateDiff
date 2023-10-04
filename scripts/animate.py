@@ -53,6 +53,7 @@ def main_single(args):
     config = OmegaConf.load(args.config)
     samples = []
     print(f"pre-trained model {args.pretrained_model_path}")
+    init_image=args.init_image
         
     for model_idx, (config_key, model_config) in enumerate(list(config.items())):
         print(f"config key {config_key}")
@@ -62,7 +63,7 @@ def main_single(args):
             prompt = args.prompt
         n_prompt = model_config.get("n_prompt",  args.inference_config)[0]
         
-        init_image   = model_config.init_image if hasattr(model_config, 'init_image') else None
+        # init_image   = model_config.init_image if hasattr(model_config, 'init_image') else None
         motion_modules = model_config.motion_module
         motion_modules = (
             [motion_modules]
@@ -122,9 +123,9 @@ def main_single(args):
                 lora_alpha=model_config.get("lora_alpha", 0.8),
             ).to("cuda")
             
-
+            print(f"init_image: {init_image}")
             process_samples(
-                    init_image=None,
+                    init_image=init_image,
                     samples=samples,
                     pipeline=pipeline,
                     n_prompt=n_prompt,
@@ -158,6 +159,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int)
     parser.add_argument("--guidance_scale", type=float)
     parser.add_argument("--prompt", type=str)
+    parser.add_argument("--init_image", type=str)
     
     parser.add_argument("--L", type=int, default=16)
     parser.add_argument("--W", type=int, default=512)
