@@ -24,7 +24,7 @@ import math
 from pathlib import Path
 
 
-def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,gif_name, init_image):
+def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,gif_name, guidance_scale=7.5, init_image=None):
     print(f"current seed: {torch.initial_seed()}")
     print(f"sampling {prompt} ...")
     print(f"init_image {init_image}")
@@ -32,7 +32,7 @@ def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,g
         prompt,
         negative_prompt=n_prompt,
         num_inference_steps=model_config.steps,
-        guidance_scale=model_config.guidance_scale,
+        guidance_scale=guidance_scale,
         width=args.W,
         height=args.H,
         video_length=args.L,   
@@ -132,6 +132,7 @@ def main_single(args):
                     prompt=prompt,
                     model_config=model_config,
                     savedir=savedir,
+                    guidance_scale=args.guidance_scale,
                     gif_name=gif_name
             )
 

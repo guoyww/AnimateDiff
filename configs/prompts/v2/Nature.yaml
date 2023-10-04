@@ -12,7 +12,7 @@ Nature:
 
   seed:           45987230
   steps:          20
-  guidance_scale: 5
+  guidance_scale: 0
 
   prompt:
     - "photo of stunning mountain peak in Himalayas,award winning photo, national geography photo, best photo, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
