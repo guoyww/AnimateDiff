@@ -33,6 +33,7 @@
 # !wget https://civitai.com/api/download/models/160418 -P models/Motion_Module/ --content-disposition --no-check-certificate
 # gem motion
 # !wget https://civitai.com/api/download/models/126394 -P models/Motion_Module/ --content-disposition --no-check-certificate
+# !wget https://civitai.com/api/download/models/48171 -P models/DreamBooth_LoRA/  --content-disposition --no-check-certificate
 # !gdown 1h-yMX6HfR4ChljyiEPG1Ts9pSbI9sYfy -O models/Motion_Module/
 ```
 

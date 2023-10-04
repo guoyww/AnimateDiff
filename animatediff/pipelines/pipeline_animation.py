@@ -296,8 +296,8 @@ class AnimationPipeline(DiffusionPipeline):
             )
             
         if init_image is not None:
-            # image = PIL.Image.open(init_image)
-            image = load_image(init_image)
+            image = PIL.Image.open(init_image)
+            # image = load_image(init_image)
             print(f"init_image path: {init_image}")
             image = preprocess_image(image)
             if not isinstance(image, (torch.Tensor, PIL.Image.Image, list)):
@@ -314,7 +314,7 @@ class AnimationPipeline(DiffusionPipeline):
                 init_latents = self.vae.encode(image).latent_dist.sample(generator)
         else:
             init_latents = None
-            
+        
         if latents is None:
             rand_device = "cpu" if device.type == "mps" else device
 

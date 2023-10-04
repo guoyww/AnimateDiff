@@ -15,6 +15,8 @@ from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora,
 
 from diffusers.utils import PIL_INTERPOLATION
 
+import transformers, diffusers
+
 import PIL.Image
 import PIL.ImageOps
 
@@ -96,6 +98,12 @@ def ddim_inversion(pipeline, ddim_scheduler, video_latent, num_inv_steps, prompt
     return ddim_latents
 
 def preprocess_image(image):
+    # image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224-in21k")
+    # model = ViTModel.from_pretrained("google/vit-base-patch16-224-in21k")
+    # inputs = image_processor(image, return_tensors="pt")
+    # image_processor= image_processor.VaeImageProcessor()
+    # return image_processor.preprocess(image)
+     
     if isinstance(image, torch.Tensor):
         return image
     elif isinstance(image, PIL.Image.Image):
