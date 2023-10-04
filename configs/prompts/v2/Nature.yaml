@@ -18,4 +18,4 @@ RollingAnticlockwise:
     - "photo of stunning mountain peak in Himalayas,award winning photo, national geography photo, best photo, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
 
   n_prompt:
-    - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured"
+    - "(((low resolution))), (low quality), blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured"
