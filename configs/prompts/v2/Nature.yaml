@@ -11,11 +11,11 @@ RollingAnticlockwise:
   lora_model_path: ""
 
   seed:           45987230
-  steps:          25
-  guidance_scale: 7.5
+  steps:          20
+  guidance_scale: 5
 
   prompt:
-    - "photo of coastline, rocks, storm weather, wind, waves, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+    - "photo of stunning mountain peak in Himalayas, storm weather, wind, waves, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
 
   n_prompt:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
