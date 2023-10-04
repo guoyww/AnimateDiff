@@ -21,6 +21,8 @@
 ```
 # !bash download_bashscripts/0-MotionModule.sh
 # !wget https://civitai.com/api/download/models/159987 -P models/Motion_Module/ --content-disposition --no-check-certificate
+# 
+# !wget https://civitai.com/api/download/models/130072 -P models/Motion_Module/ --content-disposition --no-check-certificate 
 ```
 
 ### v2 required models

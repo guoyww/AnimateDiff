@@ -151,6 +151,10 @@ if __name__ == "__main__":
     )
     parser.add_argument("--config", type=str, required=True)
 
+    parser.add_argument("--seed", type=int)
+    parser.add_argument("--guidance_scale", type=float)
+    parser.add_argument("--prompt", type=str)
+    
     parser.add_argument("--L", type=int, default=16)
     parser.add_argument("--W", type=int, default=512)
     parser.add_argument("--H", type=int, default=512)
