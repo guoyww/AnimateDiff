@@ -286,7 +286,7 @@ class AnimationPipeline(DiffusionPipeline):
                 f" {type(callback_steps)}."
             )
 
-    def prepare_latents(self,init_image, batch_size, num_channels_latents, video_length, height, width, dtype, device, generator, latents=None):
+    def prepare_latents(self,init_image=None, batch_size=2, num_channels_latents=None, video_length=8, height=512, width=512, dtype=None, device="cuda", generator=None, latents=None):
         shape = (batch_size, num_channels_latents, video_length, height // self.vae_scale_factor, width // self.vae_scale_factor)
         if isinstance(generator, list) and len(generator) != batch_size:
             raise ValueError(
@@ -352,6 +352,7 @@ class AnimationPipeline(DiffusionPipeline):
         return_dict: bool = True,
         callback: Optional[Callable[[int, int, torch.FloatTensor], None]] = None,
         callback_steps: Optional[int] = 1,
+        init_image: str = None,
         **kwargs,
     ):
         # Default height and width to unet
@@ -390,6 +391,7 @@ class AnimationPipeline(DiffusionPipeline):
         # Prepare latent variables
         num_channels_latents = self.unet.in_channels
         latents = self.prepare_latents(
+            init_image,
             batch_size * num_videos_per_prompt,
             num_channels_latents,
             video_length,
@@ -398,7 +400,7 @@ class AnimationPipeline(DiffusionPipeline):
             text_embeddings.dtype,
             device,
             generator,
-            latents,
+            latents
         )
         latents_dtype = latents.dtype
 

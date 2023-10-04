@@ -18,6 +18,8 @@ from animatediff.utils.util import save_videos_grid
 from animatediff.utils.util import load_weights
 from diffusers.utils.import_utils import is_xformers_available
 
+import shutil
+
 import math
 from pathlib import Path
 
@@ -25,6 +27,7 @@ from pathlib import Path
 def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,gif_name, init_image):
     print(f"current seed: {torch.initial_seed()}")
     print(f"sampling {prompt} ...")
+    print(f"init_image {init_image}")
     sample = pipeline(
         prompt,
         negative_prompt=n_prompt,
@@ -32,10 +35,12 @@ def process_samples(samples, pipeline, n_prompt, prompt, model_config, savedir,g
         guidance_scale=model_config.guidance_scale,
         width=args.W,
         height=args.H,
-        video_length=args.L        
+        video_length=args.L,   
+        init_image=init_image     
     ).videos
     samples.append(sample)
     save_videos_grid(sample, f"{savedir}/sample/{gif_name}.gif")
+
 
 def main_single(args):
     *_, func_args = inspect.getargvalues(inspect.currentframe())
@@ -129,7 +134,10 @@ def main_single(args):
     save_videos_grid(samples, f"{savedir}/sample.mp4", n_rows=4)
 
     OmegaConf.save(config, f"{savedir}/config.yaml")
-  
+
+    if init_image is not None:
+        shutil.copy(init_image, f"{savedir}/init_image.jpg")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
