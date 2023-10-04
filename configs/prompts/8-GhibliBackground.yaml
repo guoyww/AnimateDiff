@@ -10,7 +10,7 @@ GhibliBackground:
 
   seed:           [8775748474469046618]
   steps:          21
-  guidance_scale: 7.5
+  guidance_scale: 1
 
   prompt:
     - "A far away view of a (stone and wood walled castle ) on a mountain with snow peak during sunset light, (autumn:1.8), stunning apricot trees meadow, Altit Fort Hunza,  stones in ground,  blue and cloudy sky,  stones, stone pathway, Karakoram village, beautiful tree rows,  4k, 3d, cinematic dawn light effect,  extremely detailed, art in the style of andreas rocha and studio ghibli"
