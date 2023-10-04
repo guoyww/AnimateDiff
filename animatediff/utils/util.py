@@ -13,6 +13,8 @@ from einops import rearrange
 from animatediff.utils.convert_from_ckpt import convert_ldm_unet_checkpoint, convert_ldm_clip_checkpoint, convert_ldm_vae_checkpoint
 from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora, convert_motion_lora_ckpt_to_diffusers
 
+from diffusers.utils import PIL_INTERPOLATION
+
 import PIL.Image
 import PIL.ImageOps
 

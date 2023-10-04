@@ -32,6 +32,7 @@ from ..models.unet import UNet3DConditionModel
 
 from ..utils.util import preprocess_image
 
+from diffusers.utils import load_image
 
 logger = logging.get_logger(__name__)  # pylint: disable=invalid-name
 
@@ -295,7 +296,9 @@ class AnimationPipeline(DiffusionPipeline):
             )
             
         if init_image is not None:
-            image = PIL.Image.open(init_image)
+            # image = PIL.Image.open(init_image)
+            image = load_image(init_image)
+            print(f"init_image path: {init_image}")
             image = preprocess_image(image)
             if not isinstance(image, (torch.Tensor, PIL.Image.Image, list)):
                 raise ValueError(
