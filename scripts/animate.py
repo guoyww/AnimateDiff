@@ -53,15 +53,15 @@ def main_single(args):
     config = OmegaConf.load(args.config)
     samples = []
     print(f"pre-trained model {args.pretrained_model_path}")
-    
-    prompt = args.prompt
-    if args.prompt is None:
-        prompt = model_config.get("prompt",  args.inference_config)[0]
-    
+        
     for model_idx, (config_key, model_config) in enumerate(list(config.items())):
         print(f"config key {config_key}")
-    
+        if args.prompt is None:
+            prompt = model_config.get("prompt",  args.inference_config)[0]
+        else:
+            prompt = args.prompt
         n_prompt = model_config.get("n_prompt",  args.inference_config)[0]
+        
         init_image   = model_config.init_image if hasattr(model_config, 'init_image') else None
         motion_modules = model_config.motion_module
         motion_modules = (
