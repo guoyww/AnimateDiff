@@ -6,8 +6,8 @@ InitImageYoimiya:
   init_image: "mountain-512x512.png"
 
   motion_module:
-    # - "models/Motion_Module/mm_sd_v14.ckpt"
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+    - "models/Motion_Module/mm_sd_v14.ckpt"
+    - "models/Motion_Module/mm_sd_v15.ckpt"
 
   steps:          25
   guidance_scale: 7.5
