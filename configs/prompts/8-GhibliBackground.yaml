@@ -4,8 +4,8 @@ GhibliBackground:
     - "models/Motion_Module/mm_sd_v15.ckpt"
 
   dreambooth_path: "models/DreamBooth_LoRA/CounterfeitV30_v30.safetensors"
-  # lora_model_path: "models/DreamBooth_LoRA/ghibli_style_offset.safetensors"
-  # lora_alpha: 1.0
+  lora_model_path: "models/DreamBooth_LoRA/Ghibli_Style_Concept_scenery_V3.safetensors"
+  lora_alpha: 1.0
 
   seed:           [8775748474469046618]
   steps:          21
