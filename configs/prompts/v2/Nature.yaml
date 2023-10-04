@@ -7,8 +7,8 @@ Nature:
     - path:  "models/MotionLoRA/v2_lora_PanRight.ckpt"
       alpha: 1.0
 
-  # dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
-  # lora_model_path: ""
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
+  lora_model_path: ""
 
   seed:           45987230
   steps:          20
