@@ -103,7 +103,7 @@ def main_single(args):
                 text_encoder=text_encoder,
                 tokenizer=tokenizer,
                 unet=unet,
-                scheduler=HeunDiscreteScheduler(),
+                scheduler=HeunDiscreteScheduler()
             ).to("cuda")
 
             # pipeline.enable_xformers_memory_efficient_attention()
