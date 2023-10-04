@@ -7,7 +7,7 @@ RollingAnticlockwise:
   #   - path:  "models/MotionLoRA/v2_lora_RollingAnticlockwise.ckpt"
   #     alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
   lora_model_path: ""
 
   seed:           45987230
