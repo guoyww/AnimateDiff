@@ -328,6 +328,12 @@ class AnimationPipeline(DiffusionPipeline):
                 latents = torch.cat(latents, dim=0).to(device)
             else:
                 latents = torch.randn(shape, generator=generator, device=rand_device, dtype=dtype).to(device)
+                if init_latents is not None:
+                    for i in range(video_length):
+                        # I just feel dividing by 30 yield stable result but I don't know why
+                        # gradully reduce init alpha along video frames (loosen restriction)
+                        init_alpha = (video_length - float(i)) / video_length / 30 
+                        latents[:, :, i, :, :] = init_latents * init_alpha + latents[:, :, i, :, :] * (1 - init_alpha)
         else:
             if latents.shape != shape:
                 raise ValueError(f"Unexpected latents shape, got {latents.shape}, expected {shape}")
@@ -335,6 +341,8 @@ class AnimationPipeline(DiffusionPipeline):
 
         # scale the initial noise by the standard deviation required by the scheduler
         latents = latents * self.scheduler.init_noise_sigma
+        if init_latents is None:
+            latents = latents * self.scheduler.init_noise_sigma
         return latents
 
     @torch.no_grad()

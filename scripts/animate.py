@@ -6,7 +6,6 @@ from omegaconf import OmegaConf
 
 import torch
 
-from tokenizers import Tokenizer
 from diffusers import AutoencoderKL, HeunDiscreteScheduler
 
 from tqdm.auto import tqdm
@@ -20,7 +19,6 @@ from diffusers.utils.import_utils import is_xformers_available
 
 import shutil
 
-import math
 from pathlib import Path
 
 
