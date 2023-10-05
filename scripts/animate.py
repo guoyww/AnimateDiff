@@ -95,7 +95,7 @@ def main_single(args):
 
             if is_xformers_available():
                 print("using xformers")
-                unet.enable_xformers_memory_efficient_attention(attention_op=MemoryEfficientAttentionFlashAttentionOp)
+                # unet.enable_xformers_memory_efficient_attention(attention_op=MemoryEfficientAttentionFlashAttentionOp)
             else:
                 assert False
 
