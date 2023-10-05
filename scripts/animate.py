@@ -7,6 +7,7 @@ from omegaconf import OmegaConf
 import torch
 
 from diffusers import AutoencoderKL, HeunDiscreteScheduler
+from xformers.ops import MemoryEfficientAttentionFlashAttentionOp
 
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
@@ -94,7 +95,7 @@ def main_single(args):
 
             if is_xformers_available():
                 print("using xformers")
-                unet.enable_xformers_memory_efficient_attention()
+                unet.enable_xformers_memory_efficient_attention(attention_op=MemoryEfficientAttentionFlashAttentionOp)
             else:
                 assert False
 
