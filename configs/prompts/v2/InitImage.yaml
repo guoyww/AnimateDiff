@@ -1,13 +1,17 @@
 InitImageYoimiya:
-  base: "models/DreamBooth_LoRA/AnythingV5Ink_v5PrtRE.safetensors"
-  path: "models/DreamBooth_LoRA/宵宫(origen).safetensors"
-  additional_networks: 
-    - "models/DreamBooth_LoRA/LineLine2D.safetensors : 0.7"
+  # base: "models/DreamBooth_LoRA/AnythingV5Ink_v5PrtRE.safetensors"
+  # path: "models/DreamBooth_LoRA/宵宫(origen).safetensors"
+  # inference_config: "configs/inference/inference-v2.yaml"
+  # additional_networks: 
+  #   - "models/DreamBooth_LoRA/LineLine2D.safetensors : 0.7"
   init_image: "mountain-512x512.png"
 
   motion_module:
     - "models/Motion_Module/mm_sd_v14.ckpt"
     - "models/Motion_Module/mm_sd_v15.ckpt"
+
+  dreambooth_path: "models/DreamBooth_LoRA/AnythingV5Ink_v5PrtRE.safetensor"
+  lora_model_path: ""
 
   steps:          25
   guidance_scale: 7.5
