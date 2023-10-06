@@ -50,8 +50,7 @@ def main(args):
             vae          = AutoencoderKL.from_pretrained(args.pretrained_model_path, subfolder="vae")            
             unet         = UNet3DConditionModel.from_pretrained_2d(args.pretrained_model_path, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(inference_config.unet_additional_kwargs))
 
-            if is_xformers_available(): unet.enable_xformers_memory_efficient_attention()
-            else: assert False
+            if is_xformers_available() == False:  assert False
 
             pipeline = AnimationPipeline(
                 vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, unet=unet,
@@ -111,7 +110,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--pretrained_model_path", type=str, default="models/StableDiffusion/stable-diffusion-v1-5",)
+    parser.add_argument("--pretrained_model_path", type=str, default="models/StableDiffusion/",)
     parser.add_argument("--inference_config",      type=str, default="configs/inference/inference-v1.yaml")    
     parser.add_argument("--config",                type=str, required=True)
     
