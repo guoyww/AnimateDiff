@@ -2,9 +2,8 @@
 
 ## Installation
 
-` pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2 --index-url https://download.pytorch.org/whl/cu118`
+`pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117`
 `pip install transformers diffusers xformers imageio decord gdown einops omegaconf safetensors gradio wandb accelerate`
-`pip install https://huggingface.co/r4ziel/xformers_pre_built/resolve/main/triton-2.0.0-cp310-cp310-win_amd64.whl`
 
 ### How to 
 - use .env 
