@@ -4,8 +4,8 @@ torch==1.13.1+cu117
 torchvision==0.14.1+cu117
 torchaudio==0.13.1
 triton
-transformers
-diffusers
+diffusers==0.11.1
+transformers==4.25.1
 xformers
 imageio
 decord
