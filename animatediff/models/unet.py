@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.utils.checkpoint
 
 from diffusers.configuration_utils import ConfigMixin, register_to_config
-from diffusers.modeling_utils import ModelMixin
+from diffusers  import ModelMixin
 from diffusers.utils import BaseOutput, logging
 from diffusers.models.embeddings import TimestepEmbedding, Timesteps
 from .unet_blocks import (
@@ -462,6 +462,7 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
         print(f"loaded temporal unet's pretrained weights from {pretrained_model_path} ...")
 
         config_file = os.path.join(pretrained_model_path, 'config.json')
+        print(f"loading config file from: {config_file}")
         if not os.path.isfile(config_file):
             raise RuntimeError(f"{config_file} does not exist")
         with open(config_file, "r") as f:

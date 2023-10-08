@@ -1,0 +1,21 @@
+PanRight:
+  inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:
+    - "models/Motion_Module/animatediffMotion_v15V2.ckptt"
+
+  motion_module_lora_configs:
+    - path:  "models/MotionLoRA/v2_lora_PanRight.ckpt"
+      alpha: 1.0
+
+  dreambooth_path: "/realisticVisionV20_v20.safetensors"
+  lora_model_path: ""
+
+  seed:           45987230
+  steps:          25
+  guidance_scale: 7.5
+
+  prompt:
+    - "a stunning view of a mountain from above the clouds, wind, waves, lightning, 8k uhd, dslr, soft lighting, high quality, film grain, Fujifilm XT3"
+
+  n_prompt:
+    - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"

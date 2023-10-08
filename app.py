@@ -46,7 +46,7 @@ class AnimateController:
         self.stable_diffusion_dir   = os.path.join(self.basedir, "models", "StableDiffusion")
         self.motion_module_dir      = os.path.join(self.basedir, "models", "Motion_Module")
         self.personalized_model_dir = os.path.join(self.basedir, "models", "DreamBooth_LoRA")
-        self.savedir                = os.path.join(self.basedir, "samples", datetime.now().strftime("Gradio-%Y-%m-%dT%H-%M-%S"))
+        self.savedir                = os.path.join(self.basedir, "samples", datetime.now().strftime("animate-%Y-%m-%dT%H-%M-%S"))
         self.savedir_sample         = os.path.join(self.savedir, "sample")
         os.makedirs(self.savedir, exist_ok=True)
 
@@ -66,10 +66,10 @@ class AnimateController:
         self.pipeline              = None
         self.lora_model_state_dict = {}
         
-        self.inference_config      = OmegaConf.load("configs/inference/inference.yaml")
+        self.inference_config      = OmegaConf.load("configs/inference/inference-v1-app.yaml")
 
     def refresh_stable_diffusion(self):
-        self.stable_diffusion_list = glob(os.path.join(self.stable_diffusion_dir, "*/"))
+        self.stable_diffusion_list = glob(f"{self.stable_diffusion_dir}/*.ckpt")
 
     def refresh_motion_module(self):
         motion_module_list = glob(os.path.join(self.motion_module_dir, "*.ckpt"))
@@ -80,10 +80,32 @@ class AnimateController:
         self.personalized_model_list = [os.path.basename(p) for p in personalized_model_list]
 
     def update_stable_diffusion(self, stable_diffusion_dropdown):
-        self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dropdown, subfolder="tokenizer")
-        self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dropdown, subfolder="text_encoder").cuda()
-        self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dropdown, subfolder="vae").cuda()
-        self.unet = UNet3DConditionModel.from_pretrained_2d(stable_diffusion_dropdown, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(self.inference_config.unet_additional_kwargs)).cuda()
+        # stable_diffusion_dropdown = "runwayml/stable-diffusion-v1-5"
+        print(f"model --> {stable_diffusion_dropdown}")
+        # if stable_diffusion_dropdown is None:
+        #     # Handle the error appropriately. You might want to log an error message, return, raise a custom error, etc.
+        #     raise ValueError("stable_diffusion_dropdown cannot be None.")
+
+        # tokenizer_path = os.path.join(self.stable_diffusion_dir, "tokenizer")
+        # if not os.path.exists(tokenizer_path):
+        #     raise ValueError(f"Tokenizer directory {tokenizer_path} does not exist.")
+        
+        # if not os.path.exists(os.path.join(self.stable_diffusion_dir, "text_encoder")):
+        #     raise ValueError(f"text_encoder directory  does not exist.")
+
+        # if not os.path.exists(os.path.join(self.stable_diffusion_dir, "unet")):
+        #     raise ValueError(f"unet directory  does not exist.")
+
+        # if not os.path.exists(os.path.join(self.stable_diffusion_dir, "vae")):
+        #     raise ValueError(f"vae directory  does not exist.")
+                 
+        # print(f"{stable_diffusion_dropdown}")
+        stable_diffusion_dir = os.path.dirname(stable_diffusion_dropdown)
+        
+        self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dir, subfolder="tokenizer")
+        self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dir, subfolder="text_encoder").cuda()
+        self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dir, subfolder="vae").cuda()
+        self.unet = UNet3DConditionModel.from_pretrained_2d(stable_diffusion_dir, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(self.inference_config.unet_additional_kwargs)).cuda()
         return gr.Dropdown.update()
 
     def update_motion_module(self, motion_module_dropdown):
@@ -102,6 +124,7 @@ class AnimateController:
             gr.Info(f"Please select a pretrained model path.")
             return gr.Dropdown.update(value=None)
         else:
+            print(f"{self.personalized_model_dir}, {base_model_dropdown}")
             base_model_dropdown = os.path.join(self.personalized_model_dir, base_model_dropdown)
             base_model_state_dict = {}
             with safe_open(base_model_dropdown, framework="pt", device="cpu") as f:
@@ -166,6 +189,7 @@ class AnimateController:
         else: torch.seed()
         seed = torch.initial_seed()
         
+        print(f"prompt: {prompt_textbox}")
         sample = pipeline(
             prompt_textbox,
             negative_prompt     = negative_prompt_textbox,
@@ -175,6 +199,9 @@ class AnimateController:
             height              = height_slider,
             video_length        = length_slider,
         ).videos
+
+        # samples = torch.concat(samples)
+        # save_videos_grid(samples, f"{savedir}/sample.gif", n_rows=4)
 
         save_sample_path = os.path.join(self.savedir_sample, f"{sample_idx}.mp4")
         save_videos_grid(sample, save_sample_path)
@@ -217,9 +244,15 @@ def ui():
                 """
             )
             with gr.Row():
+                # stable_diffusion_dropdown = gr.Dropdown(
+                #     label="Pretrained Model Path",
+                #     choices=controller.stable_diffusion_list,
+                #     interactive=True,
+                # )
                 stable_diffusion_dropdown = gr.Dropdown(
                     label="Pretrained Model Path",
                     choices=controller.stable_diffusion_list,
+                    value=controller.stable_diffusion_list[0] if controller.stable_diffusion_list else None,
                     interactive=True,
                 )
                 stable_diffusion_dropdown.change(fn=controller.update_stable_diffusion, inputs=[stable_diffusion_dropdown], outputs=[stable_diffusion_dropdown])
@@ -234,6 +267,7 @@ def ui():
                 motion_module_dropdown = gr.Dropdown(
                     label="Select motion module",
                     choices=controller.motion_module_list,
+                    value=controller.motion_module_list[0] if controller.motion_module_list else None,
                     interactive=True,
                 )
                 motion_module_dropdown.change(fn=controller.update_motion_module, inputs=[motion_module_dropdown], outputs=[motion_module_dropdown])
@@ -325,4 +359,4 @@ def ui():
 
 if __name__ == "__main__":
     demo = ui()
-    demo.launch(share=True)
+    demo.launch(share=False)

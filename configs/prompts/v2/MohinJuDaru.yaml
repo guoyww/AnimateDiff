@@ -1,0 +1,21 @@
+RealisticVision:
+  inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:
+    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+
+  # motion_module_lora_configs:
+  #   - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
+  #     alpha: 1.0
+
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v20Novae.safetensors"
+  lora_model_path: ""
+
+  seed:           2139261157
+  steps:          25
+  guidance_scale: 7.5
+
+  prompt:
+    - "background is Delicious Monastery, at Dusk, An ancient warrior woman in armour, ancient technology, deep focus, Graphic novel, Confused, Post-Apocalyptic, Bloom light, Depth of field 100mm, Amaro, RTX, make-up, mascara, ruined make-up, eyeshadow, moody atmosphere, misty, night, low light, chiaroscuro, masterpiece, best quality, (intricate details), dreamy, perfect eyes, dark pupils, magnificent, ethereal, volumetric lighting, lightroom, ((cinematic)), raytracing, subsurface scattering, face focu"
+
+  n_prompt:
+    - "(deformed face, distorted face, disfigured:1.3), poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, (mutated hands and fingers:1.4), disconnected limbs, mutation, mutated, ugly, disgusting, blurry, amputation. tattoo, watermark, text, anime, illustration, sketch, 3d, vector art, cartoon, painting, (large breasts, huge breasts:1.4), thick hips, thick thighs, (voluptuous, thick:1.3), fat, milf, sheer, lingerie, frills, lace"
