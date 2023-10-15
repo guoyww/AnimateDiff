@@ -192,7 +192,7 @@ bash download_bashscripts/8-GhibliBackground.sh
 ```
 
 ### Inference
-After downloading the above peronalized T2I checkpoints, run the following commands to generate animations. The results will automatically be saved to `samples/` folder.
+After downloading the above personalized T2I checkpoints, run the following commands to generate animations. The results will automatically be saved to `samples/` folder.
 ```
 python -m scripts.animate --config configs/prompts/1-ToonYou.yaml
 python -m scripts.animate --config configs/prompts/2-Lyriel.yaml
