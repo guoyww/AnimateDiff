@@ -166,6 +166,10 @@ conda env create -f environment.yaml
 conda activate animatediff
 ```
 
+if using --format mp4
+
+`pip install "imageio[ffmpeg]"`
+
 ### Download Base T2I & Motion Module Checkpoints
 We provide two versions of our Motion Module, which are trained on stable-diffusion-v1-4 and finetuned on v1-5 seperately.
 It's recommanded to try both of them for best results.
