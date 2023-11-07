@@ -228,18 +228,7 @@ class AnimateController:
 
 controller = AnimateController()
 
-
-def ui():
-    with gr.Blocks(css=css) as demo:
-        gr.Markdown(
-            """
-            # AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning
-            Yuwei Guo, Ceyuan Yang*, Anyi Rao, Yaohui Wang, Yu Qiao, Dahua Lin, Bo Dai (*Corresponding Author)<br>
-            [Arxiv Report](https://arxiv.org/abs/2307.04725) | [Project Page](https://animatediff.github.io/) | [Github](https://github.com/guoyww/animatediff/)
-            """
-        )
-        gr.Markdown(
-            """
+quick_start_en = """
             ### Quick Start
             1. Select desired `Base DreamBooth Model`.
             2. Select `Motion Module` from `mm_sd_v14.ckpt` and `mm_sd_v15.ckpt`. We recommend trying both of them for the best results.
@@ -251,7 +240,71 @@ def ui():
                 - [`realisticVisionV20_v20.safetensors`](https://civitai.com/models/4201?modelVersionId=29460)
             4. Click `Generate`, wait for ~1 min, and enjoy.
             """
-        )
+
+quick_start_cn = """
+            ### 快速开始
+            1. 选择所需的`基础DreamBooth模型`。
+            2. 从mm_sd_v14.ckpt和mm_sd_v15.ckpt中选择Motion模块。我们建议尝试两者取得最佳效果。
+            3. 为每个模型提供`提示`和`负提示`。鼓励您参考CivitAI上的每个模型的网页，以了解如何为它们编写提示。以下是此演示中的DreamBooth模型，点击访问他们的主页：
+                - [`toonyou_beta3.safetensors`](https://civitai.com/models/30240?modelVersionId=78775)
+                - [`lyriel_v16.safetensors`](https://civitai.com/models/22922/lyriel)
+                - [`rcnzCartoon3d_v10.safetensors`](https://civitai.com/models/66347?modelVersionId=71009)
+                - [`majicmixRealistic_v5Preview.safetensors`](https://civitai.com/models/43331?modelVersionId=79068)
+                - [`realisticVisionV20_v20.safetensors`](https://civitai.com/models/4201?modelVersionId=29460)
+            4. 点击`生成`按钮，等待约1分钟，然后享受生成的结果。
+            """
+
+def change_language(lang):
+    if lang == '中文':
+        lang = gr.update(value='English')
+        quick_start_controller = gr.Markdown(value=quick_start_cn)
+        base_model_dropdown = gr.Dropdown(label="基础DreamBooth模型")
+        motion_module_dropdown = gr.Dropdown(label="Motion模块")
+        prompt_textbox = gr.Textbox(label="提示")
+        negative_prompt_textbox = gr.Textbox(label="负提示")
+        width_slider = gr.Slider(label="宽度")
+        height_slider = gr.Slider(label="高度")
+        seed_textbox = gr.Textbox(label="种子")
+        generate_button = gr.Button(value="生成")
+        result_video = gr.Video(label="已生成的动画")
+        json_config = gr.JSON(label="配置")
+        advance_settings = gr.Accordion(label="高级设置")
+    elif lang == 'English':
+        lang = gr.update(value='中文')
+        quick_start_controller = gr.Markdown(value=quick_start_en)
+        base_model_dropdown = gr.Dropdown(label="Base DreamBooth Model")
+        motion_module_dropdown = gr.Dropdown(label="Motion Module")
+        prompt_textbox = gr.Textbox(label="Prompt")
+        negative_prompt_textbox = gr.Textbox(label="Negative Prompt")
+        width_slider = gr.Slider(label="Width")
+        height_slider = gr.Slider(label="Height")
+        seed_textbox = gr.Textbox(label="Seed")
+        generate_button = gr.Button(value="Generate")
+        result_video = gr.Video(label="Generated Animation")
+        json_config = gr.JSON(label="Config")
+        advance_settings = gr.Accordion(label="Advance")
+
+    return [lang, quick_start_controller, base_model_dropdown,
+            motion_module_dropdown, prompt_textbox, negative_prompt_textbox, width_slider, height_slider,
+            seed_textbox, generate_button, result_video, json_config, advance_settings]
+
+
+def ui():
+    with gr.Blocks(css=css) as demo:
+        with gr.Row():
+            with gr.Column(scale=20):
+                gr.Markdown(
+                    """
+                    # AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning
+                    Yuwei Guo, Ceyuan Yang*, Anyi Rao, Yaohui Wang, Yu Qiao, Dahua Lin, Bo Dai (*Corresponding Author)<br>
+                    [Arxiv Report](https://arxiv.org/abs/2307.04725) | [Project Page](https://animatediff.github.io/) | [Github](https://github.com/guoyww/animatediff/)
+                    """
+                )
+            with gr.Column(scale=1, min_width=100):
+                lang_btn = gr.Button(value="中文")
+
+        quick_start_controller = gr.Markdown(quick_start_en)
+
         with gr.Row():
             with gr.Column():
                 base_model_dropdown     = gr.Dropdown( label="Base DreamBooth Model", choices=controller.base_model_list,    value=controller.base_model_list[0],    interactive=True )
@@ -263,7 +316,7 @@ def ui():
                 prompt_textbox          = gr.Textbox( label="Prompt",          lines=3 )
                 negative_prompt_textbox = gr.Textbox( label="Negative Prompt", lines=3, value="worst quality, low quality, nsfw, logo")
 
-                with gr.Accordion("Advance", open=False):
+                with gr.Accordion("Advance", open=False) as advance_settings:
                     with gr.Row():
                         width_slider  = gr.Slider(  label="Width",  value=512, minimum=256, maximum=1024, step=64 )
                         height_slider = gr.Slider(  label="Height", value=512, minimum=256, maximum=1024, step=64 )
@@ -284,11 +337,14 @@ def ui():
             generate_button.click( fn=controller.animate, inputs=inputs, outputs=outputs )
                 
         gr.Examples( fn=controller.animate, examples=examples, inputs=inputs, outputs=outputs, cache_examples=True )
+        lang_btn.click(change_language, inputs=lang_btn, outputs=[lang_btn, quick_start_controller, base_model_dropdown, motion_module_dropdown,
+                    prompt_textbox, negative_prompt_textbox, width_slider, height_slider,
+                    seed_textbox, generate_button, result_video, json_config, advance_settings])
         
     return demo
 
 
 if __name__ == "__main__":
     demo = ui()
-    demo.queue(max_size=20)
-    demo.launch()
+    demo.queue(max_size=16, api_open=False)
+    demo.launch(max_threads=16)
