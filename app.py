@@ -256,7 +256,7 @@ quick_start_cn = """
 
 def change_language(lang):
     if lang == '中文':
-        lang = gr.update(value='English')
+        lang = gr.Button(value='English')
         quick_start_controller = gr.Markdown(value=quick_start_cn)
         base_model_dropdown = gr.Dropdown(label="基础DreamBooth模型")
         motion_module_dropdown = gr.Dropdown(label="Motion模块")
@@ -270,7 +270,7 @@ def change_language(lang):
         json_config = gr.JSON(label="配置")
         advance_settings = gr.Accordion(label="高级设置")
     elif lang == 'English':
-        lang = gr.update(value='中文')
+        lang = gr.Button(value='中文')
         quick_start_controller = gr.Markdown(value=quick_start_en)
         base_model_dropdown = gr.Dropdown(label="Base DreamBooth Model")
         motion_module_dropdown = gr.Dropdown(label="Motion Module")
@@ -346,5 +346,9 @@ def ui():
 
 if __name__ == "__main__":
     demo = ui()
-    demo.queue(max_size=16, api_open=False)
-    demo.launch(max_threads=16)
+    queue_max_size = int(os.environ.get("queue_max_size", 16))
+    queue_concurrency_count = int(os.environ.get("queue_concurrency_count", 2))
+    max_threads = int(os.environ.get("max_threads", 20))
+    api_open = bool(os.environ.get("api_open", False))
+    demo.queue(max_size=queue_max_size, concurrency_count=queue_concurrency_count, api_open=api_open)
+    demo.launch(max_threads=max_threads)
