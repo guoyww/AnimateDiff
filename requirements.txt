@@ -9,7 +9,7 @@ gdown
 einops
 omegaconf
 safetensors
-gradio
+gradio==3.45.1
 imageio[ffmpeg]
 imageio[pyav]
 accelerate
