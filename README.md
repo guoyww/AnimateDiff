@@ -23,6 +23,25 @@ Bo Dai
 One with better controllability and quality is coming soon. Stay tuned.
 
 ## Features
+- **[2023/11/10]** Release the Motion Module (beta version) on SDXL, available at [Google Drive](https://drive.google.com/file/d/1EK_D9hDOPfJdK4z8YDB8JYvPracNx2SX/view?usp=share_link
+) / [HuggingFace](https://huggingface.co/guoyww/animatediff/blob/main/mm_sdxl_v10_beta.ckpt
+) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules). High resolution videos (i.e., 1024x1024x16 frames with various aspect ratios) could be produced **with/without** personalized models. Inference usually requires ~13GB VRAM and tuned hyperparameters (e.g., #sampling steps), depending on the chosen personalized models. Checkout to the branch `sdxl` for more details of the inference. More checkpoints with better-quality would be available soon. Stay tuned. Examples below are manually downsampled for fast loading.
+
+  <table class="center">
+     <tr style="line-height: 0">
+      <td width=50% style="border: none; text-align: center">Original SDXL</td>
+      <td width=30% style="border: none; text-align: center">Personalized SDXL</td>
+      <td width=20% style="border: none; text-align: center">Personalized SDXL</td>
+      </tr>
+      <tr>
+      <td width=50% style="border: none"><img src="__assets__/animations/motion_xl/01.gif"></td>
+      <td width=30% style="border: none"><img src="__assets__/animations/motion_xl/02.gif"></td>
+      <td width=20% style="border: none"><img src="__assets__/animations/motion_xl/03.gif"></td>
+      </tr>
+  </table>
+
+
+
 - **[2023/09/25]** Release **MotionLoRA** and its model zoo, **enabling camera movement controls**! Please download the MotionLoRA models (**74 MB per model**, available at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) ) and save them to the `models/MotionLoRA` folder. Example:
   ```
   python -m scripts.animate --config configs/prompts/v2/5-RealisticVision-MotionLoRA.yaml
