@@ -1,0 +1,17 @@
+base_model_path: Path to DynaVision
+motion_module_path: Path to Motion Module
+
+seed:           -1
+
+guidance_scale: 8.5
+steps: 100
+
+prompt:
+  - "cinematic color grading lighting vintage realistic film grain scratches celluloid analog cool shadows warm highlights soft focus actor directed cinematography technicolor , confused, looking around scared , + / A lanky blonde haired man on vacation enjoying the local party scene in Brisbane at dawn"
+  - "Pixel Art pixelated pixel pixel , extremely content happy smile , + / A fit pink haired woman at night in the city, holding a trick or treat bag, wearing a kitty ears halloween costume, (big eyes:1.3) by Dreamworks Studios"  
+  - "anime artwork of [water|a galaxy|thunderstorm] inside a bottle"
+
+n_prompt:
+  - ""
+  - ""
+  - "hand"

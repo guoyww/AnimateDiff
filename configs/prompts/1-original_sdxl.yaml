@@ -1,0 +1,14 @@
+motion_module_path: Path to Motion Module
+
+seed:           -1
+
+guidance_scale: 8.5
+steps: 100
+
+prompt:
+  - "A panda standing on a surfboard in the ocean in sunset, 4k, high resolution.Realistic, Cinematic, high resolution"
+  - "A disoriented astronaut, lost in a galaxy of swirling colors, floating in zero gravity, grasping at memories, poignant loneliness, stunning realism, cosmic chaos, emotional depth, 12K, hyperrealism, unforgettable, mixed media, celestial, dark, introspective"
+
+n_prompt:
+  - ""
+  - ""

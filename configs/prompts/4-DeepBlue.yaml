@@ -1,0 +1,20 @@
+ckpt_path: Path to DeepBlud model
+motion_module_path: Path to Motion Module
+
+seed:           -1
+
+guidance_scale: 7
+steps: 100
+
+prompt:
+  - "highres,best quality,natural,  A photo of a mummified Miffy, the iconic white bunny character, lying peacefully on a velvet cushion inside an intricately decorated glass display case, with its fur preserved in a pristine condition, its eyes closed peacefully, and its little paws gently crossed over each other, evoking a sense of tranquility and reverence.,cinematic photo official art, 8k wallpaper,ultra detailed, aesthetic quality,photorealistic,entangle,dynamic angle,the most beautiful form of chaos,elegant,a brutalist designed,vivid colours,romanticism,atmospheric . 35mm photograph, film, bokeh, professional, 4k, highly detailed, skin detail realistic, ultra realistic,Perspective"
+  - "highres,best quality,natural,  Cat pressing the Delete key on the keyboard,cinematic photo official art, 8k wallpaper,ultra detailed, aesthetic quality,photorealistic,entangle,dynamic angle,the most beautiful form of chaos,elegant,a brutalist designed,vivid colours,romanticism,atmospheric . 35mm photograph, film, bokeh, professional, 4k, highly detailed, skin detail realistic, ultra realistic,Perspective"
+  - "highres,best quality,natural, A psychedelic world spreads out below, Witch kawaii girl floating in the sky Wearing a witch hat Frilled fantasy costume Blonde straight hair,cinematic photo official art,unity 8k wallpaper,ultra detailed,aesthetic,masterpiece,best quality,photorealistic,entangle,mandala,tangle,entangle,cstasy of flower,dynamic angle,the most beautiful form of chaos,elegant,a brutalist designed,vivid colours,romanticism,atmospheric . 35mm photograph, film, bokeh, professional, 4k, highly detailed, skin detail realistic, ultra realistic,"
+
+n_prompt:
+  - "bad quality,worst quality"
+  - "bad quality,worst quality"
+  - "bad quality,worst quality"
+
+
+
