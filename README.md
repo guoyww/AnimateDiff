@@ -3,7 +3,8 @@
 Now you can generate high-resolution videos on SDXL **with/without** personalized models. Checkpoint with better quality would be available soon. Stay tuned.
 
 ## Somethings Important
-- Generate videos with high-resolution (we provide recommended ones) as SDXL usually leads to worse quality for low-resolution images. 
+- Generate videos with high-resolution (we provide recommended ones) as SDXL usually leads to worse quality for low-resolution images.
+- Quality strongly depends on the sampler and #sampling stepes (we use EulerDiscrete sampler for 100 steps). Be careful. 
 - Follow and slightly adjust the hyperparameters (e.g., #sampling steps, #guidance scale) of various personalized SDXL since these models are carefully tuned to various extent.
 
 ## Model Zoo
