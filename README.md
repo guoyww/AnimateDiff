@@ -199,6 +199,10 @@ We collect several generated results in [GALLERY](./__assets__/docs/gallery.md).
 }
 ```
 
+## Disclaimer
+This project is released for academic use. We disclaim responsibility for user-generated content. Users are solely liable for their actions. The project contributors are not legally affiliated with, nor accountable for, users' behaviors. Use the generative model responsibly, adhering to ethical and legal standards.
+
+
 ## Contact Us
 **Yuwei Guo**: [guoyuwei@pjlab.org.cn](mailto:guoyuwei@pjlab.org.cn)  
 **Ceyuan Yang**: [yangceyuan@pjlab.org.cn](mailto:yangceyuan@pjlab.org.cn)  
