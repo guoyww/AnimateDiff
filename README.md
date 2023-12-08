@@ -22,6 +22,10 @@ Bo Dai
 ## Next
 One with better controllability and quality is coming soon. Stay tuned.
 
+What will come in weeks: 
+- One improved AnimateDiff, together with training code of MotionLora.
+- SparseCtrl with various modalities.
+
 ## Features
 - **[2023/11/10]** Release the Motion Module (beta version) on SDXL, available at [Google Drive](https://drive.google.com/file/d/1EK_D9hDOPfJdK4z8YDB8JYvPracNx2SX/view?usp=share_link
 ) / [HuggingFace](https://huggingface.co/guoyww/animatediff/blob/main/mm_sdxl_v10_beta.ckpt
