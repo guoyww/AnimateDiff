@@ -22,7 +22,7 @@ It is a plug-and-play module turning most community models into animation genera
 
 We developed four versions of AnimateDiff: `v1`, `v2` and `v3` for [Stable Diffusion V1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5); `sdxl-beta` for [Stable Diffusion XL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0).
 
-## TODOs
+## Next
 - [ ] Update to latest diffusers version
 - [ ] Update Gradio Demo
 - [ ] Release Training Scripts
@@ -64,9 +64,9 @@ Manually download the AnimateDiff modules. The download links can be found in ea
 
 ##  [2023.12] AnimateDiff v3 and SparseCtrl
 
-In this version, we did the image model finetuning with through **Domain Adapter LoRA** for more flexiblity at inference time.
+In this version, we did the image model finetuning through **Domain Adapter LoRA** for more flexiblity at inference time.
 
-Additionally, we implement two [SparseCtrl](https://arxiv.org/abs/2311.16933) Encoders, which can take abitary number of condition maps (RGB image/scribble) to control the generation.
+Additionally, we implement two (RGB image/scribble) [SparseCtrl](https://arxiv.org/abs/2311.16933) Encoders, which can take abitary number of condition maps to control the generation process.
 
 Technical details of SparseCtrl can be found in this research paper:
 
@@ -204,7 +204,7 @@ Moreover, we support **MotionLoRA** for eight basic camera movements.
 </details>
 
 
-- **[2023/09/25]** Release **MotionLoRA** and its model zoo, **enabling camera movement controls**! Please download the MotionLoRA models (**74 MB per model**, available at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) ) and save them to the `models/MotionLoRA` folder. Example:
+- Release **MotionLoRA** and its model zoo, **enabling camera movement controls**! Please download the MotionLoRA models (**74 MB per model**, available at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) ) and save them to the `models/MotionLoRA` folder. Example:
   ```
   python -m scripts.animate --config configs/prompts/v2/5-RealisticVision-MotionLoRA.yaml
   ```
@@ -243,7 +243,7 @@ Moreover, we support **MotionLoRA** for eight basic camera movements.
       </tr>
   </table>
 
-- **[2023/09/10]** New Motion Module release! `mm_sd_v15_v2.ckpt` was trained on larger resolution & batch size, and gains noticeable quality improvements. Check it out at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) and use it with `configs/inference/inference-v2.yaml`. Example:
+- New Motion Module release! `mm_sd_v15_v2.ckpt` was trained on larger resolution & batch size, and gains noticeable quality improvements. Check it out at [Google Drive](https://drive.google.com/drive/folders/1EqLC65eR1-W-sGD0Im7fkED6c8GkiNFI?usp=sharing) / [HuggingFace](https://huggingface.co/guoyww/animatediff) / [CivitAI](https://civitai.com/models/108836/animatediff-motion-modules) and use it with `configs/inference/inference-v2.yaml`. Example:
   ```
   python -m scripts.animate --config configs/prompts/v2/5-RealisticVision.yaml
   ```
