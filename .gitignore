@@ -1,4 +1,5 @@
 wandb/
+*debug*
 debugs/
 outputs/
 samples/
@@ -6,7 +7,7 @@ __pycache__/
 ossutil_output/
 .ossutil_checkpoint/
 
-scripts/
+scripts/*
 !scripts/animate.py
 
 *.ipynb
