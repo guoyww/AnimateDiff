@@ -123,7 +123,7 @@ class ResnetBlock3D(nn.Module):
         time_embedding_norm="default",
         output_scale_factor=1.0,
         use_in_shortcut=None,
-        use_inflated_groupnorm=None,
+        use_inflated_groupnorm=False,
     ):
         super().__init__()
         self.pre_norm = pre_norm

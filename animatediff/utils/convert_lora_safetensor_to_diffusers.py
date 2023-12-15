@@ -12,7 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+# 
+#  Changes were made to this source code by Yuwei Guo.
 """ Conversion script for the LoRA's safetensors checkpoints. """
 
 import argparse
@@ -21,11 +22,9 @@ import torch
 from safetensors.torch import load_file
 
 from diffusers import StableDiffusionPipeline
-import pdb
 
 
-
-def convert_motion_lora_ckpt_to_diffusers(pipeline, state_dict, alpha=1.0):
+def load_diffusers_lora(pipeline, state_dict, alpha=1.0):
     # directly update weight in diffusers model
     for key in state_dict:
         # only process lora down key
@@ -46,7 +45,6 @@ def convert_motion_lora_ckpt_to_diffusers(pipeline, state_dict, alpha=1.0):
         curr_layer.weight.data += alpha * torch.mm(weight_up, weight_down).to(curr_layer.weight.data.device)
 
     return pipeline
-
 
 
 def convert_lora(pipeline, state_dict, LORA_PREFIX_UNET="lora_unet", LORA_PREFIX_TEXT_ENCODER="lora_te", alpha=0.6):
