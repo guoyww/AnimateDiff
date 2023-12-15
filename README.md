@@ -66,6 +66,10 @@ Manually download the AnimateDiff modules. The download links can be found in ea
 
 In this version, we did the image model finetuning through **Domain Adapter LoRA** for more flexiblity at inference time.
 
+- **Explanation:** Domain Adapter is a LoRA module trained on static frames of the training video dataset. This process is done before training the motion module, and helps the motion module focus on motion modeling, as shown in the figure below. At inference, By adjusting the LoRA scale of the Domain Adapter, some visual attributes of the training video, e.g., the watermarks, can be removed. To utilize the SparseCtrl encoder, it's necessary to use a full Domain Adapter in the pipeline.
+
+<div style="text-align:center"><img src="__assets__/figs/adapter_explain.png" style="width:60%"></div>
+
 Additionally, we implement two (RGB image/scribble) [SparseCtrl](https://arxiv.org/abs/2311.16933) Encoders, which can take abitary number of condition maps to control the generation process.
 
 Technical details of SparseCtrl can be found in this research paper:
