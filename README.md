@@ -65,9 +65,9 @@ Manually download the AnimateDiff modules. The download links can be found in ea
 
 ##  [2023.12] AnimateDiff v3 and SparseCtrl
 
-In this version, we did the image model finetuning with through **Domain Adapter LoRA** for more flexiblity at inference time.
+In this version, we did the image model finetuning through **Domain Adapter LoRA** for more flexiblity at inference time.
 
-Additionally, we implement two [SparseCtrl](https://arxiv.org/abs/2311.16933) Encoders, which can take abitary number of condition maps (RGB image/scribble) to control the generation.
+Additionally, we implement two (RGB image/scribble) [SparseCtrl](https://arxiv.org/abs/2311.16933) Encoders, which can take abitary number of condition maps to control the generation process.
 
 Technical details of SparseCtrl can be found in this research paper:
 
