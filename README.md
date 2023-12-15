@@ -12,7 +12,7 @@ It is a plug-and-play module turning most community models into animation genera
 [Yu Qiao](https://scholar.google.com.hk/citations?user=gFtI-8QAAAAJ),
 [Dahua Lin](http://dahua.site),
 [Bo Dai](https://daibo.info)
-<p style="font-size: 0.8em; margin-top: -1em">*Corresponding Author</p>
+(*Corresponding Author)
 
 <!-- [Arxiv Report](https://arxiv.org/abs/2307.04725) | [Project Page](https://animatediff.github.io/) -->
 [![arXiv](https://img.shields.io/badge/arXiv-2307.04725-b31b1b.svg)](https://arxiv.org/abs/2307.04725)
@@ -21,6 +21,12 @@ It is a plug-and-play module turning most community models into animation genera
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow)](https://huggingface.co/spaces/guoyww/AnimateDiff)
 
 We developed four versions of AnimateDiff: `v1`, `v2` and `v3` for [Stable Diffusion V1.5](https://huggingface.co/runwayml/stable-diffusion-v1-5); `sdxl-beta` for [Stable Diffusion XL](https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0).
+
+## TODOs
+- [ ] Update to latest diffusers version
+- [ ] Update Gradio Demo
+- [ ] Release Training Scripts
+- [x] Release AnimateDiff v3 and SparseCtrl
 
 ## Gallery
 We show some results in the [GALLERY](./__assets__/docs/gallery.md).
@@ -31,7 +37,7 @@ Some of them are contributed by the community.
 
 Note: see [ANIMATEDIFF](__assets__/docs/animatediff.md) for detailed setup.
 
-**1. Setup repository and conda environment**
+### Setup repository and conda environment
 
 ```
 git clone https://github.com/guoyww/AnimateDiff.git
@@ -41,42 +47,41 @@ conda env create -f environment.yaml
 conda activate animatediff
 ```
 
-**2. Download Stable Diffusion V1.5**
+### Download Stable Diffusion V1.5
 
 ```
 git lfs install
 git clone https://huggingface.co/runwayml/stable-diffusion-v1-5 models/StableDiffusion/
 ```
 
-**3. Prepare Community Models**
+### Prepare Community Models
 
 Manually download the community `.safetensors` models from [CivitAI](https://civitai.com), and save them to `models/DreamBooth_LoRA`. We recommand [RealisticVision V5.1](https://civitai.com/models/4201?modelVersionId=130072) and [ToonYou Beta6](https://civitai.com/models/30240?modelVersionId=125771).
 
-**4. Prepare AnimateDiff Modules**
+### Prepare AnimateDiff Modules
 
 Manually download the AnimateDiff modules. The download links can be found in each version's model zoo, as provided in the following. Save the modules to `models/Motion_Module`.
 
 
-##  [2023.12] AnimateDiff v3 and SparseCtrl (Beta)
+##  [2023.12] AnimateDiff v3 and SparseCtrl
 
-In this version, we did the image model finetuning with through *Domain Adapter LoRA* for more flexiblity at inference time.
+In this version, we did the image model finetuning with through **Domain Adapter LoRA** for more flexiblity at inference time.
 
-Additionally, we implement two SparseCtrl Encoders, which can take abitary number of condition maps (RGB image/scribble) to control the generation.
+Additionally, we implement two [SparseCtrl](https://arxiv.org/abs/2311.16933) Encoders, which can take abitary number of condition maps (RGB image/scribble) to control the generation.
 
 Technical details of SparseCtrl can be found in this research paper:
 
->**[SparseCtrl: Adding Sparse Controls to Text-to-Video Diffusion Models](https://arxiv.org/abs/2311.16933)**
+**[SparseCtrl: Adding Sparse Controls to Text-to-Video Diffusion Models](https://arxiv.org/abs/2311.16933)**
 </br>
->[Yuwei Guo](https://guoyww.github.io/),
+[Yuwei Guo](https://guoyww.github.io/),
 [Ceyuan Yang*](https://ceyuan.me/),
 [Anyi Rao](https://anyirao.com/),
 [Maneesh Agrawala](https://graphics.stanford.edu/~maneesh/),
 [Dahua Lin](http://dahua.site),
 [Bo Dai](https://daibo.info)
-></br>
-><p style="font-size: 0.8em; margin-top: -1em">*Corresponding Author</p>
->
->[![arXiv](https://img.shields.io/badge/arXiv-2311.16933-b31b1b.svg)](https://arxiv.org/abs/2311.16933)
+(*Corresponding Author)
+
+[![arXiv](https://img.shields.io/badge/arXiv-2311.16933-b31b1b.svg)](https://arxiv.org/abs/2311.16933)
 [![Project Page](https://img.shields.io/badge/Project-Website-green)](https://guoyww.github.io/projects/SparseCtrl/)
 
 
@@ -87,8 +92,8 @@ Technical details of SparseCtrl can be found in this research paper:
   |-------------------------------|--------------------------------------------------------------------------------------------|---------------------|---------------|------------------------------------|
   | `v3_adapter_sd_v15.ckpt`      | [Link](https://huggingface.co/guoyww/animatediff/blob/main/v3_sd15_adapter.ckpt)           | Domain Adapter      | 97.4 MB       |                                    |
   | `v3_sd15_mm.ckpt.ckpt`           | [Link](https://huggingface.co/guoyww/animatediff/blob/main/v3_sd15_mm.ckpt)              | Motion Module       | 1.56 GB       |                                    |
-  | `v3_sd15_sparsectrl_scribble.ckpt` | [Link](https://huggingface.co/guoyww/animatediff/blob/main/v3_sd15_sparsectrl_scribble.ckpt)    | SparseCtrl Encoder  | 1.86 GB       | for additional scribble condition  |
-  | `v3_sd15_sparsectrl_rgb.ckpt`    | [Link](https://huggingface.co/guoyww/animatediff/blob/main/v3_sd15_sparsectrl_rgb.ckpt)       | SparseCtrl Encoder  | 1.85 GB       | for additional RGB image condition |
+  | `v3_sd15_sparsectrl_scribble.ckpt` | [Link](https://huggingface.co/guoyww/animatediff/blob/main/v3_sd15_sparsectrl_scribble.ckpt)    | SparseCtrl Encoder  | 1.86 GB       | scribble condition  |
+  | `v3_sd15_sparsectrl_rgb.ckpt`    | [Link](https://huggingface.co/guoyww/animatediff/blob/main/v3_sd15_sparsectrl_rgb.ckpt)       | SparseCtrl Encoder  | 1.85 GB       | RGB image condition |
 </details>
 
 ### Quick Demos
@@ -118,17 +123,7 @@ Technical details of SparseCtrl can be found in this research paper:
     <tr>
       <td width=25% style="border: none"><img src="__assets__/demos/scribble/scribble_1.png" style="width:100%"></td>
       <td width=25% style="border: none"><img src="__assets__/animations/v3/sketch_boy.gif" style="width:100%"></td>
-      <td width=25% style="border: none">
-        <div class="">
-          <div style="width: 50%; float: left;">
-            <img src="__assets__/demos/scribble/scribble_2_1.png" style="width: 100%; border: 1px solid #000000;">
-            <img src="__assets__/demos/scribble/scribble_2_3.png" style="width: 100%; border: 1px solid #000000;">
-          </div>
-          <div style="width: 50%; float: left;">
-            <img src="__assets__/demos/scribble/scribble_2_2.png" style="width: 100%; border: 1px solid #000000;">
-          </div>
-        </div>
-      </td>
+      <td width=25% style="border: none"><img src="__assets__/demos/scribble/scribble_2_readme.png" style="width:100%"></td>
       <td width=25% style="border: none"><img src="__assets__/animations/v3/sketch_city.gif" style="width:100%"></td>
     </tr>
 </table>

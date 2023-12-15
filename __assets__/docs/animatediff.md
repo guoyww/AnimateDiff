@@ -53,8 +53,7 @@ python -m scripts.animate --config configs/prompts/8-GhibliBackground.yaml
 
 To generate animations with a new DreamBooth/LoRA model, you may create a new config `.yaml` file in the following format:
 ```
-NewModel:
-  inference_config: "[path to motion module config file]"
+- inference_config: "[path to motion module config file]"
 
   motion_module:
     - "models/Motion_Module/mm_sd_v14.ckpt"
@@ -100,13 +99,12 @@ train_data:
 Other training parameters (lr, epochs, validation settings, etc.) are also included in the config files.
 
 ### Training
-To train motion modules
-```
-torchrun --nnodes=1 --nproc_per_node=1 train.py --config configs/training/training.yaml
-```
-
 To finetune the unet's image layers
 ```
-torchrun --nnodes=1 --nproc_per_node=1 train.py --config configs/training/image_finetune.yaml
+torchrun --nnodes=1 --nproc_per_node=1 train.py --config configs/training/v1/image_finetune.yaml
 ```
 
+To train motion modules
+```
+torchrun --nnodes=1 --nproc_per_node=1 train.py --config configs/training/v1/training.yaml
+```
