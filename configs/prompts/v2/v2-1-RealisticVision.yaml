@@ -1,9 +1,7 @@
-RealisticVision:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           [13100322578370451493, 14752961627088720670, 9329399085567825781, 16987697414827649302]

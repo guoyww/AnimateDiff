@@ -1,0 +1,42 @@
+# motion module v1_14
+- dreambooth_path: "models/DreamBooth_LoRA/CounterfeitV30_25.safetensors"
+  lora_model_path: "models/DreamBooth_LoRA/lora_Ghibli_n3.safetensors"
+  lora_alpha: 1.0
+
+  inference_config: "configs/inference/inference-v1.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v14.ckpt"
+
+  seed: [8775748474469046618, 5893874876080607656, 11911465742147695752, 12437784838692000640]
+  steps: 25
+  guidance_scale: 8
+
+  prompt:
+    - "best quality,single build,architecture, blue_sky, building,cloudy_sky, day, fantasy, fence, field, house, build,architecture,landscape, moss, outdoors, overgrown, path, river, road, rock, scenery, sky, sword, tower, tree, waterfall"
+    - "black_border, building, city, day, fantasy, ice, landscape, letterboxed, mountain, ocean, outdoors, planet, scenery, ship, snow, snowing, water, watercraft, waterfall, winter"
+    - ",mysterious sea area, fantasy,build,concept"
+    - "Tomb Raider,Scenography,Old building"
+
+  n_prompt:
+    - "worst quality, low quality, letterboxed"
+
+
+# motion module v1_15
+- dreambooth_path: "models/DreamBooth_LoRA/CounterfeitV30_25.safetensors"
+  lora_model_path: "models/DreamBooth_LoRA/lora_Ghibli_n3.safetensors"
+  lora_alpha: 1.0
+
+  inference_config: "configs/inference/inference-v1.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15.ckpt"
+
+  seed: [8775748474469046618, 5893874876080607656, 11911465742147695752, 12437784838692000640]
+  steps: 25
+  guidance_scale: 8
+
+  prompt:
+    - "best quality,single build,architecture, blue_sky, building,cloudy_sky, day, fantasy, fence, field, house, build,architecture,landscape, moss, outdoors, overgrown, path, river, road, rock, scenery, sky, sword, tower, tree, waterfall"
+    - "black_border, building, city, day, fantasy, ice, landscape, letterboxed, mountain, ocean, outdoors, planet, scenery, ship, snow, snowing, water, watercraft, waterfall, winter"
+    - ",mysterious sea area, fantasy,build,concept"
+    - "Tomb Raider,Scenography,Old building"
+
+  n_prompt:
+    - "worst quality, low quality, letterboxed"

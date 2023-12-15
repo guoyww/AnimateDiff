@@ -1,13 +1,12 @@
-ZoomIn:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# ZoomIn
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_ZoomIn.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -21,17 +20,15 @@ ZoomIn:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-ZoomOut:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# ZoomOut
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_ZoomOut.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -45,17 +42,15 @@ ZoomOut:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-PanLeft:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# PanLeft
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_PanLeft.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -69,17 +64,15 @@ PanLeft:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-PanRight:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# PanRight
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_PanRight.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -93,17 +86,15 @@ PanRight:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-TiltUp:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# TiltUp
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_TiltUp.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -117,17 +108,15 @@ TiltUp:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-TiltDown:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# TiltDown
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_TiltDown.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -141,17 +130,15 @@ TiltDown:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-RollingAnticlockwise:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# RollingAnticlockwise
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_RollingAnticlockwise.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
@@ -165,17 +152,15 @@ RollingAnticlockwise:
     - "blur, haze, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers, deformed, distorted, disfigured, poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation"
 
 
-
-RollingClockwise:
-  inference_config: "configs/inference/inference-v2.yaml"
-  motion_module:
-    - "models/Motion_Module/mm_sd_v15_v2.ckpt"
+# RollingClockwise
+- inference_config: "configs/inference/inference-v2.yaml"
+  motion_module:    "models/Motion_Module/mm_sd_v15_v2.ckpt"
 
   motion_module_lora_configs:
     - path:  "models/MotionLoRA/v2_lora_RollingClockwise.ckpt"
       alpha: 1.0
 
-  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV20_v20.safetensors"
+  dreambooth_path: "models/DreamBooth_LoRA/realisticVisionV51_v51VAE.safetensors"
   lora_model_path: ""
 
   seed:           45987230
