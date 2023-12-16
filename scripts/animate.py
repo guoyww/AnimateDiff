@@ -69,6 +69,7 @@ def main(args):
             print(f"loading controlnet checkpoint from {model_config.controlnet_path} ...")
             controlnet_state_dict = torch.load(model_config.controlnet_path, map_location="cpu")
             controlnet_state_dict = controlnet_state_dict["controlnet"] if "controlnet" in controlnet_state_dict else controlnet_state_dict
+            controlnet_state_dict.pop("animatediff_config", "")
             controlnet.load_state_dict(controlnet_state_dict)
             controlnet.cuda()
 
