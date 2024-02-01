@@ -393,7 +393,8 @@ Please refer to [ANIMATEDIFF](./__assets__/docs/animatediff.md) for the detailed
 ```
 
 ## Disclaimer
-This project is released for academic use. We disclaim responsibility for user-generated content. Users are solely liable for their actions. The project contributors are not legally affiliated with, nor accountable for, users' behaviors. Use the generative model responsibly, adhering to ethical and legal standards.
+This project is released for academic use. We disclaim responsibility for user-generated content. Users are solely liable for their actions. The project contributors are not legally affiliated with, nor accountable for, users' behaviors. Use the generative model responsibly, adhering to ethical and legal standards. 
+Please be advised that our only official website is https://github.com/guoyww/AnimateDiff, and all the other websites are NOT associated with us at AnimateDiff. 
 
 
 ## Contact Us
