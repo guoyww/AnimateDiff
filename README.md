@@ -11,7 +11,7 @@ It is a plug-and-play module turning most community models into animation genera
 [Zhengyang Liang](https://maxleung99.github.io/),
 [Yaohui Wang](https://wyhsirius.github.io/),
 [Yu Qiao](https://scholar.google.com.hk/citations?user=gFtI-8QAAAAJ),
-[Maneesh Agrawla](https://graphics.stanford.edu/~maneesh/),
+[Maneesh Agrawala](https://graphics.stanford.edu/~maneesh/),
 [Dahua Lin](http://dahua.site),
 [Bo Dai](https://daibo.info)
 (*Corresponding Author)
