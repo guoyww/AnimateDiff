@@ -1,9 +1,9 @@
 # AnimateDiff
 
-This repository is the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
+This repository is the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725) [ICLR2024 Spotlight].
 It is a plug-and-play module turning most community models into animation generators, without the need of additional training.
 
-**[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)** [ICLR2024 Spotlight]
+**[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)** 
 </br>
 [Yuwei Guo](https://guoyww.github.io/),
 [Ceyuan Yang*](https://ceyuan.me/),
