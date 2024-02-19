@@ -377,6 +377,17 @@ Please refer to [ANIMATEDIFF](./__assets__/docs/animatediff.md) for the detailed
 <!-- ## Gallery -->
 <!-- We collect several generated results in [GALLERY](./__assets__/docs/gallery.md). -->
 
+<table>
+    <tr>
+    <td><img src="__assets__/animations/model_09/01.gif"></td>
+    <td><img src="__assets__/animations/model_09/02.gif"></td>
+    <td><img src="__assets__/animations/model_09/03.gif"></td>
+    <td><img src="__assets__/animations/model_09/04.gif"></td>
+    </tr>
+</table>
+<p style="margin-left: 2em; margin-top: -1em">
+Character Model：<a href="https://civitai.com/models/4468">Counterfeit-V3.0</a>;
+
 ## BibTeX
 ```
 @article{guo2023animatediff,
