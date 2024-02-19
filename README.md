@@ -3,13 +3,15 @@
 This repository is the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725).
 It is a plug-and-play module turning most community models into animation generators, without the need of additional training.
 
-**[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)**
+**[AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning](https://arxiv.org/abs/2307.04725)** [ICLR2024 Spotlight]
 </br>
 [Yuwei Guo](https://guoyww.github.io/),
 [Ceyuan Yang*](https://ceyuan.me/),
 [Anyi Rao](https://anyirao.com/),
+[Zhengyang Liang](https://maxleung99.github.io/),
 [Yaohui Wang](https://wyhsirius.github.io/),
 [Yu Qiao](https://scholar.google.com.hk/citations?user=gFtI-8QAAAAJ),
+[Maneesh Agrawla](https://graphics.stanford.edu/~maneesh/),
 [Dahua Lin](http://dahua.site),
 [Bo Dai](https://daibo.info)
 (*Corresponding Author)
@@ -379,9 +381,9 @@ Please refer to [ANIMATEDIFF](./__assets__/docs/animatediff.md) for the detailed
 ```
 @article{guo2023animatediff,
   title={AnimateDiff: Animate Your Personalized Text-to-Image Diffusion Models without Specific Tuning},
-  author={Guo, Yuwei and Yang, Ceyuan and Rao, Anyi and Wang, Yaohui and Qiao, Yu and Lin, Dahua and Dai, Bo},
-  journal={arXiv preprint arXiv:2307.04725},
-  year={2023}
+  author={Guo, Yuwei and Yang, Ceyuan and Rao, Anyi and Liang, Zhengyang and Wang, Yaohui and Qiao, Yu and Agrawala, Maneesh and Lin, Dahua and Dai, Bo},
+  journal={International Conference on Learning Representations},
+  year={2024}
 }
 
 @article{guo2023sparsectrl,
