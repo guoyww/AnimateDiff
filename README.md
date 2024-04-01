@@ -308,8 +308,8 @@ Moreover, we support **MotionLoRA** for eight basic camera movements.
 Here we provide several demo inference scripts. The corresponding AnimateDiff modules and community models need to be downloaded in advance. See [ANIMATEDIFF](__assets__/docs/animatediff.md) for detailed setup.
 
 ```
-python -m scripts.animate --config configs/prompts/1-ToonYou.yaml
-python -m scripts.animate --config configs/prompts/3-RcnzCartoon.yaml
+python -m scripts.animate --config configs/prompts/v1/v1-1-ToonYou.yaml
+python -m scripts.animate --config configs/prompts/v3/v3-3-RcnzCartoon.yaml
 ```
 
 
