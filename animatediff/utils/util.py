@@ -1,5 +1,6 @@
 import os
 import imageio
+import importlib
 import numpy as np
 from typing import Union
 
@@ -170,3 +171,17 @@ def load_weights(
         animation_pipeline = load_diffusers_lora(animation_pipeline, motion_lora_state_dict, alpha)
 
     return animation_pipeline
+
+def is_npu_available():
+    "Checks if `torch_npu` is installed and potentially if a NPU is in the environment"
+    if importlib.util.find_spec("torch") is None or importlib.util.find_spec("torch_npu") is None:
+        return False
+
+    import torch_npu
+
+    try:
+        # Will raise a RuntimeError if no NPU is found
+        _ = torch.npu.device_count()
+        return torch.npu.is_available()
+    except RuntimeError:
+        return False

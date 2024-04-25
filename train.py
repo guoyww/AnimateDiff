@@ -37,9 +37,15 @@ from transformers import CLIPTextModel, CLIPTokenizer
 from animatediff.data.dataset import WebVid10M
 from animatediff.models.unet import UNet3DConditionModel
 from animatediff.pipelines.pipeline_animation import AnimationPipeline
-from animatediff.utils.util import save_videos_grid, zero_rank_print
+from animatediff.utils.util import save_videos_grid, zero_rank_print, is_npu_available
 
-
+if is_npu_available():
+    import torch_npu
+    from torch_npu.contrib import transfer_to_npu
+    torch.npu.config.allow_internal_format = False
+    device = "npu"
+else:
+    device = "cuda"
 
 def init_dist(launcher="slurm", backend='nccl', port=29500, **kwargs):
     """Initializes distributed environment."""
@@ -212,7 +218,7 @@ def main(
 
     # Enable xformers
     if enable_xformers_memory_efficient_attention:
-        if is_xformers_available():
+        if is_xformers_available() and not is_npu_available():
             unet.enable_xformers_memory_efficient_attention()
         else:
             raise ValueError("xformers is not available. Make sure it is installed correctly")
@@ -270,7 +276,7 @@ def main(
     if not image_finetune:
         validation_pipeline = AnimationPipeline(
             unet=unet, vae=vae, tokenizer=tokenizer, text_encoder=text_encoder, scheduler=noise_scheduler,
-        ).to("cuda")
+        ).to(device)
     else:
         validation_pipeline = StableDiffusionPipeline.from_pretrained(
             pretrained_model_path,

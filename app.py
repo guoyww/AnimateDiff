@@ -17,9 +17,17 @@ from transformers import CLIPTextModel, CLIPTokenizer
 
 from animatediff.models.unet import UNet3DConditionModel
 from animatediff.pipelines.pipeline_animation import AnimationPipeline
-from animatediff.utils.util import save_videos_grid
+from animatediff.utils.util import save_videos_grid, is_npu_available
 from animatediff.utils.convert_from_ckpt import convert_ldm_unet_checkpoint, convert_ldm_clip_checkpoint, convert_ldm_vae_checkpoint
 from animatediff.utils.convert_lora_safetensor_to_diffusers import convert_lora
+
+if is_npu_available():
+    import torch_npu
+    from torch_npu.contrib import transfer_to_npu
+    device = "npu"
+else:
+    device = "cuda"
+
 
 
 sample_idx     = 0
@@ -81,9 +89,9 @@ class AnimateController:
 
     def update_stable_diffusion(self, stable_diffusion_dropdown):
         self.tokenizer = CLIPTokenizer.from_pretrained(stable_diffusion_dropdown, subfolder="tokenizer")
-        self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dropdown, subfolder="text_encoder").cuda()
-        self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dropdown, subfolder="vae").cuda()
-        self.unet = UNet3DConditionModel.from_pretrained_2d(stable_diffusion_dropdown, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(self.inference_config.unet_additional_kwargs)).cuda()
+        self.text_encoder = CLIPTextModel.from_pretrained(stable_diffusion_dropdown, subfolder="text_encoder").to(device)
+        self.vae = AutoencoderKL.from_pretrained(stable_diffusion_dropdown, subfolder="vae").to(device)
+        self.unet = UNet3DConditionModel.from_pretrained_2d(stable_diffusion_dropdown, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(self.inference_config.unet_additional_kwargs)).to(device)
         return gr.Dropdown.update()
 
     def update_motion_module(self, motion_module_dropdown):
@@ -150,17 +158,17 @@ class AnimateController:
         if base_model_dropdown == "":
             raise gr.Error(f"Please select a base DreamBooth model.")
 
-        if is_xformers_available(): self.unet.enable_xformers_memory_efficient_attention()
+        if is_xformers_available() and not is_npu_available(): self.unet.enable_xformers_memory_efficient_attention()
 
         pipeline = AnimationPipeline(
             vae=self.vae, text_encoder=self.text_encoder, tokenizer=self.tokenizer, unet=self.unet,
             scheduler=scheduler_dict[sampler_dropdown](**OmegaConf.to_container(self.inference_config.noise_scheduler_kwargs))
-        ).to("cuda")
+        ).to(device)
         
         if self.lora_model_state_dict != {}:
             pipeline = convert_lora(pipeline, self.lora_model_state_dict, alpha=lora_alpha_slider)
 
-        pipeline.to("cuda")
+        pipeline.to(device)
 
         if seed_textbox != -1 and seed_textbox != "": torch.manual_seed(int(seed_textbox))
         else: torch.seed()

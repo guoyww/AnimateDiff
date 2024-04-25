@@ -6,6 +6,15 @@ from typing import Optional
 import torch
 import torch.nn.functional as F
 from torch import nn
+from animatediff.utils.util import is_npu_available
+if is_npu_available():
+    import torch_npu
+    from torch_npu.contrib import transfer_to_npu
+    from animatediff.models.attention_npu_monkey_patch import replace_with_torch_npu_flash_attention
+    from animatediff.models.attention_npu_monkey_patch import replace_with_torch_npu_geglu
+    replace_with_torch_npu_flash_attention()
+    replace_with_torch_npu_geglu()
+
 
 from diffusers.configuration_utils import ConfigMixin, register_to_config
 from diffusers.modeling_utils import ModelMixin
