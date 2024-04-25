@@ -17,7 +17,7 @@ from animatediff.models.unet import UNet3DConditionModel
 from animatediff.models.sparse_controlnet import SparseControlNetModel
 from animatediff.pipelines.pipeline_animation import AnimationPipeline
 from animatediff.utils.util import save_videos_grid
-from animatediff.utils.util import load_weights
+from animatediff.utils.util import load_weights, is_npu_available
 from diffusers.utils.import_utils import is_xformers_available
 
 from einops import rearrange, repeat
@@ -26,6 +26,13 @@ import csv, pdb, glob, math
 from pathlib import Path
 from PIL import Image
 import numpy as np
+
+if is_npu_available():
+    import torch_npu
+    from torch_npu.contrib import transfer_to_npu
+    device = "npu"
+else:
+    device = "cuda"
 
 
 @torch.no_grad()
@@ -42,8 +49,8 @@ def main(args):
 
     # create validation pipeline
     tokenizer    = CLIPTokenizer.from_pretrained(args.pretrained_model_path, subfolder="tokenizer")
-    text_encoder = CLIPTextModel.from_pretrained(args.pretrained_model_path, subfolder="text_encoder").cuda()
-    vae          = AutoencoderKL.from_pretrained(args.pretrained_model_path, subfolder="vae").cuda()
+    text_encoder = CLIPTextModel.from_pretrained(args.pretrained_model_path, subfolder="text_encoder").to(device)
+    vae          = AutoencoderKL.from_pretrained(args.pretrained_model_path, subfolder="vae").to(device)
 
     sample_idx = 0
     for model_idx, model_config in enumerate(config):
@@ -52,7 +59,7 @@ def main(args):
         model_config.L = model_config.get("L", args.L)
 
         inference_config = OmegaConf.load(model_config.get("inference_config", args.inference_config))
-        unet = UNet3DConditionModel.from_pretrained_2d(args.pretrained_model_path, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(inference_config.unet_additional_kwargs)).cuda()
+        unet = UNet3DConditionModel.from_pretrained_2d(args.pretrained_model_path, subfolder="unet", unet_additional_kwargs=OmegaConf.to_container(inference_config.unet_additional_kwargs)).to(device)
 
         # load controlnet model
         controlnet = controlnet_images = None
@@ -71,7 +78,7 @@ def main(args):
             controlnet_state_dict = controlnet_state_dict["controlnet"] if "controlnet" in controlnet_state_dict else controlnet_state_dict
             controlnet_state_dict.pop("animatediff_config", "")
             controlnet.load_state_dict(controlnet_state_dict)
-            controlnet.cuda()
+            controlnet.to(device)
 
             image_paths = model_config.controlnet_images
             if isinstance(image_paths, str): image_paths = [image_paths]
@@ -102,7 +109,7 @@ def main(args):
             for i, image in enumerate(controlnet_images):
                 Image.fromarray((255. * (image.numpy().transpose(1,2,0))).astype(np.uint8)).save(f"{savedir}/control_images/{i}.png")
 
-            controlnet_images = torch.stack(controlnet_images).unsqueeze(0).cuda()
+            controlnet_images = torch.stack(controlnet_images).unsqueeze(0).to(device)
             controlnet_images = rearrange(controlnet_images, "b f c h w -> b c f h w")
 
             if controlnet.use_simplified_condition_embedding:
@@ -113,6 +120,8 @@ def main(args):
 
         # set xformers
         if is_xformers_available() and (not args.without_xformers):
+            if is_npu_available():
+                raise ValueError("AscendNPU does not support xformers acceleration.")
             unet.enable_xformers_memory_efficient_attention()
             if controlnet is not None: controlnet.enable_xformers_memory_efficient_attention()
 
@@ -120,7 +129,7 @@ def main(args):
             vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, unet=unet,
             controlnet=controlnet,
             scheduler=DDIMScheduler(**OmegaConf.to_container(inference_config.noise_scheduler_kwargs)),
-        ).to("cuda")
+        ).to(device)
 
         pipeline = load_weights(
             pipeline,
@@ -134,7 +143,7 @@ def main(args):
             dreambooth_model_path      = model_config.get("dreambooth_path", ""),
             lora_model_path            = model_config.get("lora_model_path", ""),
             lora_alpha                 = model_config.get("lora_alpha", 0.8),
-        ).to("cuda")
+        ).to(device)
 
         prompts      = model_config.prompt
         n_prompts    = list(model_config.n_prompt) * len(prompts) if len(model_config.n_prompt) == 1 else model_config.n_prompt

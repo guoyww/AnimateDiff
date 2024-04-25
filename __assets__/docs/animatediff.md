@@ -2,8 +2,10 @@
 ## Setups for Inference
 
 ### Prepare Environment
+**If you are using Ascend NPU, see instructions for [AscendNPU support](animatediff_npu.md).**
 
 ***We updated our inference code with xformers and a sequential decoding trick. Now AnimateDiff takes only ~12GB VRAM to inference, and run on a single RTX3090 !!***
+
 
 ```
 git clone https://github.com/guoyww/AnimateDiff.git

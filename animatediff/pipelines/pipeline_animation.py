@@ -26,7 +26,7 @@ from diffusers.schedulers import (
 from diffusers.utils import deprecate, logging, BaseOutput
 
 from einops import rearrange
-
+from animatediff.utils.util import is_npu_available
 from ..models.unet import UNet3DConditionModel
 from ..models.sparse_controlnet import SparseControlNetModel
 import pdb
@@ -129,8 +129,10 @@ class AnimationPipeline(DiffusionPipeline):
             from accelerate import cpu_offload
         else:
             raise ImportError("Please install accelerate via `pip install accelerate`")
-
-        device = torch.device(f"cuda:{gpu_id}")
+        if is_npu_available():
+            device = torch.device(f"npu:{gpu_id}")
+        else:
+            device = torch.device(f"cuda:{gpu_id}")
 
         for cpu_offloaded_model in [self.unet, self.text_encoder, self.vae]:
             if cpu_offloaded_model is not None:
