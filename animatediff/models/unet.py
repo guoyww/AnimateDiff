@@ -7,12 +7,13 @@ import os
 import json
 import pdb
 
+import safetensors
 import torch
 import torch.nn as nn
 import torch.utils.checkpoint
 
 from diffusers.configuration_utils import ConfigMixin, register_to_config
-from diffusers.models.modeling_utils import ModelMixin
+from diffusers.modeling_utils import ModelMixin
 from diffusers.utils import BaseOutput, logging
 from diffusers.models.embeddings import TimestepEmbedding, Timesteps
 from .unet_blocks import (
@@ -475,9 +476,7 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
         return UNet3DConditionOutput(sample=sample)
 
     @classmethod
-    def build_config(cls, pretrained_2d_model_path, subfolder=None):
-        if subfolder is not None:
-            pretrained_model_path = os.path.join(pretrained_2d_model_path, subfolder)
+    def build_config(cls, pretrained_2d_model_path):
         print(f"loaded 3D unet's config {pretrained_2d_model_path} ...")
 
         config_file = os.path.join(pretrained_2d_model_path, 'config.json')
@@ -503,7 +502,9 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
 
     @classmethod
     def from_pretrained_3d(cls, pretrained_2d_model_path, resume_ckpt_path, subfolder=None, unet_additional_kwargs=None):
-        config = cls.build_config(pretrained_2d_model_path, subfolder)
+        if subfolder is not None:
+            pretrained_2d_model_path = os.path.join(pretrained_2d_model_path, subfolder)
+        config = cls.build_config(pretrained_2d_model_path)
         model = cls.from_config(config, **unet_additional_kwargs)
 
         state_dict = torch.load(resume_ckpt_path, map_location="cpu")
@@ -517,18 +518,26 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
 
     @classmethod
     def from_pretrained_2d(cls, pretrained_model_path, subfolder=None, unet_additional_kwargs=None):
-        config = cls.build_config(pretrained_model_path, subfolder)
-        from diffusers.utils import WEIGHTS_NAME
+        if subfolder is not None:
+            pretrained_model_path = os.path.join(pretrained_model_path, subfolder)
+        config = cls.build_config(pretrained_model_path)
         model = cls.from_config(config, **unet_additional_kwargs)
+
+        from diffusers.utils import WEIGHTS_NAME
         model_file = os.path.join(pretrained_model_path, WEIGHTS_NAME)
-        if not os.path.isfile(model_file):
-            raise RuntimeError(f"{model_file} does not exist")
-        state_dict = torch.load(model_file, map_location="cpu")
+        if os.path.isfile(model_file):
+            state_dict = torch.load(model_file, map_location="cpu")
+        else:
+            model_file_st = os.path.splitext(model_file)[0] + ".safetensors"
+            if os.path.isfile(model_file_st):
+                state_dict = safetensors.torch.load_file(model_file_st)
+            else:
+                raise RuntimeError(f"{model_file} or {model_file_st} does not exist")
 
         m, u = model.load_state_dict(state_dict, strict=False)
         print(f"### missing keys: {len(m)}; \n### unexpected keys: {len(u)};")
-        
+
         params = [p.numel() if "motion_modules." in n else 0 for n, p in model.named_parameters()]
         print(f"### Motion Module Parameters: {sum(params) / 1e6} M")
-        
+
         return model

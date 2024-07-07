@@ -3,7 +3,7 @@ image_finetune: false
 output_dir: "outputs-25"
 pretrained_model_path: "/root/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/1d0c4ebf6ff58a5caecab40fa1406526bca4b5b9/"
 
-resume_ckpt: None
+# resume_ckpt:
 
 unet_additional_kwargs:
   use_motion_module              : true
@@ -11,7 +11,6 @@ unet_additional_kwargs:
   unet_use_cross_frame_attention : false
   unet_use_temporal_attention    : false
 
-  motion_module_mid_block:        false
   motion_module_decoder_only:     false
 
   # v1:
@@ -24,8 +23,11 @@ unet_additional_kwargs:
 
   # v3:
   # use_inflated_groupnorm:     true
+  # motion_module_mid_block: false
+
 
   use_inflated_groupnorm:     true
+  motion_module_mid_block: false
 
   motion_module_type: Vanilla
   motion_module_kwargs:
@@ -87,7 +89,7 @@ validation_steps_tuple: [2, 50]
 
 global_seed: 42
 mixed_precision_training: true
-enable_xformers_memory_efficient_attention: False
+enable_xformers_memory_efficient_attention: True
 
 is_debug: False
 use_adamw8bit: True
