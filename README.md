@@ -1,3 +1,31 @@
+## *** Updated by [damian0815](https://github.com/damian0815) for SD2 (v-prediction support)
+
+see [configs/training/sd21/training-vpred-adapt.yaml](configs/training/sd21/training-vpred-adapt.yaml) for training reference.
+
+for inference:
+```bash
+python -m scripts.animate --config configs/prompts/sd2/sd21-1-T2V.yaml --pretrained-model-path "<path/to/sd21/diffusers>"
+```
+
+note: the difference between v1, v2, and v3 seems to just be the unet parameters `use_inflated_groupnorm`, `motion_module_mid_block`, and `temporal_position_encoding_max_len` (ref [configs/training/sd21/training-vpred-adapt.yaml](configs/training/sd21/training-vpred-adapt.yaml)):
+
+```bash
+  # v1:
+  # use_inflated_groupnorm: false
+  # motion_module_mid_block: false
+  # temporal_position_encoding_max_len: 24
+
+  # v2:
+  # use_inflated_groupnorm: true
+  # motion_module_mid_block: true
+  # temporal_position_encoding_max_len: 32
+  
+  # v3:
+  # use_inflated_groupnorm:     true
+  # motion_module_mid_block: false
+  # temporal_position_encoding_max_len: 32
+```
+
 # AnimateDiff
 
 This repository is the official implementation of [AnimateDiff](https://arxiv.org/abs/2307.04725) [ICLR2024 Spotlight].
