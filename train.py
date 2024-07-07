@@ -138,6 +138,8 @@ def main(
     num_processes   = dist.get_world_size()
     is_main_process = global_rank == 0
 
+    if global_seed == -1:
+        global_seed = random.randint(1, 10000)
     seed = global_seed + global_rank
     torch.manual_seed(seed)
     
@@ -291,8 +293,8 @@ def main(
     lr_scheduler = get_scheduler(
         lr_scheduler,
         optimizer=optimizer,
-        num_warmup_steps=lr_warmup_steps * gradient_accumulation_steps,
-        num_training_steps=max_train_steps * gradient_accumulation_steps,
+        num_warmup_steps=lr_warmup_steps,
+        num_training_steps=max_train_steps,
     )
 
     # Validation pipeline

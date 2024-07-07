@@ -1,12 +1,13 @@
 
 image_finetune: false
 
-output_dir: "outputs-sd2-vpredadapt"
+output_dir: "outputs-sd2-vpredadapt-6000resumecos"
 #pretrained_model_path: "/root/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/1d0c4ebf6ff58a5caecab40fa1406526bca4b5b9/"
 pretrained_model_path: "/root/.cache/huggingface/hub/models--stabilityai--stable-diffusion-2-1/snapshots/5cae40e6a2745ae2b01ad92ae5043f95f23644d6/"
 
 # resume from sd1.5 ckpt, adapt to v-pred takes relatively few steps
-resume_ckpt: "models/Motion_Module/v3_sd15_mm.ckpt"
+#resume_ckpt: "models/Motion_Module/v3_sd15_mm.ckpt"
+resume_ckpt: "outputs-sd2-vpredadapt/checkpoint-6000.ckpt"
 
 unet_additional_kwargs:
   use_motion_module              : true
@@ -81,6 +82,8 @@ unet_checkpoint_path: ""
 learning_rate:    1.e-4
 train_batch_size: 1
 gradient_accumulation_steps: 4
+lr_warmup_steps: 1
+lr_scheduler: "cosine"
 
 max_train_epoch:      -1
 max_train_steps:      10000
@@ -90,7 +93,7 @@ checkpointing_steps:  1000
 validation_steps:       1000
 validation_steps_tuple: [4, 50]
 
-global_seed: 42
+global_seed: -1
 mixed_precision_training: true
 enable_xformers_memory_efficient_attention: True
 

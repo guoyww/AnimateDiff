@@ -6,6 +6,7 @@ from typing import List, Optional, Tuple, Union
 import os
 import json
 import pdb
+import re
 
 import safetensors
 import torch
@@ -510,8 +511,10 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
             motion_module_state_dict = safetensors.torch.load_file(resume_ckpt_path)
         else:
             motion_module_state_dict = torch.load(resume_ckpt_path, map_location="cpu")
+        if 'state_dict' in motion_module_state_dict:
+            motion_module_state_dict = motion_module_state_dict['state_dict']
         unet_state_dict = {}
-        unet_state_dict.update({name: param for name, param in motion_module_state_dict.items() if "motion_modules." in name})
+        unet_state_dict.update({re.sub('^module.', '', name): param for name, param in motion_module_state_dict.items() if "motion_modules." in name})
 
         m, u = model.load_state_dict(unet_state_dict, strict=False)
         print(f"### missing keys: {len(m)}; \n### unexpected keys: {len(u)};")
