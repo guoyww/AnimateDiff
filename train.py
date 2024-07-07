@@ -158,7 +158,8 @@ def main(
         os.makedirs(f"{output_dir}/samples", exist_ok=True)
         os.makedirs(f"{output_dir}/sanity_check", exist_ok=True)
         os.makedirs(f"{output_dir}/checkpoints", exist_ok=True)
-        OmegaConf.save(config, os.path.join(output_dir, 'config.yaml'))
+        OmegaConf.save({k:v for k,v in config.items() if k != 'config'},
+                       os.path.join(output_dir, 'config.yaml'))
 
     # Load scheduler, tokenizer and models.
     noise_scheduler = DDIMScheduler(**OmegaConf.to_container(noise_scheduler_kwargs))
@@ -378,6 +379,7 @@ def main(
             with torch.cuda.amp.autocast(enabled=mixed_precision_training):
                 model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
+                del model_pred
 
             optimizer.zero_grad()
 
@@ -397,6 +399,8 @@ def main(
                 """ <<< gradient clipping <<< """
                 optimizer.step()
 
+            loss_value = loss.detach().item()
+            del loss
             lr_scheduler.step()
             progress_bar.update(1)
             global_step += 1
@@ -405,7 +409,7 @@ def main(
             
             # Wandb logging
             if is_main_process and (not is_debug) and use_wandb:
-                wandb.log({"train_loss": loss.item()}, step=global_step)
+                wandb.log({"train_loss": loss_value}, step=global_step)
                 
             # Save checkpoint
             if is_main_process and (global_step % checkpointing_steps == 0 or step == len(train_dataloader) - 1):
@@ -470,7 +474,7 @@ def main(
 
                 logging.info(f"Saved samples to {save_path}")
                 
-            logs = {"step_loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
+            logs = {"step_loss": loss_value, "lr": lr_scheduler.get_last_lr()[0]}
             progress_bar.set_postfix(**logs)
             
             if global_step >= max_train_steps:
