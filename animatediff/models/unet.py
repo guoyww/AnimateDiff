@@ -502,13 +502,18 @@ class UNet3DConditionModel(ModelMixin, ConfigMixin):
 
     @classmethod
     def from_pretrained_3d(cls, pretrained_2d_model_path, resume_ckpt_path, subfolder=None, unet_additional_kwargs=None):
-        if subfolder is not None:
-            pretrained_2d_model_path = os.path.join(pretrained_2d_model_path, subfolder)
-        config = cls.build_config(pretrained_2d_model_path)
-        model = cls.from_config(config, **unet_additional_kwargs)
+        print(f"### Loading base model from {pretrained_2d_model_path}... expect 560 missing keys")
+        model = cls.from_pretrained_2d(pretrained_model_path=pretrained_2d_model_path, subfolder=subfolder, unet_additional_kwargs=unet_additional_kwargs)
 
-        state_dict = torch.load(resume_ckpt_path, map_location="cpu")
-        m, u = model.load_state_dict(state_dict, strict=False)
+        print(f"### Loading motion module from {resume_ckpt_path}... expect 686 missing keys")
+        if os.path.splitext(resume_ckpt_path)[1] == '.safetensors':
+            motion_module_state_dict = safetensors.torch.load_file(resume_ckpt_path)
+        else:
+            motion_module_state_dict = torch.load(resume_ckpt_path, map_location="cpu")
+        unet_state_dict = {}
+        unet_state_dict.update({name: param for name, param in motion_module_state_dict.items() if "motion_modules." in name})
+
+        m, u = model.load_state_dict(unet_state_dict, strict=False)
         print(f"### missing keys: {len(m)}; \n### unexpected keys: {len(u)};")
 
         params = [p.numel() if "motion_modules." in n else 0 for n, p in model.named_parameters()]
