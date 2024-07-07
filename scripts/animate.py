@@ -117,10 +117,15 @@ def main(args):
             unet.enable_xformers_memory_efficient_attention()
             if controlnet is not None: controlnet.enable_xformers_memory_efficient_attention()
 
+        #noise_scheduler = DDIMScheduler(**OmegaConf.to_container(inference_config.noise_scheduler_kwargs))
+        noise_scheduler_base = DDIMScheduler.from_pretrained(args.pretrained_model_path, subfolder="scheduler")
+        noise_scheduler_config = dict(noise_scheduler_base.config)
+        noise_scheduler_config.update(inference_config.noise_scheduler_kwargs or {})
+        noise_scheduler = DDIMScheduler.from_config(noise_scheduler_config)
         pipeline = AnimationPipeline(
             vae=vae, text_encoder=text_encoder, tokenizer=tokenizer, unet=unet,
             controlnet=controlnet,
-            scheduler=DDIMScheduler(**OmegaConf.to_container(inference_config.noise_scheduler_kwargs)),
+            scheduler=noise_scheduler
         ).to("cuda")
 
         pipeline = load_weights(

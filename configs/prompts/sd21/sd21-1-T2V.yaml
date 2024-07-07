@@ -1,0 +1,27 @@
+# 1-animation
+- domain_lora_scale: 1.0
+  adapter_lora_path: ""
+  dreambooth_path:   ""
+
+  inference_config: "configs/inference/inference-sd21.yaml"
+  motion_module:    "models/Motion_Module/sd21_vpredadapt_25input_25epoch.ckpt"
+
+  controlnet_config: ""
+  controlnet_path:   ""
+
+  H: 256
+  W: 384
+  seed: [123,234]
+  steps: 25
+  guidance_scale: 8.5
+
+  controlnet_image_indexs: [0]
+  controlnet_images:
+    - "__assets__/demos/image/painting.png"
+
+  prompt:
+    - an oil painting of a sailboat in the ocean wave
+    - an oil painting of a sailboat in the ocean wave
+  n_prompt:
+    - "worst quality, low quality, letterboxed"
+

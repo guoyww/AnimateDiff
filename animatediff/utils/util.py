@@ -6,6 +6,7 @@ from typing import Union
 import torch
 import torchvision
 import torch.distributed as dist
+import re
 
 from safetensors import safe_open
 from tqdm import tqdm
@@ -110,7 +111,8 @@ def load_weights(
         print(f"load motion module from {motion_module_path}")
         motion_module_state_dict = torch.load(motion_module_path, map_location="cpu")
         motion_module_state_dict = motion_module_state_dict["state_dict"] if "state_dict" in motion_module_state_dict else motion_module_state_dict
-        unet_state_dict.update({name: param for name, param in motion_module_state_dict.items() if "motion_modules." in name})
+        unet_state_dict.update({re.sub('^module.', '', name): param for name, param in motion_module_state_dict.items()
+                                if "motion_modules." in name})
         unet_state_dict.pop("animatediff_config", "")
     
     missing, unexpected = animation_pipeline.unet.load_state_dict(unet_state_dict, strict=False)

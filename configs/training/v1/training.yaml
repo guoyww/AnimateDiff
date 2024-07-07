@@ -56,7 +56,7 @@ noise_scheduler_kwargs:
   clip_sample:         false
 
 train_data:
-  csv_path:        "/workspace/webvid/results_2M_val-25.csv"
+  csv_path:        "/workspace/webvid/results_2M_val-4058.csv"
   video_folder:    "/workspace/webvid/2M_val"
   sample_size:     256
   sample_stride:   4
@@ -81,11 +81,11 @@ train_batch_size: 1
 gradient_accumulation_steps: 4
 
 max_train_epoch:      -1
-max_train_steps:      2000
+max_train_steps:      10000
 checkpointing_epochs: -1
-checkpointing_steps:  200
+checkpointing_steps:  1000
 
-validation_steps:       200
+validation_steps:       1000
 validation_steps_tuple: [4, 50]
 
 global_seed: 42
