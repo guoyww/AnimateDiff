@@ -408,6 +408,7 @@ def main(
                 model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
                 del model_pred
+                del target
 
             # Backpropagate
             if mixed_precision_training:

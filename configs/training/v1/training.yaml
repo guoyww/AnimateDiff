@@ -1,7 +1,8 @@
 image_finetune: false
 
-output_dir: "outputs-25"
-pretrained_model_path: "/root/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/1d0c4ebf6ff58a5caecab40fa1406526bca4b5b9/"
+output_dir: "outputs-25-sd2"
+#pretrained_model_path: "/root/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/1d0c4ebf6ff58a5caecab40fa1406526bca4b5b9/"
+pretrained_model_path: "/root/.cache/huggingface/hub/models--stabilityai--stable-diffusion-2-1/snapshots/5cae40e6a2745ae2b01ad92ae5043f95f23644d6/"
 
 # resume_ckpt:
 
