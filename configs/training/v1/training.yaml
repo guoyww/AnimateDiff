@@ -1,9 +1,9 @@
 image_finetune: false
 
-output_dir: "outputs-25"
+output_dir: "outputs-25-v3"
 pretrained_model_path: "/root/.cache/huggingface/hub/models--runwayml--stable-diffusion-v1-5/snapshots/1d0c4ebf6ff58a5caecab40fa1406526bca4b5b9/"
 
-resume_ckpt: "models/Motion_Module/mm_sd_v15.ckpt"
+resume_ckpt: "models/Motion_Module/v3_sd15_mm.ckpt"
 
 unet_additional_kwargs:
   use_motion_module              : true
@@ -26,7 +26,7 @@ unet_additional_kwargs:
   # motion_module_mid_block: false
 
 
-  use_inflated_groupnorm:     false
+  use_inflated_groupnorm:     true
   motion_module_mid_block: false
 
   motion_module_type: Vanilla
@@ -39,7 +39,7 @@ unet_additional_kwargs:
     # temporal_position_encoding_max_len : 24
     # v2, v3:
     # temporal_position_encoding_max_len: 32
-    temporal_position_encoding_max_len: 24
+    temporal_position_encoding_max_len: 32
     temporal_attention_dim_div         : 1
     zero_initialize                    : true
 
@@ -85,7 +85,7 @@ checkpointing_epochs: -1
 checkpointing_steps:  200
 
 validation_steps:       200
-validation_steps_tuple: [2, 50]
+validation_steps_tuple: [4, 50]
 
 global_seed: 42
 mixed_precision_training: true
