@@ -9,6 +9,8 @@ import datetime
 import subprocess
 
 from pathlib import Path
+
+from diffusers.configuration_utils import FrozenDict
 from tqdm.auto import tqdm
 from einops import rearrange
 from omegaconf import OmegaConf
@@ -167,7 +169,11 @@ def main(
                        os.path.join(output_dir, 'config.yaml'))
 
     # Load scheduler, tokenizer and models.
-    noise_scheduler = DDIMScheduler(**OmegaConf.to_container(noise_scheduler_kwargs))
+    #noise_scheduler = DDIMScheduler(**OmegaConf.to_container(noise_scheduler_kwargs))
+    noise_scheduler_base = DDIMScheduler.from_pretrained(pretrained_model_path, subfolder="scheduler")
+    noise_scheduler_config = dict(noise_scheduler_base.config)
+    noise_scheduler_config.update(noise_scheduler_kwargs or {})
+    noise_scheduler = DDIMScheduler.from_config(noise_scheduler_config)
 
     vae          = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
     tokenizer    = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
@@ -228,7 +234,6 @@ def main(
             weight_decay=adam_weight_decay,
             eps=adam_epsilon,
         )
-
 
     if is_main_process:
         zero_rank_print(f"trainable params number: {len(trainable_params)}")
@@ -393,7 +398,7 @@ def main(
             if noise_scheduler.config.prediction_type == "epsilon":
                 target = noise
             elif noise_scheduler.config.prediction_type == "v_prediction":
-                raise NotImplementedError
+                target = noise_scheduler.get_velocity(latents, noise, timesteps)
             else:
                 raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
 
@@ -428,6 +433,7 @@ def main(
 
             loss_value = loss.detach().item()
             del loss
+
             lr_scheduler.step()
             progress_bar.update(1)
             global_step += 1
@@ -437,7 +443,7 @@ def main(
             # Wandb logging
             if is_main_process and (not is_debug) and use_wandb:
                 wandb.log({"train_loss": loss_value}, step=global_step)
-                
+
             # Save checkpoint
             if is_main_process and (global_step % checkpointing_steps == 0):# or step == len(train_dataloader) - 1):
                 save_path = os.path.join(output_dir, f"checkpoints")
