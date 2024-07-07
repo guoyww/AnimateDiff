@@ -86,6 +86,9 @@ def main(
 
     train_data: Dict,
     validation_data: Dict,
+
+    resume_ckpt: str = None,
+
     cfg_random_null_text: bool = True,
     cfg_random_null_text_ratio: float = 0.1,
     
@@ -122,6 +125,8 @@ def main(
 
     global_seed: int = 42,
     is_debug: bool = False,
+
+    use_adamw8bit: bool = False,
 ):
     check_min_version("0.10.0.dev0")
 
@@ -167,14 +172,21 @@ def main(
     vae          = AutoencoderKL.from_pretrained(pretrained_model_path, subfolder="vae")
     tokenizer    = CLIPTokenizer.from_pretrained(pretrained_model_path, subfolder="tokenizer")
     text_encoder = CLIPTextModel.from_pretrained(pretrained_model_path, subfolder="text_encoder")
-    if not image_finetune:
-        unet = UNet3DConditionModel.from_pretrained_2d(
-            pretrained_model_path, subfolder="unet", 
-            unet_additional_kwargs=OmegaConf.to_container(unet_additional_kwargs)
-        )
-    else:
+    if image_finetune:
         unet = UNet2DConditionModel.from_pretrained(pretrained_model_path, subfolder="unet")
-        
+    else:
+        if resume_ckpt:
+            unet = UNet3DConditionModel.from_pretrained_3d(
+                pretrained_model_path, subfolder="unet",
+                resume_ckpt_path=resume_ckpt,
+                unet_additional_kwargs=OmegaConf.to_container(unet_additional_kwargs)
+            )
+        else:
+            unet = UNet3DConditionModel.from_pretrained_2d(
+                pretrained_model_path, subfolder="unet",
+                unet_additional_kwargs=OmegaConf.to_container(unet_additional_kwargs)
+            )
+
     # Load pretrained unet weights
     if unet_checkpoint_path != "":
         zero_rank_print(f"from checkpoint: {unet_checkpoint_path}")
@@ -199,13 +211,24 @@ def main(
                 break
             
     trainable_params = list(filter(lambda p: p.requires_grad, unet.parameters()))
-    optimizer = torch.optim.AdamW(
-        trainable_params,
-        lr=learning_rate,
-        betas=(adam_beta1, adam_beta2),
-        weight_decay=adam_weight_decay,
-        eps=adam_epsilon,
-    )
+    if use_adamw8bit:
+        import bitsandbytes as bnb
+        optimizer = bnb.optim.AdamW8bit(
+            trainable_params,
+            lr=learning_rate,
+            betas=(adam_beta1, adam_beta2),
+            weight_decay=adam_weight_decay,
+            eps=adam_epsilon,
+        )
+    else:
+        optimizer = torch.optim.AdamW(
+            trainable_params,
+            lr=learning_rate,
+            betas=(adam_beta1, adam_beta2),
+            weight_decay=adam_weight_decay,
+            eps=adam_epsilon,
+        )
+
 
     if is_main_process:
         zero_rank_print(f"trainable params number: {len(trainable_params)}")
@@ -381,23 +404,27 @@ def main(
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
                 del model_pred
 
-            optimizer.zero_grad()
-
             # Backpropagate
             if mixed_precision_training:
                 scaler.scale(loss).backward()
-                """ >>> gradient clipping >>> """
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
-                """ <<< gradient clipping <<< """
-                scaler.step(optimizer)
-                scaler.update()
             else:
                 loss.backward()
-                """ >>> gradient clipping >>> """
-                torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
-                """ <<< gradient clipping <<< """
-                optimizer.step()
+
+            if ((global_step+1) % gradient_accumulation_steps) == 0:
+                # Backpropagate
+                if mixed_precision_training:
+                    """ >>> gradient clipping >>> """
+                    scaler.unscale_(optimizer)
+                    torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
+                    """ <<< gradient clipping <<< """
+                    scaler.step(optimizer)
+                    scaler.update()
+                else:
+                    """ >>> gradient clipping >>> """
+                    torch.nn.utils.clip_grad_norm_(unet.parameters(), max_grad_norm)
+                    """ <<< gradient clipping <<< """
+                    optimizer.step()
+                optimizer.zero_grad()
 
             loss_value = loss.detach().item()
             del loss
@@ -412,7 +439,7 @@ def main(
                 wandb.log({"train_loss": loss_value}, step=global_step)
                 
             # Save checkpoint
-            if is_main_process and (global_step % checkpointing_steps == 0 or step == len(train_dataloader) - 1):
+            if is_main_process and (global_step % checkpointing_steps == 0):# or step == len(train_dataloader) - 1):
                 save_path = os.path.join(output_dir, f"checkpoints")
                 state_dict = {
                     "epoch": epoch,

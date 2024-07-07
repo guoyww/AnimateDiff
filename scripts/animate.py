@@ -83,7 +83,8 @@ def main(args):
             image_transforms = transforms.Compose([
                 transforms.RandomResizedCrop(
                     (model_config.H, model_config.W), (1.0, 1.0), 
-                    ratio=(model_config.W/model_config.H, model_config.W/model_config.H)
+                    ratio=(model_config.W/model_config.H, model_config.W/model_config.H),
+                    antialias=True
                 ),
                 transforms.ToTensor(),
             ])
