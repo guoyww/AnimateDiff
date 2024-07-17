@@ -64,14 +64,7 @@ class WebVid10M(Dataset):
         return self.length
 
     def __getitem__(self, idx):
-        while True:
-            try:
-                pixel_values, name = self.get_batch(idx)
-                break
-
-            except Exception as e:
-                idx = random.randint(0, self.length-1)
-
+        pixel_values, name = self.get_batch(idx)
         pixel_values = self.pixel_transforms(pixel_values)
         sample = dict(pixel_values=pixel_values, text=name)
         return sample
