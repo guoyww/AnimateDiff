@@ -138,7 +138,7 @@ Its technicall details can be found in the following paper:
 
 
 ## Model Versions
-<details open>
+<details close>
 <summary>Model Versions</summary>
 
 ### AnimateDiff v3 and SparseCtrl (2023.12)
