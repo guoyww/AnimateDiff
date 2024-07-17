@@ -1,0 +1,46 @@
+# motion module v1_14
+- dreambooth_path: "models/DreamBooth_LoRA/majicmixRealistic_v5Preview.safetensors"
+  lora_model_path: ""
+
+  inference_config: "configs/inference/inference-v3.yaml"
+  motion_module: "models/Motion_Module/v3_sd15_mm.ckpt"
+
+  seed: [11413213594134208212, 11357183503136546592, 7315638361411279346, 10191753182015596097]
+  steps: 25
+  guidance_scale: 8
+
+  prompt:
+    - "1girl, offshoulder, light smile, shiny skin best quality, masterpiece, photorealistic"
+    - "best quality, masterpiece, photorealistic, 1boy, 50 years old beard, dramatic lighting"
+    - "best quality, masterpiece, photorealistic, 1girl, light smile, shirt with collars, waist up, dramatic lighting, from below"
+    - "male, man, beard, bodybuilder, skinhead,cold face, tough guy, cowboyshot, tattoo, french windows, luxury hotel masterpiece, best quality, photorealistic"
+
+  n_prompt:
+    - "ng_deepnegative_v1_75t, badhandv4, worst quality, low quality, normal quality, lowres, bad anatomy, bad hands, watermark, moles"
+    - "nsfw, ng_deepnegative_v1_75t,badhandv4, worst quality, low quality, normal quality, lowres,watermark, monochrome"
+    - "nsfw, ng_deepnegative_v1_75t,badhandv4, worst quality, low quality, normal quality, lowres,watermark, monochrome"
+    - "nude, nsfw, ng_deepnegative_v1_75t, badhandv4, worst quality, low quality, normal quality, lowres, bad anatomy, bad hands, monochrome, grayscale watermark, moles, people"
+
+
+# motion module v1_15
+- dreambooth_path: "models/DreamBooth_LoRA/majicmixRealistic_v5Preview.safetensors"
+  lora_model_path: ""
+
+  inference_config: "configs/inference/inference-v2.yaml"
+  motion_module: "models/Motion_Module/mm_sd_v15_v2.ckpt"
+
+  seed: [3364626746360550707, 10635741750919791646, 3130334860012077860, 1530101570151479035]
+  steps: 25
+  guidance_scale: 8
+
+  prompt:
+    - "1girl, offshoulder, light smile, shiny skin best quality, masterpiece, photorealistic"
+    - "best quality, masterpiece, photorealistic, 1boy, 50 years old beard, dramatic lighting"
+    - "best quality, masterpiece, photorealistic, 1girl, light smile, shirt with collars, waist up, dramatic lighting, from below"
+    - "male, man, beard, bodybuilder, skinhead,cold face, tough guy, cowboyshot, tattoo, french windows, luxury hotel masterpiece, best quality, photorealistic"
+
+  n_prompt:
+    - "ng_deepnegative_v1_75t, badhandv4, worst quality, low quality, normal quality, lowres, bad anatomy, bad hands, watermark, moles"
+    - "nsfw, ng_deepnegative_v1_75t,badhandv4, worst quality, low quality, normal quality, lowres,watermark, monochrome"
+    - "nsfw, ng_deepnegative_v1_75t,badhandv4, worst quality, low quality, normal quality, lowres,watermark, monochrome"
+    - "nude, nsfw, ng_deepnegative_v1_75t, badhandv4, worst quality, low quality, normal quality, lowres, bad anatomy, bad hands, monochrome, grayscale watermark, moles, people"

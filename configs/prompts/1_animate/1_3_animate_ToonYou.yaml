@@ -1,0 +1,40 @@
+# motion module v3
+- dreambooth_path: "models/DreamBooth_LoRA/toonyou_beta3.safetensors"
+  lora_model_path: ""
+
+  inference_config: "configs/inference/inference-v3.yaml"
+  motion_module: "models/Motion_Module/v3_sd15_mm.ckpt"
+
+  seed: [12192490710448890259, 12238800062118732365, 13226337751639812613, 16431231374396590344]
+  steps: 25
+  guidance_scale: 7.5
+
+  prompt:
+    - "best quality, masterpiece, 1girl, looking at viewer, blurry background, upper body, contemporary, dress"
+    - "masterpiece, best quality, 1girl, solo, cherry blossoms, hanami, pink flower, white flower, spring season, wisteria, petals, flower, plum blossoms, outdoors, falling petals, white hair, black eyes,"
+    - "best quality, masterpiece, 1boy, formal, abstract, looking at viewer, masculine, marble pattern"
+    - "best quality, masterpiece, 1girl, cloudy sky, dandelion, contrapposto, alternate hairstyle,"
+
+  n_prompt:
+    - "worst quality, low quality, letterboxed"
+
+
+# motion module v2
+- dreambooth_path: "models/DreamBooth_LoRA/toonyou_beta3.safetensors"
+  lora_model_path: ""
+
+  inference_config: "configs/inference/inference-v2.yaml"
+  motion_module: "models/Motion_Module/mm_sd_v15_v2.ckpt"
+
+  seed: [2362336635702964940, 8149279371559927917, 1487371078234460867, 17554906328875363976]
+  steps: 25
+  guidance_scale: 7.5
+
+  prompt:
+    - "best quality, masterpiece, 1girl, looking at viewer, blurry background, upper body, contemporary, dress"
+    - "masterpiece, best quality, 1girl, solo, cherry blossoms, hanami, pink flower, white flower, spring season, wisteria, petals, flower, plum blossoms, outdoors, falling petals, white hair, black eyes,"
+    - "best quality, masterpiece, 1boy, formal, abstract, looking at viewer, masculine, marble pattern"
+    - "best quality, masterpiece, 1girl, cloudy sky, dandelion, contrapposto, alternate hairstyle,"
+
+  n_prompt:
+    - "worst quality, low quality, letterboxed"
