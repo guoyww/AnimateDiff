@@ -28,8 +28,8 @@ noise_scheduler_kwargs:
   clip_sample:         false
 
 train_data:
-  csv_path:        "/mnt/petrelfs/guoyuwei/projects/datasets/webvid/results_2M_val.csv"
-  video_folder:    "/mnt/petrelfs/guoyuwei/projects/datasets/webvid/2M_val"
+  csv_path:        "path_to_csv_file"
+  video_folder:    "path_to_video_foler"
   sample_size:     256
   sample_stride:   4
   sample_n_frames: 16
