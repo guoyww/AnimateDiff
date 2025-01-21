@@ -341,6 +341,18 @@ Ceyuan Yang: [limbo0066@gmail.com](mailto:limbo0066@gmail.com)
 Bo Dai: [doubledaibo@gmail.com](mailto:doubledaibo@gmail.com)
 
 
+
+<table>
+  <tr>
+    <td><img src="__assets__/animations/model_09/01.gif"></td>
+    <td><img src="__assets__/animations/model_09/02.gif"></td>
+    <td><img src="__assets__/animations/model_09/03.gif"></td>
+    <td><img src="__assets__/animations/model_09/04.gif"></td>
+  </tr>
+</table>
+<p style="margin-left: 2em; margin-top: -1em">
+Style Model：<a href="https://civitai.com/models/27670?modelVersionId=87497">ShinYunBok</a></p>
+
 ## BibTeX
 ```
 @article{guo2023animatediff,
