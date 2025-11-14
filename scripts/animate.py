@@ -138,6 +138,17 @@ def main(args):
             lora_alpha                 = model_config.get("lora_alpha", 0.8),
         ).to("cuda")
 
+        # Load fine-tuned UNet if specified
+        finetuned_unet_path = model_config.get("finetuned_unet_path", "")
+        if finetuned_unet_path != "":
+            print(f"load fine-tuned unet from {finetuned_unet_path}")
+            unet_ckpt = torch.load(finetuned_unet_path, map_location="cpu")
+            state_dict = unet_ckpt["state_dict"] if "state_dict" in unet_ckpt else unet_ckpt
+            # Remove 'module.' prefix (from DDP training)
+            state_dict = {k.replace('module.', ''): v for k, v in state_dict.items()}
+            m, u = pipeline.unet.load_state_dict(state_dict, strict=False)
+            print(f"### fine-tuned unet loaded: missing keys: {len(m)}, unexpected keys: {len(u)}")
+
         prompts      = model_config.prompt
         n_prompts    = list(model_config.n_prompt) * len(prompts) if len(model_config.n_prompt) == 1 else model_config.n_prompt
         

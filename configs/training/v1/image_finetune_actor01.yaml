@@ -1,0 +1,51 @@
+# Actor01 Image Fine-tuning Configuration
+# Based on image_finetune.yaml but customized for Actor01 dataset
+
+image_finetune: true
+
+output_dir: "outputs/actor01_image_finetune"
+pretrained_model_path: "runwayml/stable-diffusion-v1-5"
+
+noise_scheduler_kwargs:
+  num_train_timesteps: 1000
+  beta_start:          0.00085
+  beta_end:            0.012
+  beta_schedule:       "scaled_linear"
+  steps_offset:        1
+  clip_sample:         false
+
+train_data:
+  csv_path:     "/home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/animatediff_dataset_actor01/annotations.csv"
+  video_folder: "/home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/animatediff_dataset_actor01/videos/"
+  sample_size:  512
+
+validation_data:
+  prompts:
+    - "A person showing neutral expression with natural face"
+    - "A person displaying calm emotion with gentle movements"
+    - "A person expressing happiness with smiling face"
+    - "A person showing sadness with downward expressions"
+  num_inference_steps: 25
+  guidance_scale: 8.
+
+trainable_modules:
+  - "."
+
+unet_checkpoint_path: ""
+
+learning_rate:    2.e-5
+train_batch_size: 2
+
+max_train_epoch:      -1
+max_train_steps:      3000
+checkpointing_epochs: -1
+checkpointing_steps:  500
+
+validation_steps:       500
+validation_steps_tuple: [10, 50, 100, 200]
+
+global_seed: 42
+mixed_precision_training: true
+enable_xformers_memory_efficient_attention: True
+
+is_debug: False

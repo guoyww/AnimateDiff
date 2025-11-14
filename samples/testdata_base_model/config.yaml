@@ -1,0 +1,20 @@
+- dreambooth_path: models/DreamBooth_LoRA/realisticVisionV60B1_v51VAE.safetensors
+  lora_model_path: ''
+  inference_config: configs/inference/inference-v3.yaml
+  motion_module: models/Motion_Module/v3_sd15_mm.ckpt
+  seed:
+  - -1
+  steps: 25
+  guidance_scale: 8.0
+  prompt:
+  - The person in the video clip appears to be a woman with short brown hair and a
+    natural, friendly expression. She is facing the camera directly against a plain
+    white background, creating a simple and professional look. Her minimal makeup
+    and relaxed demeanor convey confidence and warmth.
+  n_prompt:
+  - bad quality, blurry, low resolution, cartoon, anime
+  W: 512
+  H: 512
+  L: 16
+  random_seed:
+  - 17634171597145970750

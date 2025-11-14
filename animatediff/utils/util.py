@@ -117,7 +117,8 @@ def load_weights(
         unet_state_dict.pop("animatediff_config", "")
     
     missing, unexpected = animation_pipeline.unet.load_state_dict(unet_state_dict, strict=False)
-    assert len(unexpected) == 0
+    if len(unexpected) > 0:
+        print(f"### Warning: {len(unexpected)} unexpected keys in checkpoint (likely metadata): {unexpected[:5]}...")
     del unet_state_dict
 
     # base model

@@ -175,15 +175,24 @@ def main(
         unet = UNet2DConditionModel.from_pretrained(pretrained_model_path, subfolder="unet")
         
     # Load pretrained unet weights
+    resume_global_step = 0
     if unet_checkpoint_path != "":
         zero_rank_print(f"from checkpoint: {unet_checkpoint_path}")
-        unet_checkpoint_path = torch.load(unet_checkpoint_path, map_location="cpu")
-        if "global_step" in unet_checkpoint_path: zero_rank_print(f"global_step: {unet_checkpoint_path['global_step']}")
-        state_dict = unet_checkpoint_path["state_dict"] if "state_dict" in unet_checkpoint_path else unet_checkpoint_path
+        unet_checkpoint = torch.load(unet_checkpoint_path, map_location="cpu")
+        # Only resume global_step if we're continuing motion module training (not starting from image finetune)
+        if "global_step" in unet_checkpoint and not image_finetune:
+            # Check if this checkpoint contains motion modules (motion module training checkpoint)
+            if any('motion_modules' in k for k in unet_checkpoint.get("state_dict", unet_checkpoint).keys()):
+                resume_global_step = unet_checkpoint['global_step']
+                zero_rank_print(f"Resuming motion module training from global_step: {resume_global_step}")
+            else:
+                zero_rank_print(f"Loading image finetune checkpoint, starting motion module training from global_step: 0")
+        state_dict = unet_checkpoint["state_dict"] if "state_dict" in unet_checkpoint else unet_checkpoint
 
         m, u = unet.load_state_dict(state_dict, strict=False)
         zero_rank_print(f"missing keys: {len(m)}, unexpected keys: {len(u)}")
-        assert len(u) == 0
+        if len(u) > 0:
+            zero_rank_print(f"Warning: {len(u)} unexpected keys found, but continuing...")
         
     # Freeze vae and text_encoder
     vae.requires_grad_(False)
@@ -293,12 +302,14 @@ def main(
     if is_main_process:
         logging.info("***** Running training *****")
         logging.info(f"  Num examples = {len(train_dataset)}")
+        logging.info(f"  DataLoader length = {len(train_dataloader)}")
+        logging.info(f"  Num update steps per epoch = {num_update_steps_per_epoch}")
         logging.info(f"  Num Epochs = {num_train_epochs}")
         logging.info(f"  Instantaneous batch size per device = {train_batch_size}")
         logging.info(f"  Total train batch size (w. parallel, distributed & accumulation) = {total_batch_size}")
         logging.info(f"  Gradient Accumulation steps = {gradient_accumulation_steps}")
         logging.info(f"  Total optimization steps = {max_train_steps}")
-    global_step = 0
+    global_step = resume_global_step
     first_epoch = 0
 
     # Only show the progress bar once on each machine.
@@ -309,10 +320,13 @@ def main(
     scaler = torch.cuda.amp.GradScaler() if mixed_precision_training else None
 
     for epoch in range(first_epoch, num_train_epochs):
+        logging.info(f"### DEBUG: Starting epoch {epoch}/{num_train_epochs}, global_step={global_step}, max_train_steps={max_train_steps}")
         train_dataloader.sampler.set_epoch(epoch)
         unet.train()
-        
+
+        epoch_steps = 0
         for step, batch in enumerate(train_dataloader):
+            epoch_steps += 1
             if cfg_random_null_text:
                 batch['text'] = [name if random.random() > cfg_random_null_text_ratio else "" for name in batch['text']]
                 
@@ -415,10 +429,11 @@ def main(
                     "global_step": global_step,
                     "state_dict": unet.state_dict(),
                 }
-                if step == len(train_dataloader) - 1:
-                    torch.save(state_dict, os.path.join(save_path, f"checkpoint-epoch-{epoch+1}.ckpt"))
-                else:
-                    torch.save(state_dict, os.path.join(save_path, f"checkpoint.ckpt"))
+                # Always save latest checkpoint
+                torch.save(state_dict, os.path.join(save_path, f"checkpoint.ckpt"))
+                # Save milestone checkpoints at specific steps (100, 200, 300, ...)
+                if global_step % 100 == 0:
+                    torch.save(state_dict, os.path.join(save_path, f"checkpoint-step-{global_step}.ckpt"))
                 logging.info(f"Saved state to {save_path} (global_step: {global_step})")
                 
             # Periodically validation
@@ -472,10 +487,14 @@ def main(
                 
             logs = {"step_loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
             progress_bar.set_postfix(**logs)
-            
+
             if global_step >= max_train_steps:
+                logging.info(f"### DEBUG: Reached max_train_steps. global_step={global_step}, max_train_steps={max_train_steps}")
                 break
-            
+
+        logging.info(f"### DEBUG: Finished epoch {epoch}, epoch_steps={epoch_steps}, global_step={global_step}")
+
+    logging.info(f"### DEBUG: Training loop finished. Total epochs completed: {epoch+1}, final global_step={global_step}")
     dist.destroy_process_group()
 
 

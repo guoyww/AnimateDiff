@@ -1,0 +1,41 @@
+- dreambooth_path: ''
+  lora_model_path: ''
+  finetuned_unet_path: /home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/AnimateDiff/outputs/actor01_image_finetune/output01/checkpoints/checkpoint.ckpt
+  inference_config: configs/inference/inference-v3.yaml
+  motion_module: models/Motion_Module/v3_sd15_mm.ckpt
+  seed:
+  - -1
+  steps: 25
+  guidance_scale: 8.0
+  prompt:
+  - The person in the video clip appears to be a woman with short brown hair and a
+    natural, friendly expression. She is facing the camera directly against a plain
+    white background, creating a simple and professional look. Her minimal makeup
+    and relaxed demeanor convey confidence and warmth.
+  - The facial expression in the video clip transitions from a neutral, slightly concerned
+    look to a broad, genuine smile. The person's eyes brighten, and their mouth opens
+    into a wide grin, indicating a shift from a more serious or thoughtful demeanor
+    to one of happiness or amusement.
+  - The facial expression in the video clip transitions from a wide, open-mouthed
+    smile to a more neutral or slightly serious expression. The person appears to
+    be speaking or reacting to something, with their mouth moving and eyes focused,
+    suggesting engagement or communication.
+  - The person in the video clip appears to have a serious or concerned facial expression,
+    with furrowed brows and a slightly tense mouth, suggesting they may be focused,
+    thoughtful, or possibly experiencing discomfort or frustration.
+  - The facial expression in the video clip shows a subtle change from a slightly
+    concerned or pensive look to a more neutral, composed expression. The person's
+    eyebrows are initially furrowed, suggesting a moment of thought or concern, but
+    they gradually relax as the expression becomes calmer and more neutral. The overall
+    demeanor appears reflective and thoughtful.
+  n_prompt:
+  - bad quality, blurry, low resolution, cartoon, anime
+  W: 512
+  H: 512
+  L: 16
+  random_seed:
+  - 5553833782534634839
+  - 8677748697586487714
+  - 3679396651872985284
+  - 9987856889957581605
+  - 4610642691697577071

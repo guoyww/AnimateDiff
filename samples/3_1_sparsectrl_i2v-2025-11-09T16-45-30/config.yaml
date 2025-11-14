@@ -1,0 +1,122 @@
+- adapter_lora_scale: 1.0
+  adapter_lora_path: models/Motion_Module/v3_sd15_adapter.ckpt
+  dreambooth_path: ''
+  inference_config: configs/inference/inference-v3.yaml
+  motion_module: models/Motion_Module/v3_sd15_mm.ckpt
+  controlnet_config: configs/inference/sparsectrl/latent_condition.yaml
+  controlnet_path: models/SparseCtrl/v3_sd15_sparsectrl_rgb.ckpt
+  H: 256
+  W: 384
+  seed:
+  - 123
+  - 234
+  steps: 25
+  guidance_scale: 8.5
+  controlnet_image_indexs:
+  - 0
+  controlnet_images:
+  - __assets__/demos/image/painting.png
+  prompt:
+  - an oil painting of a sailboat in the ocean wave
+  - an oil painting of a sailboat in the ocean wave
+  n_prompt:
+  - worst quality, low quality, letterboxed
+  L: 16
+  random_seed:
+  - 123
+  - 234
+- adapter_lora_scale: 1.0
+  adapter_lora_path: models/Motion_Module/v3_sd15_adapter.ckpt
+  dreambooth_path: ''
+  inference_config: configs/inference/inference-v3.yaml
+  motion_module: models/Motion_Module/v3_sd15_mm.ckpt
+  controlnet_config: configs/inference/sparsectrl/latent_condition.yaml
+  controlnet_path: models/SparseCtrl/v3_sd15_sparsectrl_rgb.ckpt
+  H: 256
+  W: 384
+  seed:
+  - 123
+  - 234
+  steps: 25
+  guidance_scale: 8.5
+  controlnet_image_indexs:
+  - 0
+  - -1
+  controlnet_images:
+  - __assets__/demos/image/interpolation_1.png
+  - __assets__/demos/image/interpolation_2.png
+  prompt:
+  - aerial view, beautiful forest, autumn, 4k, high quality
+  - aerial view, beautiful forest, autumn, 4k, high quality
+  n_prompt:
+  - worst quality, low quality, letterboxed
+  L: 16
+  random_seed:
+  - 123
+  - 234
+- adapter_lora_scale: 1.0
+  adapter_lora_path: models/Motion_Module/v3_sd15_adapter.ckpt
+  dreambooth_path: ''
+  inference_config: configs/inference/inference-v3.yaml
+  motion_module: models/Motion_Module/v3_sd15_mm.ckpt
+  controlnet_config: configs/inference/sparsectrl/latent_condition.yaml
+  controlnet_path: models/SparseCtrl/v3_sd15_sparsectrl_rgb.ckpt
+  H: 256
+  W: 384
+  seed:
+  - 123
+  - 234
+  steps: 25
+  guidance_scale: 8.5
+  controlnet_image_indexs:
+  - 0
+  - 5
+  - 10
+  - 15
+  controlnet_images:
+  - __assets__/demos/image/low_fps_1.png
+  - __assets__/demos/image/low_fps_2.png
+  - __assets__/demos/image/low_fps_3.png
+  - __assets__/demos/image/low_fps_4.png
+  prompt:
+  - two people holding hands in a field with wind turbines in the background
+  - two people holding hands in a field with wind turbines in the background
+  n_prompt:
+  - worst quality, low quality, letterboxed
+  L: 16
+  random_seed:
+  - 123
+  - 234
+- adapter_lora_scale: 1.0
+  adapter_lora_path: models/Motion_Module/v3_sd15_adapter.ckpt
+  dreambooth_path: ''
+  inference_config: configs/inference/inference-v3.yaml
+  motion_module: models/Motion_Module/v3_sd15_mm.ckpt
+  controlnet_config: configs/inference/sparsectrl/latent_condition.yaml
+  controlnet_path: models/SparseCtrl/v3_sd15_sparsectrl_rgb.ckpt
+  H: 256
+  W: 384
+  seed:
+  - 123
+  - 234
+  steps: 25
+  guidance_scale: 8.5
+  controlnet_image_indexs:
+  - 0
+  - 1
+  - 2
+  - 3
+  controlnet_images:
+  - __assets__/demos/image/prediction_1.png
+  - __assets__/demos/image/prediction_2.png
+  - __assets__/demos/image/prediction_3.png
+  - __assets__/demos/image/prediction_4.png
+  prompt:
+  - an astronaut is flying in the space, 4k, high resolution
+  - an astronaut is flying in the space, 4k, high resolution
+  n_prompt:
+  - worst quality, low quality, letterboxed
+  L: 16
+  random_seed:
+  - 123
+  - 234

@@ -1,0 +1,11 @@
+loaded 3D unet's pretrained weights from runwayml/stable-diffusion-v1-5 ...
+### missing keys: 520; 
+### unexpected keys: 0;
+### Motion Module Parameters: 417.1376 M
+load motion module from /home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/AnimateDiff/outputs/actor01_training/training_actor01-2025-11-14T06-08-25/checkpoints/checkpoint.ckpt
+### Warning: 520 unexpected keys in checkpoint (likely metadata): ['module.down_blocks.0.motion_modules.0.temporal_transformer.norm.weight', 'module.down_blocks.0.motion_modules.0.temporal_transformer.norm.bias', 'module.down_blocks.0.motion_modules.0.temporal_transformer.proj_in.weight', 'module.down_blocks.0.motion_modules.0.temporal_transformer.proj_in.bias', 'module.down_blocks.0.motion_modules.0.temporal_transformer.transformer_blocks.0.attention_blocks.0.to_q.weight']...
+load fine-tuned unet from /home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/AnimateDiff/outputs/actor01_image_finetune/output01/checkpoints/checkpoint.ckpt
+### fine-tuned unet loaded: missing keys: 520, unexpected keys: 0
+current seed: 5639438422438910021
+sampling The person in the video clip appears to be a woman with short brown hair and a natural, friendly expression. She is facing the camera directly against a plain white background, creating a simple and professional look. Her minimal makeup and relaxed demeanor convey confidence and warmth. ...
+  0%|          | 0/25 [00:00<?, ?it/s]  4%|▍         | 1/25 [00:01<00:32,  1.37s/it]  8%|▊         | 2/25 [00:02<00:29,  1.28s/it] 12%|█▏        | 3/25 [00:03<00:27,  1.24s/it] 16%|█▌        | 4/25 [00:04<00:25,  1.23s/it] 20%|██        | 5/25 [00:06<00:24,  1.22s/it]

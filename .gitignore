@@ -2,17 +2,17 @@ wandb/
 *debug*
 debugs/
 outputs/
-samples/
 __pycache__/
 ossutil_output/
 .ossutil_checkpoint/
+
+# Log files (keep training logs but exclude debug logs)
+*debug*.log
 
 scripts/*
 !scripts/animate.py
 
 *.ipynb
-*.safetensors
-*.ckpt
 
 models/*
 !models/StableDiffusion/

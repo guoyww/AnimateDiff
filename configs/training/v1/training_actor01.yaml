@@ -1,0 +1,71 @@
+# Actor01 Motion Module Training Configuration
+# Based on training.yaml but customized for Actor01 dataset
+
+image_finetune: false
+
+output_dir: "outputs/actor01_training"
+pretrained_model_path: "runwayml/stable-diffusion-v1-5"
+
+unet_additional_kwargs:
+  use_motion_module              : true
+  motion_module_resolutions      : [ 1,2,4,8 ]
+  unet_use_cross_frame_attention : false
+  unet_use_temporal_attention    : false
+
+  motion_module_type: Vanilla
+  motion_module_kwargs:
+    num_attention_heads                : 8
+    num_transformer_block              : 1
+    attention_block_types              : [ "Temporal_Self", "Temporal_Self" ]
+    temporal_position_encoding         : true
+    temporal_position_encoding_max_len : 24
+    temporal_attention_dim_div         : 1
+    zero_initialize                    : true
+
+noise_scheduler_kwargs:
+  num_train_timesteps: 1000
+  beta_start:          0.00085
+  beta_end:            0.012
+  beta_schedule:       "linear"
+  steps_offset:        1
+  clip_sample:         false
+
+train_data:
+  csv_path:        "/home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/animatediff_dataset_actor01/annotations.csv"
+  video_folder:    "/home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/animatediff_dataset_actor01/videos/"
+  sample_size:     512
+  sample_stride:   4
+  sample_n_frames: 8
+
+validation_data:
+  prompts:
+    - "A person showing neutral expression with natural face"
+    - "A person displaying calm emotion with gentle movements"
+    - "A person expressing happiness with smiling face"
+    - "A person showing sadness with downward expressions"
+  num_inference_steps: 25
+  guidance_scale: 8.
+
+trainable_modules:
+  - "motion_modules."
+
+unet_checkpoint_path: "/home/takahashit/FastStorage/brain2024/style_transfer/VAE_encoder/AnimateDiff/outputs/actor01_image_finetune/output01/checkpoints/checkpoint.ckpt"
+
+learning_rate:    1.e-4
+train_batch_size: 1
+num_workers:      0
+
+max_train_epoch:      -1
+max_train_steps:      2000
+checkpointing_epochs: -1
+checkpointing_steps:  500
+
+validation_steps:       200
+validation_steps_tuple: [10, 50]
+
+global_seed: 42
+mixed_precision_training: true
+enable_xformers_memory_efficient_attention: True
+gradient_checkpointing: true
+
+is_debug: False
