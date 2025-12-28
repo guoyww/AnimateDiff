@@ -1,0 +1,73 @@
+# MEN'S GLOW-UP 7 DAYS MOTIVATIONAL SERIES
+# Compatible with AnimateDiff prompt-based generation
+
+project_name: mens_glowup_7days
+fps: 12
+num_frames: 48
+width: 512
+height: 512
+seed: 42
+guidance_scale: 7.5
+
+negative_prompt: >
+  blurry, low quality, deformed body, extra limbs, cartoon,
+  anime, unrealistic motion, oversaturated, text, watermark
+
+days:
+
+  - day: 1
+    title: "Reset & Discipline"
+    prompt: >
+      cinematic realistic video of a young man waking up at 5:30 AM
+      in a simple clean bedroom, soft morning sunlight through window,
+      he turns off alarm calmly, makes his bed neatly, washes face with cold water,
+      looks into mirror with focused eyes, masculine discipline, minimalist lifestyle,
+      slow motion, shallow depth of field, motivational mood
+
+  - day: 2
+    title: "Body & Movement"
+    prompt: >
+      realistic cinematic animation of a man doing morning workout at home,
+      push-ups, squats, planks on a yoga mat, sweat visible,
+      controlled breathing, then jogging outside during sunrise,
+      masculine energy, effort over perfection, smooth camera motion
+
+  - day: 3
+    title: "Food & Self Respect"
+    prompt: >
+      cinematic realistic video of a man preparing healthy food,
+      boiling eggs, grilling chicken, slicing vegetables,
+      pouring water into glass, eating slowly at a clean table,
+      no phone, calm focus, disciplined lifestyle, warm lighting
+
+  - day: 4
+    title: "Focus & Work"
+    prompt: >
+      cinematic animation of a man working alone at a desk,
+      laptop open, notebook writing goals, phone face down,
+      deep focus, evening sunlight through window,
+      quiet productivity, masculine discipline, clean workspace
+
+  - day: 5
+    title: "Skill Building"
+    prompt: >
+      realistic cinematic scene of a man learning a new skill at night,
+      watching tutorial on laptop, taking notes,
+      reading a book, desk lamp lighting,
+      determination, self improvement, silent ambition
+
+  - day: 6
+    title: "Mental Strength"
+    prompt: >
+      cinematic realistic animation of a man walking alone in a park,
+      journaling thoughts, sitting quietly, ignoring phone notifications,
+      confident solitude, emotional control, masculine calmness,
+      cool color grading, reflective mood
+
+  - day: 7
+    title: "Identity & Purpose"
+    prompt: >
+      cinematic montage animation showing moments from the week,
+      training, cooking, working, journaling,
+      ending with man standing confidently facing sunrise,
+      purpose driven life, transformation, strong masculine presence
