@@ -55,7 +55,7 @@ BACKUP_DREAMBOOTH_MODELS = [
 
 
 def zero_rank_print(s):
-    if (not dist.is_initialized()) and (dist.is_initialized() and dist.get_rank() == 0): print("### " + s)
+    if (not dist.is_initialized()) or (dist.is_initialized() and dist.get_rank() == 0): print("### " + s)
 
 
 def save_videos_grid(videos: torch.Tensor, path: str, rescale=False, n_rows=6, fps=8):
