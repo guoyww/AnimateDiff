@@ -1,0 +1,41 @@
+# PyTorch (stable avec ton GPU)
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
+
+# Core SD
+diffusers==0.37.0
+transformers==5.3.0
+accelerate==0.22.0
+safetensors==0.7.0
+huggingface_hub==1.6.0
+
+# Utils
+numpy<2
+pillow
+einops
+omegaconf
+scipy
+pandas
+
+# Control / vision
+mediapipe==0.10.14
+opencv-contrib-python
+
+# API / UI
+gradio==3.36.1
+fastapi
+uvicorn
+httpx
+
+# Video / audio
+decord
+ffmpeg-python
+imageio
+imageio-ffmpeg
+pydub
+
+# Misc
+tqdm
+rich
+protobuf>=4.25.3,<5

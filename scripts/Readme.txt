@@ -1,0 +1,47 @@
+┌───────────────┐
+│  Prompts /    │
+│   Input       │
+└──────┬────────┘
+       │
+       ▼
+┌───────────────┐
+│   N3R Fusion  │
+│ (Adaptive     │
+│  Latents)     │
+└──────┬────────┘
+       │
+       ▼
+┌───────────────┐
+│ Motion Module │
+│  (Temporal    │
+│   Coherence)  │
+└──────┬────────┘
+       │
+       ▼
+┌───────────────┐
+│     UNet      │
+│  (Diffusion   │
+│  Backbone)    │
+└──────┬────────┘
+       │
+       ▼
+┌───────────────┐
+│     LoRA      │
+│  (Fine-tuned  │
+│   Modifications)│
+└──────┬────────┘
+       │
+       ▼
+┌───────────────┐
+│      VAE      │
+│ (Latent Decode│
+│  → Image/Video)│
+└──────┬────────┘
+       │
+       ▼
+┌───────────────┐
+│ Output Image /│
+│     Video     │
+└───────────────┘
+
+*Optional VRAM tips:* Mini GPU mode (<4GB) supported by N3R

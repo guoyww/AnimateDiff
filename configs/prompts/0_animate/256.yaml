@@ -1,0 +1,77 @@
+# -------------------------
+# n3r_tiny_256_vram_opt.yaml
+# -------------------------
+# Tiny-SD 256x256 VRAM-safe optimisé pour 5D AnimateDiff
+# - Frames fluides et cohérentes
+# - FP16 UNET & TextEncoder, VAE FP32 pour stabilité couleurs
+# - Motion module Tiny intégré
+# -------------------------
+
+# Image size
+W: 256
+H: 256
+L: 4
+steps: 15
+
+# Model paths
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+vae_path: "/mnt/62G/huggingface/vae/vae-ft-mse-840000-ema-pruned.safetensors"
+
+# FP settings
+dtype: float32           # VAE en FP32 pour stabilité couleurs
+fp16_unet: true           # UNET et text_encoder en FP16
+
+# Video / motion
+fps: 15
+num_frames_per_image: 12   # permet séquences fluides
+init_image_scale: 0.85
+use_real_esrgan: true
+
+# Scheduler
+scheduler:
+  type: DDIMScheduler
+  steps: 15
+  beta_start: 0.00085
+  beta_end: 0.012
+
+# Motion module
+motion_module: scripts/modules/motion_module_tiny.py
+key_frames: 1
+inter_frames: 11
+
+# Tiling VAE
+vae_slicing: true
+vae_tiling: true
+block_size: 256            # décode l'image entière → plus de mosaïque
+overlap: 32
+
+# Inference / memory
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+batch_size: 8
+enable_xformers_memory_efficient_attention: true
+
+# Random seed
+seed: 1234
+
+# Diffusion guidance
+guidance_scale: 4.5
+creative_noise: 0.0
+
+# Upscale factor
+upscale_factor: 4
+
+# Prompts
+prompt:
+  - "best quality, 1 girl walking, natural dynamic pose, arms swinging, legs mid-step, balanced torso and head, flowing hair, consistent outfit and hairstyle, outdoor spring, cherry blossoms, petals, smooth motion across frames, coherent animation, vibrant colors, cinematic lighting"
+  - "natural walk cycle, same character, forward facing, slight tilt for realism, smooth transitions, crisp lines, photorealistic shading, coherent body movement, stable proportions, simple background"
+
+n_prompt:
+  - "low quality, blurry, deformed, stiff pose, unnatural movement, distorted anatomy, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background"
+
+# Input images
+input_images:
+  - "input/256/image_256x0.png"
+  - "input/256/image_256x1.png"
+  - "input/256/image_256x1.png"

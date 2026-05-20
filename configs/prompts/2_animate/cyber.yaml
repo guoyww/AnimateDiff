@@ -1,0 +1,123 @@
+# -------------------------
+# Tiny-SD 256x256 VRAM-safe FP16 pour 5D AnimateDiff
+# Avec Motion Module Tiny et VAE offload
+# -------------------------
+
+W: 256
+H: 256
+#W: 512
+#H: 512
+L: 4
+steps: 20 # diffusion steps faible pour VRAM - Augmenter steps ou fps → le motion module a plus de temps pour transformer les latents. (20)
+
+fps: 12 # moins de frames simultanées
+#init_image_scale: 0.25  # Exploration maximale du latent 0. (0.25)  - Augmenter init_image_scale → donne plus de signal à partir de ton image d’initiation. (1.0 image original)
+init_image_scale: 0.9  # signal complet depuis l'image
+creative_noise: 0.07  # Plus de bruit pour une exploration plus libre (0.1) - Augmenter creative_noise → permet au motion module de générer du mouvement.
+guidance_scale: 5.0  # Valeur plus faible pour favoriser la créativité (4.0)
+
+
+
+# -------------------------
+# Modèles n3oray
+# -------------------------
+# Liste des modèles à utiliser (ordre = interpolation possible) LoRA est FP16 ou compatible avec ton UNet SDXL.
+
+n3oray_models:
+  #cyberpunk_style_v3: "/mnt/62G/huggingface/cyber-fp16/cyberpunk style v3_fp16.safetensors"  #OK
+  #cybersamurai_v2: "/mnt/62G/huggingface/cyber-fp16/cybersamuraiV2E12_fp16.safetensors" #OK
+  #cyber_skin: "/mnt/62G/huggingface/cyber-fp16/Cyber skin_fp16.safetensors" #OK
+  #cyber_skin_girl: "/mnt/62G/huggingface/cyber/cyber_style_girl_v1.safetensors" #OK
+  #magic_skin: "/mnt/62G/huggingface/cyber-fp16/magic-fantasy-mech-v1.safetensors" # KO
+  #civchan_sd15: "/mnt/62G/huggingface/cyber-fp16/new/CivChan_SD1.safetensors" # KO
+  #night_city_sd15: "/mnt/62G/huggingface/cyber-fp16/new/NightCity.safetensors" # KO
+  #style2077_sd15: "/mnt/62G/huggingface/cyber-fp16/new/2077_Style-10.safetensors"
+  #Kara_Vex_sd15: "/mnt/62G/huggingface/cyber-fp16/new/Kara_Vex_Elite_SOLO_Night_City_Cyberpunk_Genre-000008.safetensors"
+  #CivBotFlux_sd15: "/mnt/62G/huggingface/cyber-fp16/new/CivBotFlux.safetensors"
+  #Sakiko_sd15: "/mnt/62G/huggingface/cyber-fp16/new/Sakiko Ichinose3216PDXL.safetensors"
+
+motion_module: "v3_sd15_mm.ckpt"
+
+upscale_factor: 2
+
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+unet_dtype: float32
+dtype: float16 # VRAM safe FP16 pour 4Go
+use_real_esrgan: true
+
+scheduler:
+  type: DDIMScheduler
+  #type: PNDMScheduler
+  steps: 20
+  beta_start: 0.00085
+  beta_end: 0.012
+
+num_fraps_per_image: 2
+key_frames: 1
+transition_frames: 2
+
+#80*0.6+80 = 128 → ok.
+block_size: 80 #80 ou 100 ou 110 ou 120 ou (128) ou 156 ou (160 MAX soit 160x0.6+160=256)  160
+overlap: 40   #40 ou 60 ou 66 ou 72 ou 76 ou (80) ou 100 ou (96)  96
+vae_slicing: true
+vae_tiling: true
+vae_device: cpu   # force VAE sur CPU pour VRAM safe
+motion_module_device: cpu
+
+#   Vérifier le motion module → certains modules “lite” sont trop conservateurs avec des images petites ou des frames peu nombreuses.
+motion_module: scripts/modules/motion_module_tiny.py
+#motion_module: scripts/modules/Motion_module_Masked.py
+#motion_module: scripts/modules/Motion_module_Enhanced.py
+#motion_module: scripts/modules/motion_module_lite.py
+#motion_module: scripts/modules/motion_module_ultralite_debug.py
+#motion_module: scripts/modules/motion_ulta_lite_fix.py
+#motion_module: scripts/modules/motion_module_show.py (test ok)
+
+device: cuda
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+batch_size: 1  # chaque image traitée individuellement
+
+seed: 1234
+
+enable_xformers_memory_efficient_attention: true
+
+# VAE complet pour couleurs correctes
+#vae_path: "/mnt/62G/huggingface/vae/vae-ft-mse-840000-ema-pruned.safetensors"
+#vae_path: "/mnt/62G/huggingface/vae/vaeKlF8Anime2_klF8Anime2VAE.safetensors"
+#vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae/diffusion_pytorch_model_fp16.safetensors"
+vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae/diffusion_pytorch_model.safetensors"
+#vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae"
+
+
+
+prompt:
+  - "Super realistic, hyper realistic, hyperdetailed, cybersamurai, long flowing hair, blue eyes, black hair, upper body, cyber armor, mask, science fiction, cyborg, cyberpunk, katana on back, bright glowing background, neon lights, soft colorful lighting, masterpiece, best quality, wide-angle, 8k, dynamic lighting, dramatic shadows, motion blur, sparks, holograms, futuristic calligraphy, vibrant colors, multi-layered texture, Japanese decor, ethereal atmosphere,Hyper realistic, hyper realistic, hyperdetailed, cybersamurai, long hair, green eyes, black hair, upper body, cyber armor, cyber mask, science fiction, cyborg, cyberpunk, katana on back, bright glowing background, neon lights, soft colorful lighting, masterpiece, best quality, wide-angle, 8k, natural sunlight, studio lighting, HDR, vibrant colors, maximum clarity, multi-layered texture, multi-layered texture, Japanese cyber decor, ethereal atmosphere, purple hair"
+  - "Super realistic, hyper realistic, hyperdetailed, cybersamurai, long flowing hair, green eyes, blue eyes, purple hair, black hair, upper body, armor, cyber armor, mask, cyber mask, science fiction, cyborg, cyberpunk, katana on back, bright glowing background, neon lights, soft colorful lighting, masterpiece, best quality, wide-angle, 8k, dynamic lighting, dramatic shadows, motion blur, sparks, holograms, futuristic calligraphy, natural sunlight, studio lighting, HDR, vibrant colors, maximum clarity, multi-layered texture, Japanese decor, Japanese cyber decor, ethereal atmosphere"
+  - "Synthwave neon lights, glowing grid streets, reflective wet asphalt, futuristic 80s aesthetic, pink and purple neon glows, dynamic lighting"
+  - "Digital angel, luminous wings made of neon light, holographic textures, glowing circuits, ethereal floating presence, radiant aura, cyber-futuristic divine being"
+  - "Cyberpunk city night, dense futuristic skyline, neon signs and holograms, rainy streets, flying cars, misty atmosphere, dramatic lighting"
+
+n_prompt:
+  - "low quality, blurry, deformed, stiff pose, unnatural movement, distorted anatomy, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background, realistic, clear, detailed, structured, photo-realistic, bad anatomy, extra fingers"
+
+
+#input_images:
+#  - "input/512/image_512x.png"
+
+input_images:
+  - "input/256/image_256x0.png"
+  - "input/256/image_256x1.png"
+
+# prompt : Super realistic, hyper realistic, hyperdetailed, cybersamurai, long flowing hair, green eyes, blue eyes, purple hair, black hair, upper body, armor, cyber armor, mask, cyber mask, science fiction, cyborg, cyberpunk, katana on back, bright glowing background, neon lights, soft colorful lighting, masterpiece, best quality, wide-angle, 8k, dynamic lighting, dramatic shadows, motion blur, sparks, holograms, futuristic calligraphy, natural sunlight, studio lighting, HDR, vibrant colors, maximum clarity, multi-layered texture, Japanese decor, Japanese cyber decor, ethereal atmosphere
+# prompt2: Super realistic, hyper realistic, hyperdetailed, cybersamurai, long flowing hair, green eyes, blue eyes, purple hair, black hair, upper body, armor, cyber armor, mask, cyber mask, science fiction, cyborg, cyberpunk, katana on back, bright glowing background, neon lights, soft colorful lighting, masterpiece, best quality, wide-angle, 8k, dynamic lighting, dramatic shadows, motion blur, sparks, holograms, futuristic calligraphy, natural sunlight, studio lighting, HDR, vibrant colors, maximum clarity, multi-layered texture, Japanese decor, Japanese cyber decor, ethereal atmosphere. she in shifting smoke. Fluid, lethal, eternal.
+# Animate: Elle sort son katana fait des movements rapidement avec des effects de lumière sur la lame, animation de propultion de la camera vers l'arrière comme si elle reçois les coups. Mouvement réaliste, fluidité du mouvement, pas de déformation de la lame, pas de dégradation du visage, zoom rapide sur le visage.
+# Animate2: Animate: Elle sort son katana fait des movements rapidement avec des effects de lumière sur la lame, animation de propultion de la camera vers l'arrière comme si elle reçois les coups. Mouvement réaliste, fluidité du mouvement, pas de déformation de la lame, pas de dégradation du visage, zoom rapide sur le visage. Elle esquive et bloque des projectils shuriken dans sa direction
+
+
+
+# Animate: She draws her katana and performs rapid movements with lighting effects on the blade. The camera pulls back as if she's being hit. Realistic movement, fluid motion, no blade distortion, no facial degradation, and a quick zoom on her face.
+
+# Animate2: She draws her katana and performs rapid movements with lighting effects on the blade. The camera pulls back as if she's being hit. Realistic movement, fluid motion, no blade distortion, no facial degradation, and a quick zoom on her face. She dodges and blocks shuriken projectiles coming her way.
+

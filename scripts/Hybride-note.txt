@@ -1,0 +1,101 @@
+import time
+import os
+import csv
+import cv2
+from pathlib import Path
+from PIL import Image
+from torchvision.transforms import ToPILImage
+
+# -------------------------
+# Nouveau répertoire pour sauvegarder les frames
+# -------------------------
+debug_dir = Path(f"./outputs/hybrid_run_{timestamp}/debug_frames")
+debug_dir.mkdir(parents=True, exist_ok=True)
+
+# Nouveau répertoire CSV
+csv_file = debug_dir / "frame_logs.csv"
+csv_columns = ["frame_idx", "min_latent", "max_latent", "generate_time", "decode_time"]
+with open(csv_file, mode='w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(csv_columns)
+
+# Nouvelle vidéo
+video_output = debug_dir / "output_video.mp4"
+frame_width, frame_height = 256, 256  # Correspond à la taille de l'image décodée
+fps = 12
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+out = cv2.VideoWriter(str(video_output), fourcc, fps, (frame_width, frame_height))
+
+# -------------------------
+# Fonction de sauvegarde de frame et vidéo
+# -------------------------
+to_pil = ToPILImage()
+
+# -------------------------
+# Boucle de génération
+# -------------------------
+frame_counter = 0
+start = time.time()
+
+for img_path in input_paths:
+    input_image = load_images([img_path], W=cfg["W"], H=cfg["H"], device=device, dtype=dtype)
+    input_latents = encode_image_latents(input_image, vae, dtype=dtype)
+    input_latents = input_latents.expand(-1, -1, num_fraps_per_image, -1, -1).clone()
+    print(f"✅ Latents encodés pour {img_path}")
+
+    for f_idx in range(num_fraps_per_image):
+        latent_frame = input_latents[:, :, f_idx:f_idx+1, :, :].squeeze(2)
+        print(f"[Frame {frame_counter}] Latents avant génération: min={latent_frame.min():.4f}, max={latent_frame.max():.4f}")
+        print("Debut generate_latents_ai_5D time:", time.time() - start)
+
+        # génération de la frame
+        latent_frame = generate_latents_ai_5D(
+            latent_frame,
+            motion_module=motion_module,
+            device=device,
+            dtype=dtype,
+            guidance_scale=guidance_scale,
+            init_image_scale=init_image_scale,
+            creative_noise=creative_noise,
+            seed=42 + f_idx,
+            unet=unet,
+            scheduler=scheduler,
+            pos_embeds=pos_embeds,
+            neg_embeds=neg_embeds
+        )
+        print("generate_latents_ai_5D time:", time.time() - start)
+
+        # Décodage via VAE
+        print("latent_frame shape BEFORE decode:", latent_frame.shape)
+        vae_device = next(vae.parameters()).device
+        frame_tensor = vae.decode(latent_frame.to(device=vae_device, dtype=torch.float32 if vae_device.type=="cpu" else dtype)/LATENT_SCALE).sample
+        print("decode time:", time.time() - start)
+
+        # Sauvegarde de la frame
+        frame_tensor = frame_tensor.clamp(-1, 1)
+        frame_tensor = (frame_tensor + 1) / 2
+        frame_tensor = frame_tensor.cpu().permute(0, 2, 3, 1)[0]
+        frame_pil = to_pil(frame_tensor)
+
+        # Sauvegarder la frame en PNG
+        frame_pil.save(debug_dir / f"frame_{frame_counter:05d}.png")
+
+        # Ajout à la vidéo
+        frame_cv = np.array(frame_pil)
+        frame_cv = cv2.cvtColor(frame_cv, cv2.COLOR_RGB2BGR)
+        out.write(frame_cv)
+
+        # Enregistrement des logs
+        with open(csv_file, mode='a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([frame_counter, latent_frame.min().item(), latent_frame.max().item(), "generate_time", "decode_time"])
+
+        print(f"[Frame {frame_counter}] Frame sauvegardée")
+        frame_counter += 1
+
+# Libérer la vidéo
+out.release()
+
+print(f"✅ Génération terminée. {frame_counter} frames sauvegardées dans {debug_dir}")
+print(f"✅ Vidéo générée : {video_output}")
+print("Fin time:", time.time() - start)

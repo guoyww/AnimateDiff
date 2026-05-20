@@ -1,0 +1,100 @@
+# ---------------------------------------------------------
+# Tiny-SD 256x256 VRAM-safe FP16 pour 5D AnimateDiff
+# Optimisé pour créativité + mouvement dynamique
+# ---------------------------------------------------------
+psave: False
+fps: 6
+num_fraps_per_image: 20        # plus de frames par image = interpolation plus fluide
+upscale_factor: 1
+steps: 50
+guidance_scale: 7.0  # 7.0–12.0
+guidance_scale_end: 7.5       # légère décroissance pour variation naturelle
+init_image_scale: 0.9           # 0.7–1.0
+init_image_scale_end: 0.75   # Plus proche de init_image_scale pour limiter le flou 0.75
+creative_noise: 0.002           # 0.002–0.02
+creative_noise_end: 0.01     # Progression plus douce
+latent_scale_boost: 0.85            # 0.8–1.1
+#final_latent_scale: 0.25
+final_latent_scale: 0.85
+transition_frames: 2        # Plus de frames pour une interpolation uniforme
+#latent_injection: 0.30
+latent_injection: 0.5
+# pour openpose----------------------------------------------------
+control_strength: 0.8   # par défaut 1.5
+controlnet_scale: 0.9    # par défaut 1.0 min 0.8–1.5 (smooth)
+block_size: 32              # Assurez-vous que divisible par la résolution 128 max
+
+#img2img strength finition 0.2–0.4
+
+debug_pose_visual: true
+
+
+use_n3r_model: False # Effect de style et Amélioration de la qualité
+use_n3r_pro_net: True # Augmentation des détails
+use_mini_gpu: False # Génération rapide
+use_openpose: True #
+open_pose_dev: False # En cours de dev
+
+n3r_L: 6
+n3r_N_samples: 12
+n3r_L_low: 4
+n3r_L_high: 8
+verbose: False
+#768-1536 ou 1792-896
+W: 896
+H: 1280
+overlap: 96
+tile_size: 64
+
+# -------------------------
+# VAE et upscale
+# -------------------------
+vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae/diffusion_pytorch_model.safetensors"
+vae_device: cpu
+vae_slicing: true
+vae_tiling: true
+use_real_esrgan: true
+
+# -------------------------
+# Motion module → dynamique et créatif
+# -------------------------
+motion_module: null
+#motion_module: scripts/modules/motion_module_lite.py
+#motion_module: scripts/modules/motion_module_show.py
+#motion_module: scripts/modules/motion_module_cam2.py
+#motion_module: scripts/modules/motion_module_cam3.py
+#motion_module: scripts/modules/motion_module_cam4.py # Pas très intéressant
+#motion_module: scripts/modules/motion_module_show_safe.py  # Cool effect - Améliore l'animation
+#motion_module: scripts/modules/Motion_module_Enhanced.py # Effect légé
+motion_module_device: cpu
+
+# -------------------------
+# LoRA / UNet
+# -------------------------
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+unet_dtype: float32
+dtype: float16
+enable_xformers_memory_efficient_attention: true
+batch_size: 1
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+
+# -------------------------
+# Seeds & contrôle
+# -------------------------
+seed: 1234
+
+# -------------------------
+# Prompts
+# -------------------------
+prompt:
+  - "female superhero, consistent character, same face, long flowing black hair, blue eyes, upper body, cyber armor, mask, comic book style Marvel, cel shading, bold outlines, dramatic action pose, neon lighting, vibrant colors, glowing effects, dynamic perspective, cinematic composition, energy lines, stylized shadows, inked lines, comic panel framing, halftone shading, high contrast lighting, happy expression"
+
+
+n_prompt:
+  - "blurry, deformed, extra limbs, bad anatomy, low quality, messy background, dark colors, scary, realistic, human features"
+
+
+input_images:
+  - "input/768-1536/0.png"

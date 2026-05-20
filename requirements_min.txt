@@ -1,0 +1,58 @@
+# PyTorch + CUDA 12
+torch==2.3.1
+torchvision==0.16.1
+triton==2.3.1
+xformers==0.0.27
+
+# NVIDIA CUDA / cuBLAS / cuDNN / NCCL / cuFFT / cuSolver / cuRand / cuSparse
+nvidia-cublas-cu12==12.8.4.1
+nvidia-cuda-cupti-cu12==12.8.90
+nvidia-cuda-nvrtc-cu12==12.8.93
+nvidia-cuda-runtime-cu12==12.8.90
+nvidia-cudnn-cu12==9.10.2.21
+nvidia-cufft-cu12==11.3.3.83
+nvidia-curand-cu12==10.3.9.90
+nvidia-cusolver-cu12==11.7.3.90
+nvidia-cusparse-cu12==12.5.8.93
+nvidia-nccl-cu12==2.27.5
+nvidia-nvjitlink-cu12==12.8.93
+nvidia-nvtx-cu12==12.8.90
+nvidia-nvshmem-cu12==3.4.5
+
+# Core ML / SD
+diffusers==0.25.0
+transformers==4.25.1
+safetensors==0.7.0
+accelerate==0.22.0
+huggingface_hub==0.15.1
+
+# Utilities
+numpy<2
+pillow==12.1.1
+matplotlib==3.10.8
+einops==0.8.2
+omegaconf==2.3.0
+scipy==1.12.2
+pandas==2.3.3
+typing-extensions==4.15.0
+setuptools==82.0.0
+packaging==26.0
+python-dateutil==2.9.0.post0
+requests==2.32.5
+tqdm==4.67.3
+rich==14.3.3
+protobuf==6.33.5
+
+# Web / API / GUI
+gradio==3.36.1
+fastapi==0.135.1
+uvicorn==0.41.0
+httpx==0.28.1
+starlette==0.52.1
+
+# Audio / Video
+decord==0.6.0
+ffmpeg-python==0.2.0
+pydub==0.25.1
+imageio==2.27.0
+imageio-ffmpeg==0.4.9

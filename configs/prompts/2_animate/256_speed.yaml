@@ -1,0 +1,28 @@
+W: 128
+H: 128
+L: 4
+steps: 5
+num_frames_per_image: 1
+key_frames: 1
+inter_frames: 1
+
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+fps: 12
+init_image_scale: 0.85
+use_real_esrgan: false
+
+motion_module: null
+dtype: float16
+
+vae_path: "/mnt/62G/huggingface/vae/vae-ft-mse-840000-ema-pruned.safetensors"
+vae_slicing: false
+vae_tiling: false
+guidance_scale: 3.5
+
+prompt:
+  - "best quality, 1 girl walking, dynamic pose"
+n_prompt:
+  - "low quality, blurry, deformed"
+
+input_images:
+  - "input/256/image_256x0.png"

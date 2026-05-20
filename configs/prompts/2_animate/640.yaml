@@ -1,0 +1,68 @@
+# -------------------------
+# Tiny-SD 256x256 VRAM-safe FP16 pour 5D AnimateDiff
+# Avec Motion Module Tiny et VAE offload
+# -------------------------
+
+W: 640
+H: 640
+L: 4
+steps: 20
+
+fps: 5
+#init_image_scale: 0.25  # Moins de poids sur l'image d'entrée
+init_image_scale: 0.15  # Exploration maximale du latent
+#creative_noise: 0.1  # Plus de bruit pour une exploration plus libre
+creative_noise: 0.15
+#guidance_scale: 4.5  # Valeur plus faible pour favoriser la créativité
+guidance_scale: 3.8
+
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+dtype: float16
+use_real_esrgan: true
+
+scheduler:
+  type: DDIMScheduler
+  steps: 20
+  beta_start: 0.00085
+  beta_end: 0.012
+
+num_fraps_per_image: 5
+key_frames: 1
+inter_frames: 3
+
+block_size: 64
+overlap: 45      # Augmentation pour réduire les traces visibles  # overlap plus grand pour éviter mosaïques 32 Max 48
+#block_size: 128
+#overlap: 80
+
+block_size: 76
+overlap: 48
+vae_slicing: true
+vae_tiling: true
+dtype: float16 # VRAM safe FP16 pour 4Go
+
+motion_module: scripts/modules/motion_module_tiny.py
+
+device: cuda
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+batch_size: 1  # chaque image traitée individuellement
+
+seed: 1234
+
+enable_xformers_memory_efficient_attention: true
+
+# VAE complet pour couleurs correctes
+vae_path: "/mnt/62G/huggingface/vae/vae-ft-mse-840000-ema-pruned.safetensors"
+
+
+
+
+prompt:
+  - "best quality, 1 girl walking, natural dynamic pose, arms swinging, legs mid-step, balanced torso and head, flowing hair, consistent outfit and hairstyle, outdoor spring, cherry blossoms, petals, smooth motion across frames, coherent animation, vibrant colors, cinematic lighting, high light,vivid, surrealistic, futuristic, abstract, colorful, alien landscape"
+n_prompt:
+  - "low quality, blurry, deformed, stiff pose, unnatural movement, distorted anatomy, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background, realistic, clear, detailed, structured, photo-realistic"
+
+input_images:
+  - "input/640/image_640.png"

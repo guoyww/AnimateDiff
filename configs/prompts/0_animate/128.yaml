@@ -1,0 +1,61 @@
+#n3r_tiny.yaml
+# -------------------------
+# Tiny-SD config
+# -------------------------
+W: 128
+H: 128
+L: 4
+steps: 15                # un peu plus que le test pour meilleure qualité
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+text_encoder: null
+tokenizer: null
+dtype: float16
+
+fps: 12
+guidance_scale: 4.5
+init_image_scale: 0.85
+use_real_esrgan: true     # activé, mais batch plus petit
+
+scheduler:
+  type: DDIMScheduler
+  steps: 15
+  beta_start: 0.00085
+  beta_end: 0.012
+
+dreambooth_path: null
+lora_model_path: null
+
+key_frames: 4
+inter_frames: 4
+
+block_size: 128
+overlap: 16
+num_frames_per_image: 4 # générer par petits batches (tu peux répéter pour 60 frames)
+
+motion_module: scripts/modules/motion_module_tiny.py
+controlnet_adapter: null
+
+inference_config: configs/inference/inference-v4.yaml
+device: cuda
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+
+seed: 1234
+
+enable_xformers_memory_efficient_attention: true
+vae_slicing: true
+vae_tiling: true
+vae_path: null
+
+upscale_factor: 4           # ESRGAN actif
+
+prompt:
+  - "best quality, 1 girl walking, natural dynamic pose, arms swinging, legs mid-step, balanced torso and head, flowing hair, consistent outfit and hairstyle, outdoor spring, cherry blossoms, petals, smooth motion across frames, coherent animation, vibrant colors, cinematic lighting"
+  - "natural walk cycle, same character, forward facing, slight tilt for realism, smooth transitions, crisp lines, photorealistic shading, coherent body movement, stable proportions, simple background"
+
+n_prompt:
+  - "low quality, blurry, deformed, stiff pose, unnatural movement, distorted anatomy, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background"
+
+input_images:
+  - "input/image_128x0.png"

@@ -1,0 +1,59 @@
+# -------------------------
+# Tiny-SD 256x256 VRAM-safe FP16 pour 5D AnimateDiff
+# Avec Motion Module Tiny et VAE offload
+# -------------------------
+
+W: 256
+H: 256
+L: 4
+steps: 1
+
+fps: 12
+init_image_scale: 0.75 # 0.75
+creative_noise: 0.03   # subtil et sûr max 0.8
+guidance_scale: 1.5 # 4.5
+
+pretrained_model_path: "/mnt/62G/huggingface/miniSD"
+dtype: float16
+use_real_esrgan: true
+
+scheduler:
+  type: DDIMScheduler
+  steps: 1
+  beta_start: 0.00085
+  beta_end: 0.012
+
+num_fraps_per_image: 12
+key_frames: 1
+inter_frames: 3
+
+block_size: 64
+overlap: 32  # overlap plus grand pour éviter mosaïques
+
+motion_module: scripts/modules/motion_module_tiny.py
+
+device: cuda
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+batch_size: 1  # chaque image traitée individuellement
+
+seed: 1234
+
+enable_xformers_memory_efficient_attention: true
+
+# VAE complet pour couleurs correctes
+vae_path: "/mnt/62G/huggingface/vae/vae-ft-mse-840000-ema-pruned.safetensors"
+vae_slicing: true
+vae_tiling: true
+dtype: float16      # VRAM safe FP16 pour 4Go
+
+
+
+prompt:
+  - "best quality, 1 girl walking, natural dynamic pose, arms swinging, legs mid-step, balanced torso and head, flowing hair, consistent outfit and hairstyle, outdoor spring, cherry blossoms, petals, smooth motion across frames, coherent animation, vibrant colors, cinematic lighting, high light"
+n_prompt:
+  - "low quality, blurry, deformed, stiff pose, unnatural movement, distorted anatomy, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background"
+
+input_images:
+  - "input/256/image_256x0.png"

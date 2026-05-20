@@ -1,0 +1,99 @@
+# ---------------------------------------------------------
+# Tiny-SD 256x256 VRAM-safe FP16 pour 5D AnimateDiff
+# Optimisé pour créativité + mouvement dynamique
+# ---------------------------------------------------------
+fps: 12
+num_fraps_per_image: 3        # plus de frames par image = interpolation plus fluide
+upscale_factor: 2
+steps: 50
+guidance_scale: 7.5
+guidance_scale_end: 6.5       # légère décroissance pour variation naturelle
+init_image_scale: 0.85
+init_image_scale_end: 0.75   # Plus proche de init_image_scale pour limiter le flou
+creative_noise: 0.08
+creative_noise_end: 0.10     # Progression plus douce
+latent_scale_boost: 1.0
+final_latent_scale: 0.25
+transition_frames: 4         # Plus de frames pour une interpolation uniforme
+latent_injection: 0.85
+
+block_size: 256              # Assurez-vous que divisible par la résolution
+use_n3r_model: true
+use_n3r_pro_net: true
+use_mini_gpu: true
+n3r_L: 6
+n3r_N_samples: 12
+n3r_L_low: 4
+n3r_L_high: 8
+verbose: False
+
+W: 536
+H: 960
+overlap: 96
+tile_size: 64
+
+# -------------------------
+# VAE et upscale
+# -------------------------
+vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae/diffusion_pytorch_model.safetensors"
+vae_device: cpu
+vae_slicing: true
+vae_tiling: true
+use_real_esrgan: true
+
+# -------------------------
+# Motion module → dynamique et créatif
+# -------------------------
+
+#   Vérifier le motion module → certains modules “lite” sont trop conservateurs avec des images petites ou des frames peu nombreuses.
+#motion_module: scripts/modules/motion_module_tiny.py
+#motion_module: scripts/modules/motion_module_cam.py
+motion_module: scripts/modules/motion_module_cam2.py
+#motion_module: scripts/modules/Motion_module_Masked.py
+#motion_module: scripts/modules/Motion_module_Enhanced.py
+#motion_module: scripts/modules/Motion_module_Wind.py
+#motion_module: scripts/modules/motion_module_lite.py
+#motion_module: scripts/modules/motion_module_ultralite_debug.py
+#motion_module: scripts/modules/motion_ulta_lite_fix.py
+#motion_module: scripts/modules/motion_module_show.py (test ok)
+
+device: cuda
+offload_folder: /tmp/offload
+accelerate: true
+low_cpu_mem_usage: true
+batch_size: 1  # chaque image traitée individuellement
+
+seed: 1234
+
+enable_xformers_memory_efficient_attention: true
+
+# VAE complet pour couleurs correctes
+#vae_path: "/mnt/62G/huggingface/vae/vae-ft-mse-840000-ema-pruned.safetensors"
+#vae_path: "/mnt/62G/huggingface/vae/vaeKlF8Anime2_klF8Anime2VAE.safetensors"
+#vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae/diffusion_pytorch_model_fp16.safetensors"
+vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae/diffusion_pytorch_model.safetensors"
+#vae_path: "/mnt/62G/huggingface/miniSD-fp16/vae"
+
+
+prompt:
+  - "cyber armor, mask, comic book style Marvel, cel shading, bold outlines, dramatic, neon lighting, vibrant colors, glowing effects, dynamic perspective, cinematic composition, energy lines, stylized shadows, inked lines, comic panel framing, halftone shading, high contrast lighting"
+  - "superhero, consistent character, blue light, cyber armor, mask, Marvel comic style, dynamic, neon city background, glowing circuits, vibrant colors, cinematic lighting, dramatic angles, stylized shadows, action scene, inked lines, comic panel framing, halftone shading, high contrast lighting"
+  - "cyber armor, mask, Marvel comic style, synthwave neon city, pink and purple lighting, reflective wet streets, dynamic perspective, cinematic composition, glowing atmosphere, motion energy, inked lines, comic panel framing, halftone shading, high contrast lighting"
+  - "cyber armor, mask, Marvel comic style, angelic transformation, glowing neon wings, radiant energy, dramatic lighting, vibrant colors, stylized aura, inked lines, comic panel framing, halftone shading, high contrast lighting"
+  - "Marvel comic style, cyberpunk city night, dense skyline, neon signs, holograms, rainy streets, cinematic composition, dramatic shadows, dynamic perspective, inked lines, comic panel framing, halftone shading, high contrast lighting"
+
+
+n_prompt:
+  - "blurry, deformed, low quality, messy background, dark colors, scary, realistic"
+  - "blurry, deformed, stiff pose, unnatural movement, distorted, missing parts, broken motion, low resolution, inconsistent colors, messy background, realistic, clear, detailed, structured, photo-realistic"
+  - "blurry, deformed, stiff pose, unnatural movement, distorted, missing parts, broken motion, low resolution, inconsistent colors, messy background, realistic, clear, detailed, structured, photo-realistic"
+  - "blurry, deformed, stiff pose, unnatural movement, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background, realistic, clear, detailed, structured, photo-realistic"
+  - "blurry, deformed, unnatural movement, missing parts, extra limbs, broken motion, low resolution, inconsistent colors, messy background, realistic, clear, detailed, structured, photo-realistic"
+
+
+input_images:
+  - "input/536x960/1.png"
+  - "input/536x960/2.png"
+  - "input/536x960/3.png"
+  - "input/536x960/4.png"
+  - "input/536x960/5.png"
